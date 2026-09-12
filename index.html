@@ -62,6 +62,10 @@ body{
   font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex:0 0 auto
 }
 .bar small{font-weight:400;opacity:.75;font-size:11.5px}
+.bar .xbtn{
+  margin-left:auto;background:transparent;border:none;color:#fff;opacity:.85;
+  font-size:17px;line-height:1;font-family:inherit;cursor:pointer;padding:2px 0 2px 6px
+}
 .body{flex:1;overflow-y:auto;padding:12px 12px 24px}
 .panel{display:none}
 .panel.on{display:block}
@@ -545,7 +549,7 @@ const SCENES=[
   {id:'p-menu',chip:'① 入口はLINEのメニュー',bar:'◯◯市草野球連盟',sub:'LINEのトーク',full:true,
    cap:'<b>まずここです。</b>連盟のLINE公式アカウントを友だち追加すると、トーク画面の下に<b>この4つのメニューが出たままになります</b>。押すと、それぞれの画面がLINEの中でそのまま開きます。<br><b>アプリのインストールも、IDやパスワードもありません。</b><br>下のメニューの ⚾ ＋ 👤 が、それぞれ次の ② ③ ⑥ の画面です。'},
   {id:'p-board',chip:'② ボードを見る',bar:'⚾ 助っ人ボード',sub:'◯◯市草野球連盟',
-   cap:'メニューの <b>⚾助っ人ボード</b> を押すとこれ。<b>上半分＝いま人が足りない試合。下半分＝助っ人をやってもいい人の名簿。</b>下の 🟢 は「その日は空いてます」。これは本人が入れたのではなく、<b>④の通知に答えた結果が自動で出ている</b>ところがミソです。日にち・ポジション・エリアで絞れます。'},
+   cap:'メニューの <b>⚾助っ人ボード</b> を押すとこれ。<b>上半分＝いま人が足りない試合。下半分＝助っ人をやってもいい人の名簿。</b>下の 🟢 は「その日は空いてます」。これは本人が入れたのではなく、<b>④の通知に答えた結果が自動で出ている</b>ところがミソです。日にち・ポジション・エリアで絞れます。<br><b>右上の ✕ を押すと①のトーク画面に戻ります</b>（LINEの標準の動きなので、②③⑤⑥どの画面からも戻れます）。'},
   {id:'p-new',chip:'③ 募集を出す',bar:'＋ 助っ人を募集する',sub:'レッドソックス',
    cap:'メニューの <b>＋募集する</b> を押すとこれ。<b>チームの幹事さんが使う画面です。</b>条件を選ぶと、下に「<b>何人に通知されます</b>」と出ます。ここが見えるので、絞りすぎて誰にも届かない事故を防げます（試しにエリアやポジションを触ってみてください）。'},
   {id:'p-notify',chip:'④ 相手のLINEに届く',bar:'◯◯市草野球連盟',sub:'LINEのトーク',full:true,
@@ -566,7 +570,8 @@ function show(i){
   document.querySelectorAll('.step').forEach((b,j)=>b.classList.toggle('on',i===j));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
   document.getElementById(SCENES[i].id).classList.add('on');
-  document.getElementById('bar').innerHTML=SCENES[i].bar+' <small>'+SCENES[i].sub+'</small>';
+  document.getElementById('bar').innerHTML=SCENES[i].bar+' <small>'+SCENES[i].sub+'</small>'
+    +(SCENES[i].full?'':'<button class="xbtn" onclick="show(0)" title="トーク画面に戻る">✕</button>');
   document.getElementById('caption').innerHTML=SCENES[i].cap;
   document.getElementById('body').scrollTop=0;
   document.getElementById('body').style.padding=SCENES[i].full?'0':'12px 12px 24px';
