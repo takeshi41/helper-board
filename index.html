@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>助っ人ボード（仮）完成イメージ</title>
+<style>
+:root{
+  --line:#06C755;
+  --navy:#1b2b45;
+  --ink:#222c3a;
+  --sub:#6b7789;
+  --bg:#eef1f5;
+  --card:#ffffff;
+  --edge:#e2e7ee;
+  --hot:#e8590c;
+  --soft:#f7f9fc;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  line-height:1.6;
+}
+
+/* ===== ページ枠 ===== */
+.page{max-width:900px;margin:0 auto;padding:20px 14px 60px}
+.head{text-align:center;margin:8px 0 18px}
+.head h1{font-size:20px;margin:0 0 4px}
+.head p{margin:0;font-size:13px;color:var(--sub)}
+.note{
+  background:#fff8e1;border:1px solid #ffe08a;border-radius:10px;
+  padding:10px 12px;font-size:12.5px;color:#7a5a00;margin:0 0 18px
+}
+
+/* ===== 場面の切り替え ===== */
+.steps{display:flex;gap:6px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none}
+.steps::-webkit-scrollbar{display:none}
+.step{
+  flex:0 0 auto;border:1px solid var(--edge);background:#fff;color:var(--sub);
+  border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:600;
+  cursor:pointer;white-space:nowrap;font-family:inherit
+}
+.step.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.caption{
+  background:#fff;border:1px solid var(--edge);border-radius:12px;
+  padding:12px 14px;font-size:13.5px;margin:0 0 16px
+}
+.caption b{color:var(--navy)}
+
+/* ===== スマホ枠 ===== */
+.phone{
+  width:100%;max-width:390px;margin:0 auto;background:#000;
+  border-radius:34px;padding:9px;box-shadow:0 16px 40px rgba(20,35,60,.22)
+}
+.screen{
+  background:var(--bg);border-radius:26px;overflow:hidden;
+  height:660px;display:flex;flex-direction:column;position:relative
+}
+.bar{
+  background:var(--navy);color:#fff;padding:11px 14px;
+  font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;flex:0 0 auto
+}
+.bar small{font-weight:400;opacity:.75;font-size:11.5px}
+.body{flex:1;overflow-y:auto;padding:12px 12px 24px}
+.panel{display:none}
+.panel.on{display:block}
+
+/* ===== 部品 ===== */
+.sec{font-size:12.5px;font-weight:700;color:var(--sub);margin:16px 2px 8px;display:flex;align-items:center;gap:6px}
+.sec:first-child{margin-top:2px}
+.c{background:var(--card);border:1px solid var(--edge);border-radius:14px;padding:13px;margin-bottom:10px}
+.c.done{opacity:.55}
+.when{font-size:15px;font-weight:700;color:var(--navy)}
+.where{font-size:12.5px;color:var(--sub);margin-top:1px}
+.team{font-size:13.5px;font-weight:700;margin-top:8px}
+.need{font-size:13px;margin-top:3px}
+.need b{color:var(--hot)}
+.meta{font-size:12px;color:var(--sub);margin-top:4px}
+.say{font-size:12.5px;background:var(--soft);border-radius:8px;padding:7px 9px;margin-top:8px;color:#465264}
+.row{display:flex;gap:7px;margin-top:11px}
+.btn{
+  flex:1;border:none;border-radius:10px;padding:10px;font-size:13.5px;font-weight:700;
+  font-family:inherit;cursor:pointer;background:var(--line);color:#fff
+}
+.btn.ghost{background:#fff;border:1px solid var(--edge);color:var(--sub)}
+.btn.navy{background:var(--navy);color:#fff}
+.btn.wide{width:100%;flex:none}
+.btn:disabled{background:#dfe4eb;color:#8c97a8;cursor:default}
+.tag{
+  display:inline-block;font-size:11px;font-weight:700;border-radius:999px;
+  padding:2px 9px;background:#fdf0e6;color:var(--hot)
+}
+.tag.gray{background:#eceff3;color:var(--sub)}
+
+/* 人のカード */
+.p{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--edge);border-radius:14px;padding:12px;margin-bottom:8px}
+.ico{flex:0 0 38px;height:38px;border-radius:50%;background:#dde4ee;color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700}
+.pinfo{flex:1;min-width:0}
+.pname{font-size:14px;font-weight:700}
+.pname span{font-size:11.5px;font-weight:400;color:var(--sub);margin-left:5px}
+.pspec{font-size:12px;color:var(--sub);margin-top:2px}
+.pfree{font-size:12.5px;margin-top:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ok{color:#14803c;font-weight:700}
+.ng{color:#c0392b;font-weight:700}
+.un{color:var(--sub)}
+.mini{border:1px solid var(--edge);background:#fff;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;color:var(--navy);font-family:inherit;cursor:pointer}
+.badge{font-size:11px;background:#eef6ff;color:#1c5fa8;border-radius:999px;padding:2px 8px;font-weight:700}
+
+/* フォーム */
+.f{background:var(--card);border:1px solid var(--edge);border-radius:14px;padding:14px;margin-bottom:10px}
+.lab{font-size:12px;font-weight:700;color:var(--sub);margin:12px 0 5px}
+.lab:first-child{margin-top:0}
+select,input[type=text]{
+  width:100%;padding:9px 10px;border:1px solid var(--edge);border-radius:9px;
+  font-size:14px;font-family:inherit;background:#fff;color:var(--ink)
+}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  border:1px solid var(--edge);background:#fff;border-radius:999px;padding:6px 12px;
+  font-size:12.5px;font-family:inherit;cursor:pointer;color:var(--sub);font-weight:600
+}
+.chip.on{background:#e7f7ee;border-color:var(--line);color:#0a7a3d}
+.two{display:flex;gap:8px}
+.two>div{flex:1}
+.hint{
+  background:#e7f7ee;border:1px solid #b6e6cc;border-radius:10px;
+  padding:11px 12px;font-size:13px;text-align:center;font-weight:700;color:#0a7a3d;margin-bottom:10px
+}
+.hint.warn{background:#fff1f0;border-color:#f5c2c0;color:#b0342f}
+
+/* LINEトーク風 */
+.talk{background:#8aa7c4;min-height:100%;padding:12px 10px}
+.tday{text-align:center;font-size:11px;color:#fff;opacity:.9;margin:4px 0 12px}
+.msg{display:flex;gap:8px;margin-bottom:14px;align-items:flex-start}
+.msg>div:not(.oa):not(.bub){flex:1;min-width:0}
+.oa{flex:0 0 36px;height:36px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px}
+.bub{
+  background:#fff;border-radius:4px 14px 14px 14px;padding:12px;max-width:100%;
+  font-size:13.5px;box-shadow:0 1px 2px rgba(0,0,0,.12)
+}
+.me .bub{max-width:72%}
+.bub .bt{font-weight:700;color:var(--navy);font-size:14px;margin-bottom:6px}
+.bub .bl{font-size:12.5px;color:#556}
+.bub hr{border:none;border-top:1px solid var(--edge);margin:10px -12px}
+.bub .acts{display:flex;gap:6px}
+.bub .acts button{
+  flex:1;border:1px solid var(--edge);background:#fff;border-radius:8px;padding:8px 4px;
+  font-size:12px;font-weight:700;color:var(--line);font-family:inherit;cursor:pointer;
+  white-space:nowrap
+}
+.sender{font-size:11px;color:#fff;opacity:.9;margin-bottom:3px}
+.me{justify-content:flex-end}
+.me .bub{background:#8de055;border-radius:14px 4px 14px 14px}
+
+/* LINEのメニュー（リッチメニュー） */
+.rmwrap{display:flex;flex-direction:column;min-height:100%}
+.rmwrap .top{flex:1;padding:12px 10px 0}
+.rm{flex:0 0 auto;background:#fff;border-top:1px solid #c6cfda}
+.rmbar{display:flex;align-items:center;gap:8px;padding:7px 12px;font-size:12px;color:var(--sub);border-bottom:1px solid var(--edge)}
+.rmbar b{flex:1;font-weight:400}
+.rmgrid{display:grid;grid-template-columns:1fr 1fr;height:252px;gap:2px;background:#fff}
+.rmc{
+  background:var(--navy);color:#fff;border:none;cursor:pointer;font-family:inherit;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px
+}
+.rmc:nth-child(2),.rmc:nth-child(3){background:#27405f}
+.rmc .e{font-size:25px;line-height:1.2}
+.rmc b{font-size:13.5px}
+.rmc small{font-size:10.5px;opacity:.72}
+
+/* 確定カード */
+.fix{background:#fff;border:2px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px}
+.fix .ft{font-size:14px;font-weight:700;color:#0a7a3d;margin-bottom:8px}
+.kv{display:flex;font-size:13px;padding:5px 0;border-top:1px solid var(--edge)}
+.kv:first-of-type{border-top:none}
+.kv b{flex:0 0 78px;color:var(--sub);font-weight:600;font-size:12.5px}
+
+.foot{max-width:640px;margin:26px auto 0;font-size:12.5px;color:var(--sub);text-align:center}
+
+/* ===== 画像書き出し用（?flat=1&s=N） ===== */
+body.flat .steps,body.flat .note{display:none}
+body.flat .page{max-width:440px;padding:16px 14px 18px}
+body.flat .head{margin:0 0 12px}
+body.flat .head h1{font-size:18px}
+body.flat .screen{height:auto}
+body.flat .body{overflow:visible}
+body.flat .talk{min-height:560px}
+body.flat .caption{margin-bottom:14px}
+body.flat .foot{margin-top:18px;font-size:11.5px}
+.shotttl{
+  font-size:15px;font-weight:700;color:var(--navy);
+  margin:0 0 8px;display:flex;align-items:center;justify-content:space-between;gap:8px
+}
+.shotttl span{font-size:11.5px;font-weight:600;color:var(--sub);white-space:nowrap}
+.shot{margin:0 0 30px}
+
+/* ===== PDF用（?flat=1&all=1 を印刷） ===== */
+@media print{
+  @page{size:134mm 545mm;margin:7mm}
+  body{background:#fff}
+  .steps,.note{display:none}
+  .shot{margin:0;page-break-after:always;break-after:page}
+  .shot:last-child{page-break-after:auto;break-after:auto}
+  .phone{box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="head">
+    <h1>⚾ 助っ人ボード（仮）</h1>
+    <p>草野球の「人の貸し借り」を連盟の中だけでつなぐ ／ 完成イメージ</p>
+  </div>
+
+  <div class="note">
+    これは<b>見た目の見本（モック）</b>です。まだ中身は動いていません。文字やボタンはお試しで押せます。<br>
+    実際はこの画面が <b>LINE の中で開く</b>イメージです（アプリのインストールは不要）。
+  </div>
+
+  <div class="steps" id="steps"></div>
+  <div class="caption" id="caption"></div>
+
+  <div class="phone">
+    <div class="screen">
+      <div class="bar" id="bar"></div>
+      <div class="body" id="body">
+
+        <!-- ===== 入口＝公式アカウントのメニュー ===== -->
+        <div class="panel" id="p-menu">
+          <div class="talk rmwrap" style="padding:0">
+            <div class="top">
+              <div class="tday">9月15日（月）</div>
+              <div class="msg">
+                <div class="oa">⚾</div>
+                <div>
+                  <div class="sender">◯◯市草野球連盟</div>
+                  <div class="bub">
+                    <div class="bt">友だち追加ありがとうございます</div>
+                    <div>下のメニューから、助っ人の募集を見たり、出したりできます。<br>
+                    まず <b>👤わたしの登録</b> をお願いします（1回だけです）。</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="rm">
+              <div class="rmbar"><b>メッセージを入力</b><span>▼ メニューを閉じる</span></div>
+              <div class="rmgrid">
+                <button class="rmc" onclick="show(1)">
+                  <span class="e">⚾</span><b>助っ人ボード</b><small>募集と名簿を見る</small>
+                </button>
+                <button class="rmc" onclick="show(2)">
+                  <span class="e">＋</span><b>募集する</b><small>幹事さん用</small>
+                </button>
+                <button class="rmc" onclick="show(5)">
+                  <span class="e">👤</span><b>わたしの登録</b><small>最初に1回だけ</small>
+                </button>
+                <button class="rmc" onclick="alert('（見本）連盟からのお知らせや使い方が開きます')">
+                  <span class="e">📣</span><b>連盟からのお知らせ</b><small>使い方もここ</small>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== 相手のLINEに届く ===== -->
+        <div class="panel" id="p-notify">
+          <div class="talk">
+            <div class="tday">9月17日（水）</div>
+
+            <div class="msg">
+              <div class="oa">⚾</div>
+              <div>
+                <div class="sender">◯◯市草野球連盟</div>
+                <div class="bub">
+                  <div class="bt">🧤 助っ人の募集が届きました</div>
+                  <div>9/20(日) 9:00 ／ 大津公園A球場<br>
+                  <b>レッドソックス</b> が あと2人<br>
+                  ほしいポジション：捕手・どこでも</div>
+                  <div class="bl" style="margin-top:6px">参加費なし／道具お貸しします</div>
+                  <hr>
+                  <div class="acts">
+                    <button onclick="raise(this)">行けます</button>
+                    <button onclick="reject(this)">その日は無理</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="msg me">
+              <div class="bub">行けます！</div>
+            </div>
+
+            <div class="msg">
+              <div class="oa">⚾</div>
+              <div>
+                <div class="sender">◯◯市草野球連盟</div>
+                <div class="bub">
+                  <div class="bt">✅ 出番が決まりました</div>
+                  <div>9/20(日) レッドソックス<br>集合 8:30 ／ 大津公園A球場</div>
+                  <div class="bl" style="margin-top:6px">連絡先：レッドソックス 田中さん<br>090-xxxx-xxxx</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ===== ② ボードを見る ===== -->
+        <div class="panel" id="p-board">
+          <div class="sec">🔴 いま募集中（3件）</div>
+
+          <div class="c">
+            <div class="when">9/20(日) 9:00 <span style="font-size:12px;color:var(--sub);font-weight:400">集合 8:30</span></div>
+            <div class="where">大津公園A球場</div>
+            <div class="team">レッドソックス</div>
+            <div class="need">あと <b>2人</b> 🧤捕手 ・ どこでも</div>
+            <div class="meta">参加費なし ／ 道具お貸しします ／ 誰でも歓迎</div>
+            <div class="say">「初心者歓迎です、わいわい楽しくやってます」</div>
+            <div class="row">
+              <button class="btn" onclick="raise(this)">行けます</button>
+              <button class="btn ghost" onclick="reject(this)">無理です</button>
+            </div>
+          </div>
+
+          <div class="c">
+            <div class="when">9/21(月祝) 13:00 <span style="font-size:12px;color:var(--sub);font-weight:400">集合 12:30</span></div>
+            <div class="where">皇子山球場</div>
+            <div class="team">ブルーウェーブ</div>
+            <div class="need">あと <b>1人</b> どこでも</div>
+            <div class="meta">参加費 500円（球代） ／ 道具はご持参ください</div>
+            <div class="row">
+              <button class="btn" onclick="raise(this)">行けます</button>
+              <button class="btn ghost" onclick="reject(this)">無理です</button>
+            </div>
+          </div>
+
+          <div class="c done">
+            <div class="when">9/27(土) 10:00</div>
+            <div class="where">瀬田川グラウンド</div>
+            <div class="team">ファイターズ <span class="tag gray">🈵 集まりました</span></div>
+          </div>
+
+          <div class="sec">👥 助っ人OKの人（8人）</div>
+          <div class="c" style="padding:11px">
+            <div class="two" style="gap:6px">
+              <div>
+                <select id="fDate" onchange="drawPeople()">
+                  <option value="2026-09-20">9/20(日) で絞る</option>
+                  <option value="2026-09-21">9/21(月祝) で絞る</option>
+                  <option value="">日にちで絞らない</option>
+                </select>
+              </div>
+              <div>
+                <select id="fPos" onchange="drawPeople()">
+                  <option value="">ポジション</option>
+                  <option>投手</option><option>捕手</option>
+                  <option>内野</option><option>外野</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-top:6px">
+              <select id="fArea" onchange="drawPeople()">
+                <option value="">エリアで絞らない</option>
+                <option>大津</option><option>草津</option><option>彦根</option>
+              </select>
+            </div>
+          </div>
+          <div id="people"></div>
+        </div>
+
+        <!-- ===== ③ 募集を出す ===== -->
+        <div class="panel" id="p-new">
+          <div class="f">
+            <div class="lab">日にち</div>
+            <select id="nDate" onchange="countTargets()">
+              <option value="2026-09-20">9/20(日)</option>
+              <option value="2026-09-21">9/21(月祝)</option>
+              <option value="2026-09-26">9/26(土)</option>
+            </select>
+            <div class="two">
+              <div><div class="lab">試合開始</div><select><option>9:00</option><option>13:00</option></select></div>
+              <div><div class="lab">集合</div><select><option>8:30</option><option>12:30</option></select></div>
+            </div>
+            <div class="lab">場所</div>
+            <input type="text" value="大津公園A球場">
+            <div class="lab">何人ほしい</div>
+            <select><option>1人</option><option selected>2人</option><option>3人</option></select>
+
+            <div class="lab">ほしいポジション</div>
+            <div class="chips" id="nPos">
+              <button class="chip on" data-v="どこでも" onclick="tog(this)">どこでも</button>
+              <button class="chip on" data-v="捕手" onclick="tog(this)">🧤捕手</button>
+              <button class="chip" data-v="投手" onclick="tog(this)">投手</button>
+              <button class="chip" data-v="内野" onclick="tog(this)">内野</button>
+              <button class="chip" data-v="外野" onclick="tog(this)">外野</button>
+            </div>
+
+            <div class="lab">レベル</div>
+            <div class="chips" id="nLv">
+              <button class="chip on" data-v="誰でも" onclick="one(this)">誰でも歓迎</button>
+              <button class="chip" data-v="経験者" onclick="one(this)">経験者がいい</button>
+            </div>
+
+            <div class="lab">来てほしいエリア</div>
+            <div class="chips" id="nArea">
+              <button class="chip on" data-v="大津" onclick="tog(this)">大津</button>
+              <button class="chip" data-v="草津" onclick="tog(this)">草津</button>
+              <button class="chip" data-v="彦根" onclick="tog(this)">彦根</button>
+            </div>
+
+            <div class="lab">参加費</div>
+            <div class="chips">
+              <button class="chip on" onclick="one(this)">なし</button>
+              <button class="chip" onclick="one(this)">500円</button>
+              <button class="chip" onclick="one(this)">1,000円</button>
+            </div>
+
+            <div class="lab">道具</div>
+            <div class="chips">
+              <button class="chip on" onclick="one(this)">お貸しできます</button>
+              <button class="chip" onclick="one(this)">ご持参ください</button>
+            </div>
+
+            <div class="lab">ひとこと（任意）</div>
+            <input type="text" value="初心者歓迎です、わいわい楽しくやってます">
+          </div>
+
+          <div class="hint" id="targets">この条件に合う 6人 に通知されます</div>
+          <button class="btn navy wide" onclick="alert('（見本）ここで募集が出て、条件に合う人にLINEが届きます')">この内容で募集する</button>
+        </div>
+
+        <!-- ===== ④ 手が挙がる ===== -->
+        <div class="panel" id="p-manage">
+          <div class="c">
+            <div class="when">9/20(日) 9:00</div>
+            <div class="where">大津公園A球場 ／ 集合 8:30</div>
+            <div class="team">レッドソックス <span class="tag">あと1人</span></div>
+            <div class="meta">水 20:00 に募集 ／ 6人に通知 → 手が挙がった 2人・無理 1人</div>
+          </div>
+
+          <div class="sec">✋ 手が挙がった人</div>
+
+          <div class="p">
+            <div class="ico" style="background:#d6f2e0;color:#0a7a3d">✓</div>
+            <div class="pinfo">
+              <div class="pname">ゴロー <span>Cチーム所属</span></div>
+              <div class="pspec">🧤捕手 ／ 経験者 ／ どこでも</div>
+              <div class="pfree"><span class="badge">助っ人 5回</span><span class="ok">確定しました</span></div>
+            </div>
+          </div>
+
+          <div class="p">
+            <div class="ico">マ</div>
+            <div class="pinfo">
+              <div class="pname">マツ <span>無所属</span></div>
+              <div class="pspec">外野 ／ 初心者 ／ 大津のみ</div>
+              <div class="pfree"><span class="badge">助っ人 1回</span></div>
+              <div class="row">
+                <button class="btn" onclick="ask(this)">この人にお願いする</button>
+                <button class="btn ghost" style="flex:0 0 90px" onclick="pass(this)">見送る</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="sec">試合のあとに</div>
+          <div class="c">
+            <div style="font-size:13px;color:var(--sub)">来てくれた人に「ありがとう」を記録します。この回数がその人のカードに出ます。</div>
+            <div class="row">
+              <button class="btn navy" onclick="alert('（見本）ゴローさんの助っ人回数が 6回 になります')">来てくれました</button>
+              <button class="btn ghost" style="flex:0 0 110px">来なかった</button>
+            </div>
+          </div>
+
+          <button class="btn ghost wide" style="margin-top:6px">募集を締める</button>
+        </div>
+
+        <!-- ===== ⑤ 自分のカード ===== -->
+        <div class="panel" id="p-me">
+          <div class="f">
+            <div class="lab">呼ばれ方（本名でなくてOK）</div>
+            <input type="text" value="たけし">
+            <div class="lab">所属チーム</div>
+            <select><option>Aチーム</option><option>無所属</option></select>
+            <div class="lab">できるポジション</div>
+            <div class="chips">
+              <button class="chip on" onclick="tog(this)">内野</button>
+              <button class="chip on" onclick="tog(this)">投手</button>
+              <button class="chip" onclick="tog(this)">🧤捕手</button>
+              <button class="chip" onclick="tog(this)">外野</button>
+              <button class="chip" onclick="tog(this)">どこでも</button>
+            </div>
+            <div class="lab">レベル</div>
+            <div class="chips">
+              <button class="chip" onclick="one(this)">初心者</button>
+              <button class="chip on" onclick="one(this)">経験者</button>
+            </div>
+            <div class="lab">行けるエリア</div>
+            <div class="chips">
+              <button class="chip on" onclick="tog(this)">大津</button>
+              <button class="chip on" onclick="tog(this)">草津</button>
+              <button class="chip" onclick="tog(this)">彦根</button>
+            </div>
+            <div class="lab">だいたい出られる日</div>
+            <div class="chips">
+              <button class="chip on" onclick="tog(this)">土</button>
+              <button class="chip on" onclick="tog(this)">日祝</button>
+              <button class="chip" onclick="tog(this)">平日の夜</button>
+            </div>
+          </div>
+
+          <div class="f">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:700">
+              <span>🔔 条件に合う募集だけ通知</span>
+              <button class="mini" onclick="sw(this)">ON</button>
+            </div>
+            <div style="font-size:12px;color:var(--sub);margin-top:4px">全部の募集は飛んできません。上の条件に合うものだけ。</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:13.5px;font-weight:700;margin-top:14px;padding-top:12px;border-top:1px solid var(--edge)">
+              <span>😴 しばらく休む</span>
+              <button class="mini" onclick="sw(this)">OFF</button>
+            </div>
+            <div style="font-size:12px;color:var(--sub);margin-top:4px">忙しい時期は止められます。名簿からは消えません。</div>
+          </div>
+
+          <div class="c">
+            <div style="font-size:13px;font-weight:700;margin-bottom:6px">これまでの助っ人</div>
+            <div style="font-size:13px;color:var(--sub)">3回（ブルーウェーブ2回・ファイターズ1回）</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    ⚾ 出欠管理（調整さん）の代わりではありません。チーム内の出欠は今のままで、<br>
+    <b>足りない分を他チームから借りるところだけ</b>を受け持ちます。
+  </div>
+</div>
+
+<script>
+/* ===== 場面 ===== */
+const SCENES=[
+  {id:'p-menu',chip:'① 入口はLINEのメニュー',bar:'◯◯市草野球連盟',sub:'LINEのトーク',full:true,
+   cap:'<b>まずここです。</b>連盟のLINE公式アカウントを友だち追加すると、トーク画面の下に<b>この4つのメニューが出たままになります</b>。押すと、それぞれの画面がLINEの中でそのまま開きます。<br><b>アプリのインストールも、IDやパスワードもありません。</b><br>下のメニューの ⚾ ＋ 👤 が、それぞれ次の ② ③ ⑥ の画面です。'},
+  {id:'p-board',chip:'② ボードを見る',bar:'⚾ 助っ人ボード',sub:'◯◯市草野球連盟',
+   cap:'メニューの <b>⚾助っ人ボード</b> を押すとこれ。<b>上半分＝いま人が足りない試合。下半分＝助っ人をやってもいい人の名簿。</b>下の 🟢 は「その日は空いてます」。これは本人が入れたのではなく、<b>④の通知に答えた結果が自動で出ている</b>ところがミソです。日にち・ポジション・エリアで絞れます。'},
+  {id:'p-new',chip:'③ 募集を出す',bar:'＋ 助っ人を募集する',sub:'レッドソックス',
+   cap:'メニューの <b>＋募集する</b> を押すとこれ。<b>チームの幹事さんが使う画面です。</b>条件を選ぶと、下に「<b>何人に通知されます</b>」と出ます。ここが見えるので、絞りすぎて誰にも届かない事故を防げます（試しにエリアやポジションを触ってみてください）。'},
+  {id:'p-notify',chip:'④ 相手のLINEに届く',bar:'◯◯市草野球連盟',sub:'LINEのトーク',full:true,
+   cap:'③で募集を出すと、<b>条件に合う人にだけ</b>この案内が届きます。全員には飛びません。<b>「行けます」を押すだけで返事が終わり</b>、画面を開く必要さえありません。'},
+  {id:'p-manage',chip:'⑤ 手が挙がる',bar:'9/20(日) の募集',sub:'レッドソックス',
+   cap:'<b>来た順に自動で確定はしません。</b>幹事さんが選びます（捕手がほしいのに外野の人で埋まると困るので）。<b>連絡先は確定した後にだけ、お互いに出ます。</b>名簿を見ただけでは誰の連絡先も分かりません。'},
+  {id:'p-me',chip:'⑥ 自分の登録',bar:'👤 わたしの助っ人カード',sub:'たけし',
+   cap:'メニューの <b>👤わたしの登録</b> を押すとこれ。<b>選手側の作業はこれ1回だけ。</b>毎週スケジュールを入れる作業はありません（それは続かないので作りませんでした）。「しばらく休む」で通知を止められるので、抜けずに残ってもらえます。'}
+];
+
+const stepsEl=document.getElementById('steps');
+SCENES.forEach((s,i)=>{
+  const b=document.createElement('button');
+  b.className='step'+(i===0?' on':''); b.textContent=s.chip;
+  b.onclick=()=>show(i); stepsEl.appendChild(b);
+});
+function show(i){
+  document.querySelectorAll('.step').forEach((b,j)=>b.classList.toggle('on',i===j));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById(SCENES[i].id).classList.add('on');
+  document.getElementById('bar').innerHTML=SCENES[i].bar+' <small>'+SCENES[i].sub+'</small>';
+  document.getElementById('caption').innerHTML=SCENES[i].cap;
+  document.getElementById('body').scrollTop=0;
+  document.getElementById('body').style.padding=SCENES[i].full?'0':'12px 12px 24px';
+}
+
+/* ===== 見本の選手 ===== */
+const DOW={'2026-09-20':'日祝','2026-09-21':'日祝','2026-09-26':'土'};
+const PLAYERS=[
+  {n:'たけし',t:'Aチーム所属',pos:['内野','投手'],lv:'経験者',ar:['大津','草津'],dw:['土','日祝'],cnt:3,ans:{'2026-09-20':'ok'}},
+  {n:'ゴロー', t:'Cチーム所属',pos:['捕手'],      lv:'経験者',ar:['大津','草津','彦根'],dw:['土','日祝'],cnt:5,ans:{'2026-09-20':'ok'}},
+  {n:'マツ',  t:'無所属',    pos:['外野'],      lv:'初心者',ar:['大津'],dw:['日祝'],cnt:1,ans:{}},
+  {n:'ユウ',  t:'Dチーム所属',pos:['捕手','内野'],lv:'経験者',ar:['大津'],dw:['日祝'],cnt:2,ans:{'2026-09-20':'ng'}},
+  {n:'ヤス',  t:'無所属',    pos:['投手','内野'],lv:'経験者',ar:['大津'],dw:['土','日祝','平日の夜'],cnt:8,ans:{}},
+  {n:'しんじ',t:'Aチーム所属',pos:['外野'],      lv:'経験者',ar:['大津','彦根'],dw:['土','日祝'],cnt:0,ans:{}},
+  {n:'ケン',  t:'Bチーム所属',pos:['どこでも'],  lv:'初心者',ar:['草津'],dw:['土'],cnt:1,ans:{}},
+  {n:'タカ',  t:'無所属',    pos:['どこでも'],  lv:'初心者',ar:['大津','草津'],dw:['日祝'],cnt:4,ans:{}}
+];
+
+function drawPeople(){
+  const d=document.getElementById('fDate').value;
+  const p=document.getElementById('fPos').value;
+  const a=document.getElementById('fArea').value;
+  const list=PLAYERS.filter(x=>
+    (!p || x.pos.includes(p) || x.pos.includes('どこでも')) &&
+    (!a || x.ar.includes(a)) &&
+    (!d || x.dw.includes(DOW[d]))
+  );
+  const box=document.getElementById('people');
+  if(!list.length){ box.innerHTML='<div class="c" style="text-align:center;color:var(--sub);font-size:13px">この条件に合う人はいません</div>'; return; }
+  box.innerHTML=list.map(x=>{
+    const st=d?(x.ans[d]||'un'):'un';
+    const label={ok:'<span class="ok">🟢 空いてます</span>',ng:'<span class="ng">🔴 予定あり</span>',un:'<span class="un">⚪ 未回答</span>'}[st];
+    const call=(st==='ng')?'':'<button class="mini" onclick="alert(\'（見本）'+x.n+'さんに「◯日の試合、来てもらえませんか」と声をかけます\')">声をかける</button>';
+    const cnt=x.cnt?'<span class="badge">助っ人 '+x.cnt+'回</span>':'';
+    return '<div class="p"><div class="ico">'+x.n[0]+'</div><div class="pinfo">'+
+      '<div class="pname">'+x.n+' <span>'+x.t+'</span></div>'+
+      '<div class="pspec">'+x.pos.join('・')+' ／ '+x.lv+' ／ '+x.ar.join('・')+'</div>'+
+      '<div class="pfree">'+(d?label:'')+cnt+call+'</div></div></div>';
+  }).join('');
+}
+
+/* ===== 「何人に通知」 ===== */
+function countTargets(){
+  const d=document.getElementById('nDate').value;
+  const pos=[...document.querySelectorAll('#nPos .chip.on')].map(b=>b.dataset.v);
+  const ar=[...document.querySelectorAll('#nArea .chip.on')].map(b=>b.dataset.v);
+  const lv=document.querySelector('#nLv .chip.on').dataset.v;
+  const n=PLAYERS.filter(x=>
+    x.dw.includes(DOW[d]) &&
+    x.ar.some(v=>ar.includes(v)) &&
+    (pos.includes('どこでも')||x.pos.some(v=>pos.includes(v)||v==='どこでも')) &&
+    (lv==='誰でも'||x.lv==='経験者')
+  ).length;
+  const el=document.getElementById('targets');
+  el.className='hint'+(n===0?' warn':'');
+  el.textContent=(n===0)
+    ? '⚠️ この条件に合う人がいません。条件をゆるめてください'
+    : 'この条件に合う '+n+'人 に通知されます';
+}
+
+/* ===== お試しの操作 ===== */
+function tog(b){b.classList.toggle('on');countTargets()}
+function one(b){[...b.parentNode.children].forEach(c=>c.classList.remove('on'));b.classList.add('on');countTargets()}
+function sw(b){const on=b.textContent==='ON';b.textContent=on?'OFF':'ON';b.style.color=on?'var(--sub)':'var(--navy)'}
+function raise(b){
+  const box=b.closest('.acts')||b.closest('.row');
+  box.innerHTML='<div style="flex:1;text-align:center;font-size:13px;font-weight:700;color:#0a7a3d;padding:9px">🟢 「行けます」と伝えました。相手の返事を待ちます</div>';
+}
+function reject(b){
+  const box=b.closest('.acts')||b.closest('.row');
+  box.innerHTML='<div style="flex:1;text-align:center;font-size:13px;color:var(--sub);padding:9px">🔴 「その日は無理」と伝えました</div>';
+}
+function ask(b){
+  const p=b.closest('.p');
+  p.querySelector('.ico').outerHTML='<div class="ico" style="background:#d6f2e0;color:#0a7a3d">✓</div>';
+  b.closest('.row').outerHTML='<div style="font-size:13px;font-weight:700;color:#0a7a3d;margin-top:6px">確定しました。お互いに集合場所と連絡先が届きます</div>';
+}
+function pass(b){ b.closest('.p').style.opacity=.45; b.closest('.row').outerHTML='<div style="font-size:12.5px;color:var(--sub);margin-top:6px">今回は見送りました</div>'; }
+
+show(0); drawPeople(); countTargets();
+
+/* ===== 書き出し用 =====
+   ?flat=1&s=N  … 1場面だけを縦に全部展開（PNG撮影用）
+   ?flat=1&all=1 … 5場面を縦に並べる（PDF印刷用）           */
+const Q=new URLSearchParams(location.search);
+
+function ttl(i){
+  const t=document.createElement('div');
+  t.className='shotttl';
+  t.innerHTML='<b>'+SCENES[i].chip+'</b><span>'+(i+1)+'/'+SCENES.length+'</span>';
+  return t;
+}
+function measure(){
+  requestAnimationFrame(()=>{
+    const b=document.querySelector('.page').getBoundingClientRect().bottom;
+    document.title='H='+Math.ceil(b+20);
+  });
+}
+
+if(Q.has('flat')){
+  document.body.classList.add('flat');
+
+  if(Q.has('all')){
+    const page=document.querySelector('.page');
+    const cap=document.getElementById('caption');
+    const phone=document.querySelector('.phone');
+    const holder=document.createElement('div');
+    SCENES.forEach((s,i)=>{
+      show(i);                            // 見出し・説明・表示パネルを i に合わせる
+      const sec=document.createElement('section');
+      sec.className='shot';
+      sec.appendChild(ttl(i));
+      const c=cap.cloneNode(true); c.removeAttribute('id'); sec.appendChild(c);
+      sec.appendChild(phone.cloneNode(true));
+      holder.appendChild(sec);
+    });
+    cap.remove(); phone.remove();
+    page.appendChild(holder);
+    measure();
+  }else{
+    const n=Math.min(SCENES.length,Math.max(1,parseInt(Q.get('s')||'1',10)));
+    show(n-1);
+    document.getElementById('caption').before(ttl(n-1));
+    measure();
+  }
+}
+</script>
+</body>
+</html>
