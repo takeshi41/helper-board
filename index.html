@@ -260,8 +260,8 @@ body.flat .foot{margin-top:18px;font-size:11.5px}
                 <button class="rmc" onclick="show(6)">
                   <span class="e">👤</span><b>わたしの登録</b><small>最初に1回だけ</small>
                 </button>
-                <button class="rmc" onclick="alert('（見本）リーグからのお知らせや使い方が開きます')">
-                  <span class="e">📣</span><b>リーグのお知らせ</b><small>使い方もここ</small>
+                <button class="rmc" onclick="alert('（見本）使い方の説明が開きます。内容は固定なので、誰かが更新する必要はありません')">
+                  <span class="e">❓</span><b>使い方</b><small>読むだけ</small>
                 </button>
               </div>
             </div>
@@ -360,7 +360,8 @@ body.flat .foot{margin-top:18px;font-size:11.5px}
               </div>
             </div>
             <div style="font-size:12px;color:var(--sub);margin-top:9px;padding-top:9px;border-top:1px solid var(--edge)">
-              リーグの日程表から自動で出しています（誰も入力していません）。<br>
+              リーグの日程表を毎日自動で読んでいます（<b>誰も入力していません</b>）。<br>
+              チーム名の一覧も、ここから自動で集まります。<br>
               <b>試合が無いチームの選手に優先して通知されます。</b>
             </div>
           </div>
@@ -577,36 +578,26 @@ body.flat .foot{margin-top:18px;font-size:11.5px}
         <!-- ===== 自分のカード ===== -->
         <div class="panel" id="p-me">
           <div class="f">
-            <div style="font-size:12.5px;font-weight:700;margin-bottom:9px">
-              リーグの登録名簿から、あなたを選んでください
-            </div>
-            <div class="lab">所属チーム</div>
-            <select>
-              <option>かもめクラブ</option>
-              <option selected>西風ベアーズ</option>
-              <option>宇品ウィンズ</option>
-              <option>安佐クラブ</option>
-              <option>…（リーグ加盟47チーム）</option>
-            </select>
-            <div class="lab">あなたの名前</div>
-            <select>
-              <option selected>ゴロー（背番号 7）</option>
-              <option>…（このチームの登録選手 22人）</option>
-            </select>
-            <div style="font-size:11.5px;color:var(--sub);margin-top:7px">
-              リーグの<b>支配下登録リスト（47チーム・1,023人）</b>から自動で並びます。
-              自分で打ち込む必要はありません。
-            </div>
-            <div class="row" style="margin-top:10px">
-              <button class="btn ghost" style="font-size:12px" onclick="alert('（見本）リーグに登録が無い方・無所属の方の登録画面が開きます')">名簿に無い・無所属</button>
-              <button class="btn ghost" style="font-size:12px" onclick="alert('（見本）チームの新規登録を申請します。リーグ代表が承認すると、あなたがそのチームの代表になります')">＋ チームを新しく登録</button>
-            </div>
-          </div>
-
-          <div class="f">
             <div class="lab">呼ばれ方（本名でなくてOK）</div>
             <input type="text" value="ゴロー">
-            <div class="lab">助っ人でできる守備位置　<span style="color:var(--hot)">※この4つだけ（規約 第14条）</span></div>
+
+            <div class="lab">所属チーム</div>
+            <input type="text" list="teamlist" value="西風ベアーズ" placeholder="打ち始めると候補が出ます">
+            <datalist id="teamlist">
+              <option>かもめクラブ</option>
+              <option>西風ベアーズ</option>
+              <option>宇品ウィンズ</option>
+              <option>安佐クラブ</option>
+              <option>リーグ外・無所属</option>
+            </datalist>
+            <div style="font-size:11.5px;color:var(--sub);margin-top:7px">
+              候補は<b>リーグの日程表から自動で集めた48チーム</b>です（対戦カードに全チーム名が出るため）。
+              打ち始めると絞り込まれます。<b>一覧に無いチーム名は、そのまま打てば登録されます</b>
+              ——新しくできたチームでも、申請や承認は要りません。<br>
+              リーグ外の方・無所属の方は「リーグ外・無所属」を。
+            </div>
+
+            <div class="lab">助っ人でできる守備位置<span style="color:var(--hot)">※この4つだけ（規約 第14条）</span></div>
             <div class="chips">
               <button class="chip on" onclick="tog(this)">ファースト</button>
               <button class="chip on" onclick="tog(this)">サード</button>
@@ -678,9 +669,9 @@ const SCENES=[
   {id:'p-manage',chip:'⑤ 手が挙がる',bar:'9/20(日) の募集',sub:'かもめクラブ',
    cap:'<b>来た順に自動で確定はしません。</b>代表が選びます。<b>規約の上限（リーグ内の選手は4名まで／リーグ外の人は2名まで・第13条）を画面が数えている</b>ので、うっかり違反できません。<b>連絡先は確定した後にだけ、お互いに出ます。</b>'},
   {id:'p-relay',chip:'⑥ 事前交渉が自動で済む',bar:'グランドリーグ',sub:'LINEのトーク',full:true,
-   cap:'<b>ここがこのアプリの核です。</b>規約第13条の補足で、リーグ内の選手を借りるときは<b>「必ず事前交渉」</b>が義務。いまは知り合いを通じた個別LINEでやっている部分です。<br>助っ人が確定すると、<b>その選手の所属チーム代表にも自動で連絡が飛び、記録が残ります</b>。<b>人脈が無くても、規約どおりに借りられるようになります。</b>'},
-  {id:'p-me',chip:'⑦ 自分の登録',bar:'👤 わたしの助っ人カード',sub:'たけし',
-   cap:'メニューの <b>👤わたしの登録</b> を押すとこれ。<b>選手側の作業はこれ1回だけ。</b>毎週スケジュールを入れる作業はありません。「しばらく休む」で通知を止められるので、抜けずに残ってもらえます。'}
+   cap:'<b>ここがこのアプリの核です。</b>規約第13条の補足で、リーグ内の選手を借りるときは<b>「必ず事前交渉」</b>が義務。いまは知り合いを通じた個別LINEでやっている部分です。<br>助っ人が確定すると、<b>その選手の所属チーム代表にも自動で連絡が飛び、記録が残ります</b>。<b>人脈が無くても、規約どおりに借りられるようになります。</b><br>⚠️ 相手チームから誰も登録していないうちは通知先がないので、その旨を画面に出して、従来どおり個別に連絡してもらいます（<b>登録が増えるほど効いてくる仕組み</b>です）。'},
+  {id:'p-me',chip:'⑦ 自分の登録',bar:'👤 わたしの助っ人カード',sub:'ゴロー',
+   cap:'メニューの <b>👤わたしの登録</b> を押すとこれ。<b>選手側の作業はこれ1回だけ</b>で、毎週スケジュールを入れる作業はありません。「しばらく休む」で通知を止められます。<br>⭐ <b>全部が自己申告です。</b>リーグの名簿と突き合わせたり、誰かが承認したりする工程はありません。チーム名の候補だけは<b>日程表から自動で集まる</b>ので、<b>リーグ側に定常作業が一切発生しません</b>——これがこのアプリ全体の方針です。'}
 ];
 
 const stepsEl=document.getElementById('steps');
