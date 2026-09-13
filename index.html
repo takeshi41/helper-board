@@ -97,6 +97,21 @@ body{
 }
 .tag.gray{background:#eceff3;color:var(--sub)}
 
+/* ボード内のタブ */
+.tabs{display:flex;gap:6px;margin:2px 0 12px}
+.tab{
+  flex:1;border:1px solid var(--edge);background:#fff;border-radius:10px;padding:9px 4px;
+  font-size:12.5px;font-weight:700;color:var(--sub);font-family:inherit;cursor:pointer
+}
+.tab.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.sm{font-size:12px;color:var(--sub);font-weight:400}
+.tline{display:flex;align-items:center;gap:8px;margin-top:7px}
+.tname{font-size:13.5px;font-weight:700;flex:1}
+.dayline{
+  font-size:11.5px;color:#1c5fa8;background:#eef6ff;border:1px solid #cfe3f7;
+  border-radius:9px;padding:8px 10px;margin-bottom:10px;line-height:1.5
+}
+
 /* 人のカード */
 .p{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--edge);border-radius:14px;padding:12px;margin-bottom:8px}
 .ico{flex:0 0 38px;height:38px;border-radius:50%;background:#dde4ee;color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700}
@@ -314,84 +329,73 @@ body.flat .foot{margin-top:18px;font-size:11.5px}
 
         <!-- ===== ② ボードを見る ===== -->
         <div class="panel" id="p-board">
-          <div class="sec">🔴 いま募集中（3件）</div>
+          <div class="tabs">
+            <button class="tab on" id="tabA" onclick="bTab('A')">🔴 募集中 3件</button>
+            <button class="tab" id="tabB" onclick="bTab('B')">👥 助っ人をさがす</button>
+          </div>
 
-          <div class="c">
-            <div class="when">9/20(日) 9:00 <span style="font-size:12px;color:var(--sub);font-weight:400">集合 8:30</span></div>
-            <div class="where">竜王公園</div>
-            <div class="team">かもめクラブ</div>
-            <div class="need">あと <b>2人</b> サード ・ ライト</div>
-            <div class="meta">参加費なし ／ 道具お貸しします ／ 誰でも歓迎</div>
-            <div class="say">「初心者歓迎です、わいわい楽しくやってます」</div>
-            <div class="row">
-              <button class="btn" onclick="raise(this)">行けます</button>
-              <button class="btn ghost" onclick="reject(this)">無理です</button>
+          <!-- タブA：募集中 -->
+          <div id="bA">
+            <div class="c">
+              <div class="when">9/20(日) 9:00 <span class="sm">集合 8:30</span></div>
+              <div class="where">竜王公園</div>
+              <div class="tline"><span class="tname">かもめクラブ</span><span class="tag">あと2人</span></div>
+              <div class="meta">サード・ライト ／ 参加費なし ／ 道具あり</div>
+              <div class="row">
+                <button class="btn" onclick="raise(this)">行けます</button>
+                <button class="btn ghost" style="flex:0 0 84px" onclick="reject(this)">無理</button>
+              </div>
+            </div>
+
+            <div class="c">
+              <div class="when">9/21(月祝) 13:00 <span class="sm">集合 12:30</span></div>
+              <div class="where">中電南原研修センター野球場</div>
+              <div class="tline"><span class="tname">宇品ウィンズ</span><span class="tag">あと1人</span></div>
+              <div class="meta">ファースト ／ 500円（球代） ／ 道具は持参</div>
+              <div class="row">
+                <button class="btn" onclick="raise(this)">行けます</button>
+                <button class="btn ghost" style="flex:0 0 84px" onclick="reject(this)">無理</button>
+              </div>
+            </div>
+
+            <div class="c done">
+              <div class="when">9/27(土) 10:00 <span class="sm">サンブレイズボールパーク</span></div>
+              <div class="tline"><span class="tname">安佐クラブ</span><span class="tag gray">集まりました</span></div>
+            </div>
+
+            <div style="font-size:11.5px;color:var(--sub);text-align:center;margin-top:4px">
+              自分のチームの募集と、その日に自分のチームの試合がある募集は出てきません。
             </div>
           </div>
 
-          <div class="c">
-            <div class="when">9/21(月祝) 13:00 <span style="font-size:12px;color:var(--sub);font-weight:400">集合 12:30</span></div>
-            <div class="where">中電南原研修センター野球場</div>
-            <div class="team">宇品ウィンズ</div>
-            <div class="need">あと <b>1人</b> ファースト</div>
-            <div class="meta">参加費 500円（球代） ／ 道具はご持参ください</div>
-            <div class="row">
-              <button class="btn" onclick="raise(this)">行けます</button>
-              <button class="btn ghost" onclick="reject(this)">無理です</button>
-            </div>
-          </div>
-
-          <div class="c done">
-            <div class="when">9/27(土) 10:00</div>
-            <div class="where">サンブレイズボールパーク</div>
-            <div class="team">安佐クラブ <span class="tag gray">集まりました</span></div>
-          </div>
-
-          <div class="sec">📅 9/20(日) のリーグ日程</div>
-          <div class="c" style="padding:12px">
-            <div style="display:flex;gap:8px;text-align:center">
-              <div style="flex:1">
-                <div style="font-size:22px;font-weight:700;color:var(--sub)">8</div>
-                <div style="font-size:11.5px;color:var(--sub)">試合があるチーム</div>
-              </div>
-              <div style="flex:1;border-left:1px solid var(--edge)">
-                <div style="font-size:22px;font-weight:700;color:#14803c">40</div>
-                <div style="font-size:11.5px;color:var(--sub)">試合が無いチーム</div>
-              </div>
-            </div>
-            <div style="font-size:12px;color:var(--sub);margin-top:9px;padding-top:9px;border-top:1px solid var(--edge)">
-              リーグの日程表を毎日自動で読んでいます（<b>誰も入力していません</b>）。<br>
-              チーム名の一覧も、ここから自動で集まります。<br>
-              <b>試合が無いチームの選手に優先して通知されます。</b>
-            </div>
-          </div>
-
-          <div class="sec">👥 助っ人OKの人（8人）</div>
-          <div class="c" style="padding:11px">
-            <div class="two" style="gap:6px">
-              <div>
-                <select id="fDate" onchange="drawPeople()">
-                  <option value="2026-09-20">9/20(日) で絞る</option>
-                  <option value="2026-09-21">9/21(月祝) で絞る</option>
-                  <option value="">日にちで絞らない</option>
-                </select>
-              </div>
-              <div>
-                <select id="fPos" onchange="drawPeople()">
-                  <option value="">守備位置</option>
-                  <option>ファースト</option><option>サード</option>
-                  <option>レフト</option><option>ライト</option>
-                </select>
-              </div>
-            </div>
-            <div style="margin-top:6px">
-              <select id="fArea" onchange="drawPeople()">
-                <option value="">エリアで絞らない</option>
-                <option>広島市内</option><option>東広島</option><option>北広島</option>
+          <!-- タブB：助っ人をさがす -->
+          <div id="bB" style="display:none">
+            <div class="c" style="padding:11px">
+              <select id="fDate" onchange="drawPeople()">
+                <option value="2026-09-20">9/20(日) で絞る</option>
+                <option value="2026-09-21">9/21(月祝) で絞る</option>
+                <option value="">日にちで絞らない</option>
               </select>
+              <div class="two" style="gap:6px;margin-top:6px">
+                <div>
+                  <select id="fPos" onchange="drawPeople()">
+                    <option value="">守備位置</option>
+                    <option>ファースト</option><option>サード</option>
+                    <option>レフト</option><option>ライト</option>
+                  </select>
+                </div>
+                <div>
+                  <select id="fArea" onchange="drawPeople()">
+                    <option value="">エリア</option>
+                    <option>広島市内</option><option>東広島</option><option>北広島</option>
+                  </select>
+                </div>
+              </div>
             </div>
+
+            <div class="dayline" id="dayline"></div>
+            <div id="people"></div>
           </div>
-          <div id="people"></div>
         </div>
 
         <!-- ===== ③ 募集を出す ===== -->
@@ -661,7 +665,7 @@ const SCENES=[
   {id:'p-menu',chip:'① 入口はLINEのメニュー',bar:'グランドリーグ',sub:'LINEのトーク',full:true,
    cap:'<b>まずここです。</b>リーグの公式LINEアカウントを友だち追加すると、トーク画面の下に<b>この4つのメニューが出たままになります</b>。押すと、それぞれの画面がLINEの中でそのまま開きます。<br><b>アプリのインストールも、IDやパスワードもありません。</b><br>下のメニューの ⚾ ＋ 👤 が、それぞれ ② ③ ⑦ の画面です。'},
   {id:'p-board',chip:'② ボードを見る',bar:'⚾ 助っ人ボード',sub:'グランドリーグ',
-   cap:'メニューの <b>⚾助っ人ボード</b> を押すとこれ。<b>上＝いま人が足りない試合。中＝リーグの日程表から自動で出した「その日、試合が無いチーム」。下＝助っ人をやってもいい人の名簿。</b><br>🟢は「その日は空いてます」（④の通知に答えた結果が自動で入ります）。<b>🔵は日程表から自動で分かる「自分のチームの試合日」</b>＝声をかけても来られない人です。<b>この2つは誰も入力していません。</b><br>右上の ✕ でトーク画面に戻ります。'},
+   cap:'メニューの <b>⚾助っ人ボード</b> を押すとこれ。<b>2つのタブに分けてあります。</b><br><b>🔴募集中</b>＝いま人が足りない試合。押すだけで返事できます。<br><b>👥助っ人をさがす</b>＝呼べる人の名簿。日にち・守備位置・エリアで絞れます。🟢は「その日は空いてます」（④の通知に答えた結果が自動で入る）、<b>🔵は日程表から自動で分かる「自分のチームの試合日」</b>＝声をかけても来られない人。<b>この2つは誰も入力していません。</b><br>右上の ✕ でトーク画面に戻ります。'},
   {id:'p-new',chip:'③ 募集を出す',bar:'＋ 助っ人を募集する',sub:'かもめクラブ',
    cap:'メニューの <b>＋募集する</b> を押すとこれ。<b>チーム代表が使う画面です。</b><br>⚠️ <b>守備位置は規約どおり ファースト・サード・レフト・ライト の4つだけ</b>（第14条）、<b>人数は最大4人</b>（第15条）に制限しました。<b>規約違反の募集は出せません。</b><br>条件を選ぶと下に「<b>何人に通知されます</b>」と出ます（エリアや守備位置を触ってみてください）。'},
   {id:'p-notify',chip:'④ 相手のLINEに届く',bar:'グランドリーグ',sub:'LINEのトーク',full:true,
@@ -713,10 +717,34 @@ const PLAYERS=[
 ];
 const busyOn=(d,t)=> !!(d && t && (BUSY[d]||[]).includes(t));
 
+/* ボード内のタブ切替 */
+function bTab(k){
+  document.getElementById('bA').style.display=(k==='A')?'':'none';
+  document.getElementById('bB').style.display=(k==='B')?'':'none';
+  document.getElementById('tabA').classList.toggle('on',k==='A');
+  document.getElementById('tabB').classList.toggle('on',k==='B');
+  document.getElementById('body').scrollTop=0;
+}
+
+/* その日に試合があるチーム数（リーグ日程表より。1日1〜6試合＝2〜12チーム） */
+const BUSYN={'2026-09-20':8,'2026-09-21':6,'2026-09-26':4};
+const LABEL={'2026-09-20':'9/20(日)','2026-09-21':'9/21(月祝)','2026-09-26':'9/26(土)'};
+
 function drawPeople(){
   const d=document.getElementById('fDate').value;
   const p=document.getElementById('fPos').value;
   const a=document.getElementById('fArea').value;
+
+  const dl=document.getElementById('dayline');
+  if(d){
+    const b=BUSYN[d]||0;
+    dl.innerHTML='📅 <b>'+LABEL[d]+'</b>：リーグ48チームのうち、試合があるのは <b>'+b+'チーム</b>。'+
+      '<b>'+(48-b)+'チーム</b>はこの日は試合がありません。'+
+      '<br>リーグの日程表を毎日自動で読んでいます（誰も入力していません）。';
+    dl.style.display='';
+  }else{
+    dl.style.display='none';
+  }
   const list=PLAYERS.filter(x=>
     (!p || x.pos.includes(p) || x.pos.includes('どこでも')) &&
     (!a || x.ar.includes(a)) &&
@@ -828,6 +856,7 @@ if(Q.has('flat')){
   }else{
     const n=Math.min(SCENES.length,Math.max(1,parseInt(Q.get('s')||'1',10)));
     show(n-1);
+    if(Q.get('tab')==='B'){ bTab('B'); }
     document.getElementById('caption').before(ttl(n-1));
     measure();
   }
