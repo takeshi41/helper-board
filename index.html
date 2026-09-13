@@ -112,6 +112,19 @@ body{
   border-radius:9px;padding:8px 10px;margin-bottom:10px;line-height:1.5
 }
 
+/* チーム名の候補（自前。datalist は挙動が不安定なので使わない） */
+.sug{border:1px solid var(--edge);border-radius:10px;background:#fff;margin-top:5px;overflow:hidden}
+.sugi{
+  display:block;width:100%;text-align:left;border:none;border-bottom:1px solid var(--edge);
+  background:#fff;padding:10px 11px;font-size:13px;font-family:inherit;cursor:pointer;color:var(--ink)
+}
+.sugi:last-child{border-bottom:none}
+.sugn{font-size:11px;color:var(--sub);padding:8px 11px;background:var(--soft);border-top:1px solid var(--edge)}
+
+/* 雨天のカードは目立たせる */
+.c.rain{border-color:#f5c2c0;border-left:4px solid var(--hot);background:#fffaf9}
+.rainh{font-size:14px;font-weight:700;color:#b0342f;margin-bottom:7px}
+
 /* 人のカード */
 .p{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--edge);border-radius:14px;padding:12px;margin-bottom:8px}
 .ico{flex:0 0 38px;height:38px;border-radius:50%;background:#dde4ee;color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700}
@@ -481,19 +494,8 @@ body.flat .foot{margin-top:18px;font-size:11.5px}
             <div class="where">竜王公園 ／ 集合 8:30</div>
             <div class="team">かもめクラブ <span class="tag">あと1人</span></div>
             <div class="meta">水 20:00 に募集 ／ 6人に通知 → 手が挙がった 2人・無理 1人</div>
-          </div>
-
-          <div class="c" style="padding:12px">
-            <div style="font-size:12.5px;font-weight:700;margin-bottom:8px">規約の上限（第13条）</div>
-            <div style="display:flex;gap:8px;text-align:center">
-              <div style="flex:1">
-                <div style="font-size:19px;font-weight:700;color:var(--navy)">1 <span style="font-size:12px;color:var(--sub)">/ 4名</span></div>
-                <div style="font-size:11px;color:var(--sub)">リーグ内の選手</div>
-              </div>
-              <div style="flex:1;border-left:1px solid var(--edge)">
-                <div style="font-size:19px;font-weight:700;color:var(--navy)">0 <span style="font-size:12px;color:var(--sub)">/ 2名</span></div>
-                <div style="font-size:11px;color:var(--sub)">リーグ外の人</div>
-              </div>
+            <div style="font-size:12px;margin-top:8px;padding-top:8px;border-top:1px solid var(--edge)">
+              <b>規約の上限（第13条）</b>　リーグ内の選手 <b>1/4名</b> ・ リーグ外の人 <b>0/2名</b>
             </div>
           </div>
 
@@ -527,11 +529,11 @@ body.flat .foot{margin-top:18px;font-size:11.5px}
             </div>
           </div>
 
-          <button class="tab" style="width:100%;text-align:left;margin:14px 0 10px" onclick="toggleRain(this)">⚠️ 雨で流れたとき　▾</button>
-          <div class="c" id="rainCard" style="display:none">
-            <div style="font-size:12.5px;color:var(--sub)">
-              当日の朝でも、ここから<b>確定した助っ人全員にすぐ届きます</b>。
-              助っ人に無駄足を踏ませると二度と来てもらえないので、ここが一番大事です。
+          <div class="c rain" id="rainCard" style="margin-top:14px">
+            <div class="rainh">⚠️ 雨で流れたとき</div>
+            <div style="font-size:12.5px;color:#7a4a46">
+              球場を予約したチームが中止を決めたら、<b>当日の朝でもここから確定した助っ人全員にすぐ届きます。</b>
+              無駄足を踏ませると二度と来てもらえないので、ここが一番大事です。
             </div>
             <div class="lab">理由（任意・1行）</div>
             <input type="text" value="雨でグラウンドが使えません">
@@ -570,10 +572,10 @@ body.flat .foot{margin-top:18px;font-size:11.5px}
 
           <div class="sec">試合のあとに</div>
           <div class="c">
-            <div style="font-size:13px;color:var(--sub)">来てくれた人に「ありがとう」を記録します。この回数がその人のカードに出ます。</div>
+            <div style="font-size:12.5px;color:var(--sub)">来てくれた回数が、その人のカードに出ます。</div>
             <div class="row">
               <button class="btn navy" onclick="alert('（見本）ゴローさんの助っ人回数が 6回 になります')">来てくれました</button>
-              <button class="btn ghost" style="flex:0 0 110px">来なかった</button>
+              <button class="btn ghost" style="flex:0 0 104px">来なかった</button>
             </div>
           </div>
 
@@ -636,22 +638,16 @@ body.flat .foot{margin-top:18px;font-size:11.5px}
             <input type="text" value="ゴロー">
 
             <div class="lab">所属チーム</div>
-            <input type="text" list="teamlist" value="西風ベアーズ" placeholder="打ち始めると候補が出ます">
-            <datalist id="teamlist">
-              <option>かもめクラブ</option>
-              <option>西風ベアーズ</option>
-              <option>宇品ウィンズ</option>
-              <option>安佐クラブ</option>
-              <option>リーグ外・無所属</option>
-            </datalist>
+            <input type="text" id="teamInput" value="西風ベアーズ"
+                   placeholder="チーム名を打つと候補が出ます"
+                   oninput="teamSuggest()" onfocus="teamSuggest()">
+            <div id="teamSug" class="sug" style="display:none"></div>
             <div style="font-size:11.5px;color:var(--sub);margin-top:7px">
-              候補は<b>リーグの日程表から自動で集めた48チーム</b>です（対戦カードに全チーム名が出るため）。
-              打ち始めると絞り込まれます。<b>一覧に無いチーム名は、そのまま打てば登録されます</b>
-              ——新しくできたチームでも、申請や承認は要りません。<br>
-              リーグ外の方・無所属の方は「リーグ外・無所属」を。
+              候補は<b>リーグ日程表から自動で集めた48チーム</b>。
+              <b>一覧に無いチーム名は、そのまま打てば登録されます</b>（申請も承認も要りません）。
             </div>
 
-            <div class="lab">助っ人でできる守備位置<span style="color:var(--hot)">※この4つだけ（規約 第14条）</span></div>
+            <div class="lab">助っ人でできる守備位置　<span style="color:var(--hot)">※この4つだけ（規約 第14条）</span></div>
             <div class="chips">
               <button class="chip on" onclick="tog(this)">ファースト</button>
               <button class="chip on" onclick="tog(this)">サード</button>
@@ -721,7 +717,7 @@ const SCENES=[
   {id:'p-notify',chip:'④ 相手のLINEに届く',bar:'グランドリーグ',sub:'LINEのトーク',full:true,
    cap:'③で募集を出すと、<b>条件に合う人にだけ</b>この案内が届きます。全員には飛びません。<b>「行けます」を押すだけで返事が終わり</b>、画面を開く必要さえありません。'},
   {id:'p-manage',chip:'⑤ 手が挙がる',bar:'9/20(日) の募集',sub:'かもめクラブ',
-   cap:'<b>来た順に自動で確定はしません。</b>代表が選びます。<b>規約の上限（リーグ内の選手は4名まで／リーグ外の人は2名まで・第13条）を画面が数えている</b>ので、うっかり違反できません。<b>連絡先は確定した後にだけ、お互いに出ます。</b><br>⚠️ 下の <b>「雨で流れたとき」</b> も見てください。<b>助っ人に無駄足を踏ませると二度と来てもらえない</b>ので、当日の朝でも2タップで全員に届くようにしました（［これを知らせる］を押すと、実際に送られる内容が出ます）。'},
+   cap:'<b>来た順に自動で確定はしません。</b>代表が選びます。<b>規約の上限（リーグ内の選手は4名まで／リーグ外の人は2名まで・第13条）を画面が数えている</b>ので、うっかり違反できません。<b>連絡先は確定した後にだけ、お互いに出ます。</b><br>⚠️ <b>「雨で流れたとき」</b>（赤い枠）が、実は一番大事です。<b>助っ人に無駄足を踏ませると二度と来てもらえない</b>ので、当日の朝でもここから全員に届きます。<b>［これを知らせる］を押すと、実際に送られる文面が出ます。</b>'},
   {id:'p-relay',chip:'⑥ 事前交渉が自動で済む',bar:'グランドリーグ',sub:'LINEのトーク',full:true,
    cap:'<b>ここがこのアプリの核です。</b>規約第13条の補足で、リーグ内の選手を借りるときは<b>「必ず事前交渉」</b>が義務。いまは知り合いを通じた個別LINEでやっている部分です。<br>助っ人が確定すると、<b>その選手の所属チーム代表にも自動で連絡が飛び、記録が残ります</b>。<b>人脈が無くても、規約どおりに借りられるようになります。</b><br>⚠️ 相手チームから誰も登録していないうちは通知先がないので、その旨を画面に出して、従来どおり個別に連絡してもらいます（<b>登録が増えるほど効いてくる仕組み</b>です）。'},
   {id:'p-me',chip:'⑦ 自分の登録',bar:'👤 わたしの助っ人カード',sub:'ゴロー',
@@ -869,11 +865,31 @@ function ask(b){
   b.closest('.row').outerHTML='<div style="font-size:13px;font-weight:700;color:#0a7a3d;margin-top:6px">確定しました。お互いに集合場所と連絡先が届きます</div>';
 }
 function pass(b){ b.closest('.p').style.opacity=.45; b.closest('.row').outerHTML='<div style="font-size:12.5px;color:var(--sub);margin-top:6px">今回は見送りました</div>'; }
-function toggleRain(b){
-  const c=document.getElementById('rainCard');
-  const open=(c.style.display==='none');
-  c.style.display=open?'':'none';
-  b.textContent='⚠️ 雨で流れたとき　'+(open?'▴':'▾');
+/* チーム名の候補（本番はリーグ日程表から集めた48チームが入る） */
+const TEAMS=['かもめクラブ','安佐クラブ','西風クラブ','西風ベアーズ','宇品ウィンズ',
+             '宇品ブレイブス','広島ウィンズ','海田ファイターズ','リーグ外・無所属'];
+function teamSuggest(){
+  const i=document.getElementById('teamInput');
+  const box=document.getElementById('teamSug');
+  const q=i.value.trim();
+  const exact=(TEAMS.indexOf(q)>=0);
+  const hit=TEAMS.filter(t=>t!==q && (q===''||t.indexOf(q)>=0)).slice(0,5);
+  let html=hit.map(t=>'<button class="sugi" onclick="teamPick(\''+t+'\')">'+t+'</button>').join('');
+  if(exact){
+    html='<div class="sugn">✓ <b>'+q+'</b> はリーグの48チームにあります。変えるときは打ち直してください。</div>';
+  }else if(q && hit.length===0){
+    html='<div class="sugn">候補にありません。<b>「'+q+'」のまま登録できます</b>（新しいチームでも申請や承認は要りません）。</div>';
+  }else if(q){
+    html+='<div class="sugn">候補48チームのうち '+hit.length+' 件。無ければ打ったままで登録できます。</div>';
+  }else{
+    html+='<div class="sugn">リーグ日程表から集めた48チーム。文字を打つと絞り込まれます。</div>';
+  }
+  box.innerHTML=html;
+  box.style.display='';
+}
+function teamPick(t){
+  document.getElementById('teamInput').value=t;
+  document.getElementById('teamSug').style.display='none';
 }
 function cancelShow(b){
   document.getElementById('cancelPreview').style.display='';
