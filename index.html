@@ -372,10 +372,15 @@ body.flat .foot{margin-top:18px;font-size:11.5px}
           <div id="bB" style="display:none">
             <div class="c" style="padding:11px">
               <select id="fDate" onchange="drawPeople()">
-                <option value="2026-09-20">9/20(日) で絞る</option>
-                <option value="2026-09-21">9/21(月祝) で絞る</option>
+                <option value="2026-09-20">9/20(日)　かもめクラブの試合</option>
+                <option value="2026-10-04">10/4(日)　かもめクラブの試合</option>
+                <option value="2026-10-17">10/17(土)　かもめクラブの試合</option>
+                <option value="other">その他の日（練習試合など）…</option>
                 <option value="">日にちで絞らない</option>
               </select>
+              <div style="font-size:11px;color:var(--sub);margin-top:5px">
+                候補は<b>リーグ日程表から出した自分のチームの試合日</b>です（年6〜7試合）。
+              </div>
               <div class="two" style="gap:6px;margin-top:6px">
                 <div>
                   <select id="fPos" onchange="drawPeople()">
@@ -403,10 +408,14 @@ body.flat .foot{margin-top:18px;font-size:11.5px}
           <div class="f">
             <div class="lab">日にち</div>
             <select id="nDate" onchange="countTargets()">
-              <option value="2026-09-20">9/20(日)</option>
-              <option value="2026-09-21">9/21(月祝)</option>
-              <option value="2026-09-26">9/26(土)</option>
+              <option value="2026-09-20">9/20(日)　かもめクラブの試合</option>
+              <option value="2026-10-04">10/4(日)　かもめクラブの試合</option>
+              <option value="2026-10-17">10/17(土)　かもめクラブの試合</option>
+              <option value="other">その他の日（練習試合など）…</option>
             </select>
+            <div style="font-size:11px;color:var(--sub);margin-top:5px">
+              リーグ日程表から、自分のチームの試合日が並びます。練習試合は自由に指定できます。
+            </div>
             <div class="two">
               <div><div class="lab">試合開始</div><select><option>9:00</option><option>13:00</option></select></div>
               <div><div class="lab">集合</div><select><option>8:30</option><option>12:30</option></select></div>
@@ -514,6 +523,47 @@ body.flat .foot{margin-top:18px;font-size:11.5px}
               <div class="row">
                 <button class="btn" onclick="ask(this)">この人にお願いする</button>
                 <button class="btn ghost" style="flex:0 0 90px" onclick="pass(this)">見送る</button>
+              </div>
+            </div>
+          </div>
+
+          <button class="tab" style="width:100%;text-align:left;margin:14px 0 10px" onclick="toggleRain(this)">⚠️ 雨で流れたとき　▾</button>
+          <div class="c" id="rainCard" style="display:none">
+            <div style="font-size:12.5px;color:var(--sub)">
+              当日の朝でも、ここから<b>確定した助っ人全員にすぐ届きます</b>。
+              助っ人に無駄足を踏ませると二度と来てもらえないので、ここが一番大事です。
+            </div>
+            <div class="lab">理由（任意・1行）</div>
+            <input type="text" value="雨でグラウンドが使えません">
+            <div class="lab">どちらですか</div>
+            <div class="chips">
+              <button class="chip on" onclick="one(this)">順延（日程は未定）</button>
+              <button class="chip" onclick="one(this)">中止（やらない）</button>
+            </div>
+            <div class="row">
+              <button class="btn" style="background:var(--hot)" onclick="cancelShow(this)">これを知らせる</button>
+            </div>
+
+            <div id="cancelPreview" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--edge)">
+              <div style="font-size:12px;font-weight:700;color:var(--hot);margin-bottom:8px">送られる内容（計2通）</div>
+
+              <div style="background:var(--soft);border-radius:10px;padding:11px;font-size:12.5px;margin-bottom:8px">
+                <b>助っ人の ゴロー さんへ</b><br>
+                ⚠️ 9/20(日) の試合は<b>順延</b>になりました<br>
+                かもめクラブ ／ 竜王公園<br>
+                <span style="color:var(--sub)">雨でグラウンドが使えません</span><br>
+                日程が決まり次第、また声をかけます
+              </div>
+
+              <div style="background:var(--soft);border-radius:10px;padding:11px;font-size:12.5px">
+                <b>西風ベアーズ 代表へ</b>（事前交渉の相手）<br>
+                ⚠️ 9/20(日) の助っ人の依頼は<b>取り消し</b>になりました<br>
+                <span style="color:var(--sub)">事前交渉の記録も閉じました</span>
+              </div>
+
+              <div style="font-size:12px;color:#0a7a3d;margin-top:10px;padding:9px;background:#e7f7ee;border-radius:9px">
+                ⭐ 順延先の日程が決まったら、<b>［前回来てくれる予定だった人に、もう一度声をかける］</b>
+                が押せます。1人ずつ探し直す必要はありません。
               </div>
             </div>
           </div>
@@ -671,7 +721,7 @@ const SCENES=[
   {id:'p-notify',chip:'④ 相手のLINEに届く',bar:'グランドリーグ',sub:'LINEのトーク',full:true,
    cap:'③で募集を出すと、<b>条件に合う人にだけ</b>この案内が届きます。全員には飛びません。<b>「行けます」を押すだけで返事が終わり</b>、画面を開く必要さえありません。'},
   {id:'p-manage',chip:'⑤ 手が挙がる',bar:'9/20(日) の募集',sub:'かもめクラブ',
-   cap:'<b>来た順に自動で確定はしません。</b>代表が選びます。<b>規約の上限（リーグ内の選手は4名まで／リーグ外の人は2名まで・第13条）を画面が数えている</b>ので、うっかり違反できません。<b>連絡先は確定した後にだけ、お互いに出ます。</b>'},
+   cap:'<b>来た順に自動で確定はしません。</b>代表が選びます。<b>規約の上限（リーグ内の選手は4名まで／リーグ外の人は2名まで・第13条）を画面が数えている</b>ので、うっかり違反できません。<b>連絡先は確定した後にだけ、お互いに出ます。</b><br>⚠️ 下の <b>「雨で流れたとき」</b> も見てください。<b>助っ人に無駄足を踏ませると二度と来てもらえない</b>ので、当日の朝でも2タップで全員に届くようにしました（［これを知らせる］を押すと、実際に送られる内容が出ます）。'},
   {id:'p-relay',chip:'⑥ 事前交渉が自動で済む',bar:'グランドリーグ',sub:'LINEのトーク',full:true,
    cap:'<b>ここがこのアプリの核です。</b>規約第13条の補足で、リーグ内の選手を借りるときは<b>「必ず事前交渉」</b>が義務。いまは知り合いを通じた個別LINEでやっている部分です。<br>助っ人が確定すると、<b>その選手の所属チーム代表にも自動で連絡が飛び、記録が残ります</b>。<b>人脈が無くても、規約どおりに借りられるようになります。</b><br>⚠️ 相手チームから誰も登録していないうちは通知先がないので、その旨を画面に出して、従来どおり個別に連絡してもらいます（<b>登録が増えるほど効いてくる仕組み</b>です）。'},
   {id:'p-me',chip:'⑦ 自分の登録',bar:'👤 わたしの助っ人カード',sub:'ゴロー',
@@ -696,13 +746,14 @@ function show(i){
 }
 
 /* ===== 見本の選手 ===== */
-const DOW={'2026-09-20':'日祝','2026-09-21':'日祝','2026-09-26':'土'};
+/* 日にちの候補＝リーグ日程表から出した「かもめクラブの試合日」 */
+const DOW={'2026-09-20':'日祝','2026-10-04':'日祝','2026-10-17':'土'};
 
 /* リーグ日程表から取り込んだ「その日に試合があるチーム」（誰も入力しない） */
 const BUSY={
   '2026-09-20':['宇品ウィンズ','安佐クラブ'],
-  '2026-09-21':['かもめクラブ','西風ベアーズ'],
-  '2026-09-26':['安佐クラブ']
+  '2026-10-04':['宇品ウィンズ'],
+  '2026-10-17':['西風ベアーズ','安佐クラブ']
 };
 
 const PLAYERS=[
@@ -727,20 +778,25 @@ function bTab(k){
 }
 
 /* その日に試合があるチーム数（リーグ日程表より。1日1〜6試合＝2〜12チーム） */
-const BUSYN={'2026-09-20':8,'2026-09-21':6,'2026-09-26':4};
-const LABEL={'2026-09-20':'9/20(日)','2026-09-21':'9/21(月祝)','2026-09-26':'9/26(土)'};
+const BUSYN={'2026-09-20':8,'2026-10-04':6,'2026-10-17':10};
+const LABEL={'2026-09-20':'9/20(日)','2026-10-04':'10/4(日)','2026-10-17':'10/17(土)'};
 
 function drawPeople(){
   const d=document.getElementById('fDate').value;
   const p=document.getElementById('fPos').value;
   const a=document.getElementById('fArea').value;
 
+  const dk=(d && d!=='other')?d:'';        /* 日程表に載っている日だけ照合に使う */
   const dl=document.getElementById('dayline');
-  if(d){
-    const b=BUSYN[d]||0;
-    dl.innerHTML='📅 <b>'+LABEL[d]+'</b>：リーグ48チームのうち、試合があるのは <b>'+b+'チーム</b>。'+
+  if(dk){
+    const b=BUSYN[dk]||0;
+    dl.innerHTML='📅 <b>'+LABEL[dk]+'</b>：リーグ48チームのうち、試合があるのは <b>'+b+'チーム</b>。'+
       '<b>'+(48-b)+'チーム</b>はこの日は試合がありません。'+
       '<br>リーグの日程表を毎日自動で読んでいます（誰も入力していません）。';
+    dl.style.display='';
+  }else if(d==='other'){
+    dl.innerHTML='📅 <b>日程表に無い日</b>（練習試合など）。日にちを直接入れて使います。'+
+      '<br>この場合は「その日チームに試合があるか」が分からないので、<b>🔵の判定はつきません</b>。';
     dl.style.display='';
   }else{
     dl.style.display='none';
@@ -748,13 +804,13 @@ function drawPeople(){
   const list=PLAYERS.filter(x=>
     (!p || x.pos.includes(p) || x.pos.includes('どこでも')) &&
     (!a || x.ar.includes(a)) &&
-    (!d || x.dw.includes(DOW[d]))
+    (!dk || x.dw.includes(DOW[dk]))
   );
   const box=document.getElementById('people');
   if(!list.length){ box.innerHTML='<div class="c" style="text-align:center;color:var(--sub);font-size:13px">この条件に合う人はいません</div>'; return; }
   box.innerHTML=list.map(x=>{
-    const busy=busyOn(d,x.t);
-    const st=busy?'busy':(d?(x.ans[d]||'un'):'un');
+    const busy=busyOn(dk,x.t);
+    const st=busy?'busy':(dk?(x.ans[dk]||'un'):'un');
     const label={
       ok:'<span class="ok">🟢 空いてます</span>',
       ng:'<span class="ng">🔴 予定あり</span>',
@@ -769,7 +825,7 @@ function drawPeople(){
     return '<div class="p"><div class="ico">'+x.n[0]+'</div><div class="pinfo">'+
       '<div class="pname">'+x.n+' <span>'+team+'</span></div>'+
       '<div class="pspec">'+x.pos.join('・')+' ／ '+x.lv+' ／ '+x.ar.join('・')+'</div>'+
-      '<div class="pfree">'+(d?label:'')+cnt+call+'</div>'+note+'</div></div>';
+      '<div class="pfree">'+(dk?label:'')+cnt+call+'</div>'+note+'</div></div>';
   }).join('');
 }
 
@@ -779,10 +835,11 @@ function countTargets(){
   const pos=[...document.querySelectorAll('#nPos .chip.on')].map(b=>b.dataset.v);
   const ar=[...document.querySelectorAll('#nArea .chip.on')].map(b=>b.dataset.v);
   const lv=document.querySelector('#nLv .chip.on').dataset.v;
+  const dk=(d && d!=='other')?d:'';
   const n=PLAYERS.filter(x=>
     x.t!=='かもめクラブ' &&          /* 自分のチームの選手には送らない */
-    !busyOn(d,x.t) &&               /* リーグ日程表：その日チームに試合がある人を除く */
-    x.dw.includes(DOW[d]) &&
+    !busyOn(dk,x.t) &&              /* リーグ日程表：その日チームに試合がある人を除く */
+    (!dk || x.dw.includes(DOW[dk])) &&
     x.ar.some(v=>ar.includes(v)) &&
     (pos.includes('どこでも')||x.pos.some(v=>pos.includes(v)||v==='どこでも')) &&
     (lv==='誰でも'||x.lv==='経験者')
@@ -812,6 +869,17 @@ function ask(b){
   b.closest('.row').outerHTML='<div style="font-size:13px;font-weight:700;color:#0a7a3d;margin-top:6px">確定しました。お互いに集合場所と連絡先が届きます</div>';
 }
 function pass(b){ b.closest('.p').style.opacity=.45; b.closest('.row').outerHTML='<div style="font-size:12.5px;color:var(--sub);margin-top:6px">今回は見送りました</div>'; }
+function toggleRain(b){
+  const c=document.getElementById('rainCard');
+  const open=(c.style.display==='none');
+  c.style.display=open?'':'none';
+  b.textContent='⚠️ 雨で流れたとき　'+(open?'▴':'▾');
+}
+function cancelShow(b){
+  document.getElementById('cancelPreview').style.display='';
+  b.disabled=true; b.textContent='知らせました';
+  b.style.background='';
+}
 
 show(0); drawPeople(); countTargets();
 
