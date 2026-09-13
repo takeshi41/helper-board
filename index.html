@@ -42,15 +42,22 @@ body{
 }
 .step.on{background:var(--navy);border-color:var(--navy);color:#fff}
 
-/* 場面の送り（電話の真下） */
-.nav{display:flex;align-items:center;gap:8px;max-width:390px;margin:16px auto 0}
+/* 場面の送り（電話の上。スクロールしても貼り付いて消えない） */
+.navwrap{
+  position:sticky;top:0;z-index:5;background:var(--bg);
+  padding:8px 0 10px;margin:0 0 10px;box-shadow:0 6px 10px -8px rgba(20,35,60,.35)
+}
+.nav{display:flex;align-items:center;gap:8px;max-width:390px;margin:0 auto}
 .nav button{
-  border:1px solid var(--edge);background:#fff;border-radius:11px;padding:12px 12px;
+  border:1px solid var(--edge);background:#fff;border-radius:11px;padding:13px 12px;
   font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;color:var(--navy)
 }
-.nav .nx{flex:1;background:var(--navy);color:#fff;border-color:var(--navy)}
-.nav button:disabled{opacity:.35;cursor:default}
-.navpos{font-size:11.5px;color:var(--sub);text-align:center;margin:8px auto 0}
+.nav .nx{
+  flex:1;background:var(--navy);color:#fff;border-color:var(--navy);font-size:14.5px;
+  box-shadow:0 2px 8px rgba(27,43,69,.3)
+}
+.nav button:disabled{opacity:.3;cursor:default;box-shadow:none}
+.navpos{font-size:11.5px;color:var(--sub);text-align:center;margin:7px auto 0}
 .caption{
   background:#fff;border:1px solid var(--edge);border-radius:12px;
   padding:12px 14px;font-size:13.5px;margin:0 0 16px
@@ -222,7 +229,7 @@ select,input[type=text]{
 .foot{max-width:640px;margin:26px auto 0;font-size:12.5px;color:var(--sub);text-align:center}
 
 /* ===== 画像書き出し用（?flat=1&s=N） ===== */
-body.flat .steps,body.flat .note,body.flat .nav,body.flat .navpos{display:none}
+body.flat .steps,body.flat .note,body.flat .navwrap{display:none}
 body.flat .page{max-width:440px;padding:16px 14px 18px}
 body.flat .head{margin:0 0 12px}
 body.flat .head h1{font-size:18px}
@@ -260,11 +267,19 @@ body.flat .foot{margin-top:18px;font-size:11.5px}
   <div class="note">
     これは<b>見た目の見本（モック）</b>です。まだ中身は動いていません。文字やボタンはお試しで押せます。<br>
     実際はこの画面が <b>LINE の中で開く</b>イメージです（アプリのインストールは不要）。<br>
-    <b>全部で7場面あります。電話の下にある［次へ］で順にご覧ください。</b>
+    <b>全部で7場面あります。［次へ］で順にご覧ください</b>（スクロールしても画面の上に残ります）。
   </div>
 
   <div class="steps" id="steps"></div>
   <div class="caption" id="caption"></div>
+
+  <div class="navwrap">
+    <div class="nav">
+      <button id="navPrev" onclick="step(-1)">← 前へ</button>
+      <button class="nx" id="navNext" onclick="step(1)">次へ</button>
+    </div>
+    <div class="navpos" id="navPos"></div>
+  </div>
 
   <div class="phone">
     <div class="screen">
@@ -710,12 +725,6 @@ body.flat .foot{margin-top:18px;font-size:11.5px}
       </div>
     </div>
   </div>
-
-  <div class="nav">
-    <button id="navPrev" onclick="step(-1)">← 前へ</button>
-    <button class="nx" id="navNext" onclick="step(1)">次へ</button>
-  </div>
-  <div class="navpos" id="navPos"></div>
 
   <div class="foot">
     ⚾ 出欠管理（調整さん）の代わりではありません。チーム内の出欠は今のままで、<br>
