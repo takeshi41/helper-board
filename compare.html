@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>アプリの提供形態の比較 ｜ 試合マッチングアプリ</title>
+<style>
+:root{
+  --navy:#1b2b45; --ink:#222c3a; --sub:#6b7789; --bg:#eef1f5;
+  --edge:#e2e7ee; --soft:#f7f9fc; --hot:#e8590c; --ok:#14803c; --blue:#1c5fa8;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--ink);line-height:1.75;
+  font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+}
+.page{max-width:980px;margin:0 auto;padding:28px 18px 70px}
+
+h1{font-size:23px;margin:0 0 6px;color:var(--navy)}
+.meta{font-size:13px;color:var(--sub);margin:0 0 22px}
+
+h2{font-size:17px;margin:38px 0 12px;padding:0 0 8px;color:var(--navy);border-bottom:2px solid var(--navy)}
+h3{font-size:14.5px;margin:22px 0 8px;color:var(--navy)}
+
+p{margin:0 0 12px}
+ul{margin:0 0 12px;padding-left:22px}
+li{margin:0 0 6px}
+
+table{width:100%;border-collapse:collapse;margin:0 0 16px;background:#fff;font-size:13px}
+th,td{border:1px solid var(--edge);padding:9px 10px;text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:700;color:var(--navy)}
+thead th{white-space:nowrap}
+td.c,th.c{text-align:center}
+tbody th{white-space:nowrap;width:150px}
+
+.o{color:var(--ok);font-weight:700}
+.x{color:var(--hot);font-weight:700}
+.t{color:#b08900;font-weight:700}
+
+.card{background:#fff;border:1px solid var(--edge);border-radius:12px;padding:16px 18px;margin:0 0 14px}
+.card.hot{border-left:5px solid var(--hot);background:#fffaf9}
+.card.ok{border-left:5px solid var(--ok);background:#f7fdf9}
+.card.blue{border-left:5px solid var(--blue);background:#f7fbff}
+.card h3{margin-top:0}
+
+.lead{background:#fff;border:1px solid var(--edge);border-radius:12px;padding:18px 20px;margin:0 0 16px}
+.lead .big{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:10px}
+
+.pill{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px;margin-right:5px}
+.p-chk{background:#fdeeea;color:var(--hot)}
+.p-new{background:#eef6ff;color:var(--blue)}
+
+.flow{
+  background:#fff;border:1px solid var(--edge);border-radius:12px;padding:16px;margin:0 0 14px;
+  font-family:ui-monospace,Consolas,"Courier New",monospace;font-size:12.5px;line-height:1.85;
+  white-space:pre;overflow-x:auto
+}
+.numrow{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.numrow>div{flex:1;min-width:140px;background:#fff;border:1px solid var(--edge);border-radius:12px;padding:14px;text-align:center}
+.numrow .n{font-size:25px;font-weight:700;color:var(--navy);line-height:1.2}
+.numrow .cap{font-size:11.5px;color:var(--sub);margin-top:3px}
+
+.foot{margin-top:38px;padding-top:16px;border-top:1px solid var(--edge);font-size:12px;color:var(--sub)}
+
+@media print{
+  body{background:#fff}
+  .page{max-width:none;padding:0}
+  table,.card,.lead,.flow,.numrow>div{break-inside:avoid}
+  h2{break-after:avoid}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>アプリの提供形態の比較</h1>
+  <p class="meta">
+    試合マッチングアプリ ／ 2026年9月20日 作成<br>
+    「アプリにする」と言っても方法が複数あり、それぞれ長所と短所が違います。<br>
+    <span class="pill p-chk">要確認</span> の印がある数値は、変わることがあるため決定前に再確認が必要です。
+  </p>
+
+  <div class="lead">
+    <div class="big">先に結論</div>
+    <p><b>Webアプリ（ホーム画面に置ける形＝PWA）で「始める」</b>ことを勧めます。</p>
+    <p>理由は<b>「いまが、まだ何も決まっていない段階だから」</b>です。</p>
+    <ul>
+      <li><b>後から変えられる。</b>Webで作ったものは、後からストアアプリにできる。<b>逆はできない</b></li>
+      <li><b>直したらすぐ反映できる。</b>ストアは審査待ちが挟まる。仕様が固まっていない時期には致命的</li>
+      <li><b>作る量・保守する量が少ない。</b>ストアは iOS と Android の2本＋審査対応。本業の傍らでは重い</li>
+    </ul>
+    <p style="margin-bottom:0">⚠️ <b>「ストアアプリにしない」という話ではありません。</b>
+    1つの団体で実際に回して、<b>通知がどれだけ届くかを実測してから</b>、ストア版を出すか決めれば済みます。
+    いま決め打ちする必要がない、というのが要点です。</p>
+  </div>
+
+
+  <h2>1. ⭐ 誰が、どれくらい使うのか</h2>
+
+  <p><b>ここを間違えると結論を誤ります。</b>最初に押さえてください。</p>
+
+  <h3>1-1. 利用者は2種類。数が桁違いに違う</h3>
+
+  <table>
+    <thead>
+      <tr><th style="width:130px">利用者</th><th class="c" style="width:110px">人数の目安</th><th>やること</th></tr>
+    </thead>
+    <tbody>
+      <tr><th><b>選手</b></th>
+        <td class="c"><b>約1,000人</b><br><span style="font-size:11.5px;color:var(--sub)">50チーム×約20人</span></td>
+        <td>助っ人の依頼に「行けます／無理です」で答える<br>自分の登録（最初に1回）</td></tr>
+      <tr><th><b>チーム代表</b></th>
+        <td class="c">約50人</td>
+        <td>対戦相手の募集／助っ人の募集／応募者を選ぶ／中止・順延を知らせる<br>自チームの選手への助っ人依頼を確認する</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card hot">
+    <h3>⚠️ 主役は「選手」です</h3>
+    <p style="margin-bottom:0"><b>人数が20倍違います。</b>
+    アプリを一番多く開くのはチーム代表ではなく、<b>助っ人として声をかけられる選手の方</b>です。
+    提供形態を考えるときは、<b>この1,000人にとってどうか</b>で判断する必要があります。</p>
+  </div>
+
+  <h3>1-2. ⭐ 選手は「自チームの試合がない日」にこそ使う</h3>
+
+  <div class="flow">シーズン（3月〜11月）の土日           約 78 日
+      −
+自分のチームの活動日（リーグ戦＋練習試合）  約 15〜20 日
+      ＝
+<b>自チームの試合がない土日              約 60 日</b>
+                                       ↑
+                <b>ここが「助っ人として声をかけられる日」</b></div>
+
+  <div class="numrow">
+    <div><div class="n">9試合</div><div class="cap">1チームの年間リーグ戦</div></div>
+    <div><div class="n">約60日</div><div class="cap">自チームの試合がない土日</div></div>
+    <div><div class="n" style="color:var(--hot)">週1回</div><div class="cap">シーズン中に何か触る頻度</div></div>
+  </div>
+
+  <p><b>自チームの試合より、他チームを手伝える日の方がずっと多い。</b>
+  そして助っ人の募集はリーグ全体で毎週のように出るため、
+  <b>選手には週に1回程度、何かしらの通知が届く</b>ことになります。</p>
+
+  <div class="card blue">
+    <h3>使用頻度の見積もり</h3>
+    <table style="margin-bottom:0">
+      <thead><tr><th style="width:130px"></th><th>シーズン中（3〜11月）</th><th>オフシーズン</th></tr></thead>
+      <tbody>
+        <tr><th>選手</th><td><b>週に1回程度</b>（通知を見て答える）</td><td>ほぼ使わない</td></tr>
+        <tr><th>チーム代表</th><td><b>週に1〜数回</b>（募集の管理・応募者を選ぶ・依頼の確認）</td><td>ほぼ使わない</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>1-3. これが提供形態の判断にどう効くか</h3>
+
+  <table>
+    <thead><tr><th style="width:200px">頻度が高いことの影響</th><th>どちらに有利か</th></tr></thead>
+    <tbody>
+      <tr><th>ホーム画面に追加する動機が生まれる</th>
+        <td><b>PWAに有利。</b>月1回なら面倒がられるが、<b>週1回使うなら追加してもらいやすい</b></td></tr>
+      <tr><th>ログインが切れにくくなる</th>
+        <td><b>Webに有利。</b>iPhoneで保存データが消えるのは「しばらく開かない」場合。
+            <b>週1回開いていれば、そもそも切れない</b></td></tr>
+      <tr><th>アイコンから開く回数が増える</th>
+        <td><b>ストアアプリにやや有利。</b>ただしPWAでも同じアイコンが置ける</td></tr>
+      <tr><th>通知の重要性が上がる</th>
+        <td><b>ストアアプリに有利。</b>週次で通知するので、届かない人が多いと致命的</td></tr>
+      <tr><th>通知疲れのリスクが上がる</th>
+        <td><b>どちらも同じ。</b>送りすぎると止められる。<b>絞り込みの設計が必須</b></td></tr>
+    </tbody>
+  </table>
+
+  <div class="card ok">
+    <p style="margin-bottom:0"><b>まとめると、頻度が高いことは Web にとって全体として追い風です。</b>
+    Webの2大弱点（ホーム画面に追加してもらえない・ログインが切れる）が、どちらも小さくなるからです。<br>
+    ただし<b>「通知が確実に届くこと」の重要性は上がります。</b>ここだけは慎重に設計する必要があります。</p>
+  </div>
+
+
+  <h2>2. 選択肢は6つあります</h2>
+
+  <table>
+    <thead>
+      <tr><th style="width:44px" class="c">#</th><th style="width:180px">方式</th><th>どんなものか</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="c">1</td><td><b>Webアプリ</b></td><td>ブラウザで開く、ふつうのホームページの形。URLがある</td></tr>
+      <tr><td class="c">2</td><td><b>PWA</b></td><td>Webアプリを<b>ホーム画面に置けるようにしたもの。</b>ストアを通さない</td></tr>
+      <tr><td class="c">3</td><td><b>ストアアプリ</b></td><td>App Store / Google Play で配るアプリ</td></tr>
+      <tr><td class="c">4</td><td><b>LIFFアプリ</b></td><td>LINEの中で開くWebアプリ</td></tr>
+      <tr><td class="c">5</td><td>LINEミニアプリ</td><td>4の上位版。LINEの「ミニアプリ」枠で配信。審査あり</td></tr>
+      <tr><td class="c">6</td><td>LINEボットのみ</td><td>画面を作らず、トークのやり取りだけで完結させる</td></tr>
+    </tbody>
+  </table>
+
+  <p><b>1と2は同じもの</b>（2は1に部品を足しただけ）、<b>5は4の上位版</b>です。
+  6は一覧表示や絞り込みが作れないので、今回の用途には向きません。<br>
+  <b>実質的には「Web系」「ストア系」「LINE系」の3系統</b>から選ぶことになります。</p>
+
+
+  <h2>3. 主要4方式の比較</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:150px">観点</th>
+        <th class="c">Webアプリ</th>
+        <th class="c">PWA</th>
+        <th class="c">ストアアプリ</th>
+        <th class="c">LIFF</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><th>始めるとき</th>
+        <td class="c"><span class="o">◎</span><br>URLを開くだけ</td>
+        <td class="c"><span class="o">◯</span><br>URL＋ホーム画面に追加</td>
+        <td class="c"><span class="x">✕</span><br><b>インストールが必要</b></td>
+        <td class="c"><span class="o">◎</span><br>友だち追加だけ</td></tr>
+
+      <tr><th>2回目以降</th>
+        <td class="c"><span class="t">△</span><br>URL・ブックマーク</td>
+        <td class="c"><span class="o">◎</span><br><b>ホーム画面のアイコン</b></td>
+        <td class="c"><span class="o">◎</span><br>ホーム画面のアイコン</td>
+        <td class="c"><span class="o">◎</span><br>LINEのメニュー</td></tr>
+
+      <tr><th>ログイン</th>
+        <td class="c"><span class="o">◯</span><br>必要だがボタン1つ<br><span style="font-size:11px">週1回使うので切れにくい</span></td>
+        <td class="c"><span class="o">◯</span><br>同左</td>
+        <td class="c"><span class="t">△</span><br><b>必要</b>（一度したら切れない）</td>
+        <td class="c"><span class="o">◎</span><br><b>不要</b></td></tr>
+
+      <tr><th>通知</th>
+        <td class="c"><span class="t">△</span><br>メール／iPhoneに制約</td>
+        <td class="c"><span class="o">◯</span><br>メール＋プッシュ</td>
+        <td class="c"><span class="o">◎</span><br><b>確実</b></td>
+        <td class="c"><span class="t">△</span><br>確実だが<b>有料</b></td></tr>
+
+      <tr><th>審査</th>
+        <td class="c"><span class="o">◎</span> なし</td>
+        <td class="c"><span class="o">◎</span> なし</td>
+        <td class="c"><span class="x">✕</span><br><b>あり。直すたび待ち</b></td>
+        <td class="c"><span class="o">◎</span> なし</td></tr>
+
+      <tr><th>他の団体への展開</th>
+        <td class="c"><span class="o">◎</span><br>1つで全部</td>
+        <td class="c"><span class="o">◎</span><br>1つで全部</td>
+        <td class="c"><span class="o">◎</span><br>1つで全部</td>
+        <td class="c"><span class="x">✕</span><br><b>団体ごとにLINE設定が要る</b></td></tr>
+
+      <tr><th>作る手間</th>
+        <td class="c"><span class="o">◎</span> 最小</td>
+        <td class="c"><span class="o">◯</span> ほぼ同じ</td>
+        <td class="c"><span class="x">✕</span><br><b>iOS/Android 2つ分</b></td>
+        <td class="c"><span class="o">◯</span></td></tr>
+
+      <tr><th>直したとき</th>
+        <td class="c"><span class="o">◎</span><br>すぐ反映</td>
+        <td class="c"><span class="o">◎</span><br>すぐ反映</td>
+        <td class="c"><span class="x">✕</span><br>審査待ち・更新が要る</td>
+        <td class="c"><span class="o">◎</span><br>すぐ反映</td></tr>
+
+      <tr><th>費用（こちら側）</th>
+        <td class="c">サーバー代のみ</td>
+        <td class="c">サーバー代のみ</td>
+        <td class="c"><b>Apple 年 $99</b><br>Google 初回 $25</td>
+        <td class="c">通知が<b>月5,000円〜</b></td></tr>
+    </tbody>
+  </table>
+
+
+  <h2>4. ⭐ Android と iPhone の違い</h2>
+
+  <p>同じ作り方をしても、この2つでは体験がかなり違います。</p>
+
+  <h3>4-1. ホーム画面への追加（PWAの場合）</h3>
+
+  <table>
+    <thead>
+      <tr><th style="width:170px">項目</th><th>Android（Chrome）</th><th>iPhone（Safari）</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>追加のお誘い</th>
+        <td><span class="o">◎</span> <b>ブラウザが自動で「インストールしますか？」と出す</b></td>
+        <td><span class="x">✕</span> <b>何も出ない。</b>こちらから案内しないと気づかれない</td></tr>
+      <tr><th>追加の手順</th>
+        <td>出てきたボタンを押すだけ</td>
+        <td><span class="x">⚠️</span> <b>共有ボタン → 下にスクロール → 「ホーム画面に追加」</b><br>気づきにくく、説明が必要</td></tr>
+      <tr><th>追加後の見た目</th>
+        <td><span class="o">◎</span> ほぼふつうのアプリ</td>
+        <td><span class="o">◎</span> ほぼふつうのアプリ</td></tr>
+      <tr><th>実際の追加率</th>
+        <td>比較的高い</td>
+        <td><span class="t">週1回使うなら上がる</span>が、<b>全員はやってくれない</b></td></tr>
+    </tbody>
+  </table>
+
+  <div class="card hot">
+    <h3>⚠️ 「ホーム画面に置いてもらえないと、どうなるのか」</h3>
+
+    <p><b>PWAとは「ホーム画面にアイコンを置けるWebアプリ」のことです。</b>
+    ただし<b>置くかどうかは利用者次第</b>で、こちらから強制はできません。
+    <b>置いてくれなかった人がどうなるか</b>——ここが要点です。</p>
+
+    <table style="margin-bottom:12px">
+      <thead>
+        <tr><th style="width:170px"></th>
+            <th class="c">ホーム画面に置いた人</th>
+            <th class="c">置かなかった人</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>どうやって開くか</th>
+          <td class="c">アイコンをタップ<br><span style="font-size:11.5px;color:var(--sub)">ストアアプリと同じ</span></td>
+          <td class="c">URL・ブックマークから</td></tr>
+        <tr><th><b>そもそも使えるのか</b></th>
+          <td class="c"><span class="o">◎</span> 使える</td>
+          <td class="c"><span class="o">◯</span> <b>使えます</b><br><span style="font-size:11.5px;color:var(--sub)">開くのが少し面倒なだけ</span></td></tr>
+        <tr><th>通知（Android）</th>
+          <td class="c"><span class="o">◎</span> 届く</td>
+          <td class="c"><span class="o">◎</span> <b>届く</b></td></tr>
+        <tr><th>通知（iPhone）</th>
+          <td class="c"><span class="o">◎</span> 届く</td>
+          <td class="c"><span class="x">✕</span> <b>届かない</b></td></tr>
+      </tbody>
+    </table>
+
+    <p><b>つまり問題は「アプリが使えなくなる」ことではありません。</b>
+    置かなくても普通に使えます。<b>困るのは「通知が届かなくなる」こと、しかも iPhone だけ</b>です。</p>
+
+    <p style="margin-bottom:0">そして iPhone は<b>ブラウザが「追加しますか？」と勧めてくれません。</b>
+    利用者が自分で共有ボタンから操作する必要があり、気づかれにくい。<br>
+    <b>「置いてもらいにくい」×「置かないと通知が来ない」という二重の壁が、iPhone にだけあります。</b>
+    <b>ここが、PWA をストアアプリと完全に同じとは考えられない理由です。</b></p>
+  </div>
+
+  <div class="card ok">
+    <h3>ただし、悲観しすぎる必要もありません</h3>
+    <ul style="margin-bottom:0">
+      <li><b>週に1回使うアプリなので、置いてもらいやすい。</b>月1回しか使わないアプリより、動機がはっきりしています（第1章）</li>
+      <li><b>置かなかった人にも、メールで通知できます。</b>通知が完全に途絶えるわけではありません</li>
+      <li><b>「ホーム画面に追加してください」の案内を、画面の中で丁寧にやれば</b>、かなりの人が置いてくれます</li>
+    </ul>
+  </div>
+
+  <h3>4-2. 通知</h3>
+
+  <table>
+    <thead>
+      <tr><th style="width:170px">方式</th><th>Android</th><th>iPhone</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>メール</th>
+        <td><span class="o">◎</span> 確実に届く</td>
+        <td><span class="o">◎</span> 確実に届く</td></tr>
+      <tr><th>Webのプッシュ通知</th>
+        <td><span class="o">◎</span> <b>ブラウザのままでも届く</b></td>
+        <td><span class="x">⚠️</span> <b>ホーム画面に追加した人にしか届かない</b><br>（iOS 16.4 以降が必要）</td></tr>
+      <tr><th>ストアアプリの通知</th>
+        <td><span class="o">◎</span> 確実</td>
+        <td><span class="o">◎</span> 確実</td></tr>
+      <tr><th>LINEの通知</th>
+        <td><span class="o">◎</span> 確実・開封率が高い</td>
+        <td><span class="o">◎</span> 確実・開封率が高い</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card hot">
+    <h3>⚠️ ここが Web の唯一にして最大の弱点です</h3>
+    <p><b>週に1回、約1,000人に通知が飛ぶ</b>のがこのアプリです。<b>通知が届かないと何も起きません。</b></p>
+    <p><b>対策：メールを基本線にして、プッシュ通知は「上乗せ」と考える。</b></p>
+    <div class="flow">全員      ──→ <b>メール</b>          確実に届く。これを土台にする
+                        ＋
+一部の人  ──→ <b>プッシュ通知</b>   ・Android の人
+                                 ・iPhone でホーム画面に置いてくれた人</div>
+    <p style="margin-bottom:0"><b>「プッシュが届くのは全員ではない」前提で、メールだけでも成立する形</b>にしておく必要があります。</p>
+  </div>
+
+  <h3>4-3. ログイン状態の持ち</h3>
+
+  <table>
+    <thead>
+      <tr><th style="width:170px">項目</th><th>Android</th><th>iPhone</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>Webアプリの場合</th>
+        <td><span class="o">◯</span> 比較的長く保たれる</td>
+        <td><span class="t">△</span> しばらく開かないと消えることがある<br>
+            （7日程度と言われる <span class="pill p-chk">要確認</span>）<br>
+            ⭐ <b>週1回開いていれば、そもそも切れない</b></td></tr>
+      <tr><th>ストアアプリの場合</th>
+        <td><span class="o">◎</span> ほぼ消えない</td>
+        <td><span class="o">◎</span> ほぼ消えない</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card blue">
+    <h3>さらに、切れても困らない作りにできます</h3>
+    <div class="flow">「◯月◯日の助っ人を募集しています」という通知が届く
+      ↓
+リンクを押す
+      ↓
+リンクの中に「本人である印」を入れておくので
+そのままログインした状態で開く
+      ↓
+<b>ログイン画面を一度も見ない</b></div>
+    <p style="margin-bottom:0">このアプリは<b>「通知が来て、そこから開く」</b>のが主な使われ方です。
+    この経路さえ押さえれば、ログイン切れは実質的に問題になりません。</p>
+  </div>
+
+  <h3>4-4. ストアに出す場合の違い</h3>
+
+  <table>
+    <thead>
+      <tr><th style="width:170px">項目</th><th>Android（Google Play）</th><th>iPhone（App Store）</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>登録料</th>
+        <td>初回 <b>$25</b>（買い切り）</td>
+        <td><b>年 $99</b>（毎年かかる） <span class="pill p-chk">要確認</span></td></tr>
+      <tr><th>審査</th>
+        <td>比較的ゆるい・早い</td>
+        <td><span class="x">⚠️</span> <b>厳しい・時間がかかる</b></td></tr>
+      <tr><th>マッチング系の審査</th>
+        <td>比較的通りやすい</td>
+        <td><span class="x">⚠️</span> <b>通報・ブロック機能や対応体制を求められる</b><br>出会い系と誤解されるリスクもある</td></tr>
+      <tr><th>アプリ内課金の手数料</th>
+        <td>15〜30% <span class="pill p-chk">要確認</span></td>
+        <td>15〜30% <span class="pill p-chk">要確認</span></td></tr>
+      <tr><th>ストアを通さない配布</th>
+        <td><span class="o">◯</span> 可能</td>
+        <td><span class="x">✕</span> 実質できない</td></tr>
+      <tr><th>直したときの反映</th>
+        <td>数時間〜1日</td>
+        <td><span class="x">⚠️</span> <b>審査待ち。</b>さらに利用者が更新しないと古いまま</td></tr>
+    </tbody>
+  </table>
+
+
+  <h2>5. 利用者から見た「始め方」の違い</h2>
+
+  <table>
+    <thead>
+      <tr><th style="width:130px">方式</th><th>利用者にお願いすること</th><th class="c" style="width:90px">脱落しやすさ</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>LIFF</th>
+        <td>LINEで友だち追加する</td>
+        <td class="c"><span class="o">とても低い</span></td></tr>
+      <tr><th>Webアプリ</th>
+        <td>URLを開く → ログイン（ボタン1つで済む形にできる）</td>
+        <td class="c"><span class="o">低い</span></td></tr>
+      <tr><th>PWA</th>
+        <td>URLを開く → ログイン → <b>ホーム画面に追加</b></td>
+        <td class="c"><span class="t">やや高い</span></td></tr>
+      <tr><th>ストアアプリ</th>
+        <td>ストアを探す → <b>インストール</b> → 起動 → ログイン</td>
+        <td class="c"><span class="x">高い</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="card">
+    <h3>ログインは「パスワードを作らせない」形にできます</h3>
+    <p style="margin-bottom:0">「LINEでログイン」「Googleでログイン」を使えば、<b>ボタンを1つ押して「許可」するだけ</b>です。
+    パスワードの入力はゼロ、名前も自動で入ります。<br>
+    ⭐ <b>「LINEでログイン」は無料で、ふつうのホームページでも使えます。</b>
+    LINEで費用がかかるのは「<b>こちらから通知を送る</b>」機能だけです。</p>
+  </div>
+
+  <div class="card hot">
+    <h3>⚠️ 1,000人にインストールしてもらうということ</h3>
+    <p style="margin-bottom:0">ストアアプリを選ぶと、<b>約1,000人の選手全員にインストールしてもらう</b>必要があります。
+    そのうち一人でも多く入れてもらえないと、<b>助っ人が見つからず、アプリが成立しません。</b><br>
+    <b>「URLを開くだけ」と「ストアからインストール」の差は、1,000人分に効いてきます。</b></p>
+  </div>
+
+
+  <h2>6. 今回の条件に当てはめると</h2>
+
+  <table>
+    <thead>
+      <tr><th style="width:230px">今回の条件</th><th>どの方式に有利に働くか</th></tr>
+    </thead>
+    <tbody>
+      <tr><th><b>お金を払うのは団体</b></th>
+        <td><b>ストアアプリにやや有利。</b>
+            団体が払うということは<b>導入が上から降りてくる</b>ということなので、
+            「リーグからのお願い」で<b>インストールの壁を越えやすくなります</b></td></tr>
+      <tr><th><b>選手が約1,000人いる</b></th>
+        <td><b>Web / PWA にやや有利。</b>全員にインストールを求めるのは負担が大きい。<br>
+            ただし上記のとおり、<b>団体が号令をかけるなら越えられる</b>可能性はある</td></tr>
+      <tr><th><b>仕様がまだ固まっていない</b><span class="pill p-new">最重要</span></th>
+        <td><b>Web / PWA。</b>直したらすぐ反映できる。
+            <b>ストアは審査待ちが挟まり、立ち上げ期には致命的</b></td></tr>
+      <tr><th><b>少人数・本業の傍らで作る</b></th>
+        <td><b>Web / PWA。</b>ストアは iOS と Android の2本＋審査対応＋更新の配布</td></tr>
+      <tr><th><b>週1回ほど使う</b></th>
+        <td><b>Web / PWA にやや有利。</b>ホーム画面に追加してもらいやすく、ログインも切れにくい。<br>
+            ただし<b>通知の確実さの重要性が上がる</b>ので、その点だけはストアが有利</td></tr>
+      <tr><th>通知から開くのが主</th>
+        <td><b>どれでも可。</b>ただし通知手段の確保が必須</td></tr>
+      <tr><th>まず1つの団体で立ち上げる</th>
+        <td><b>Web / PWA。</b>URLを配るのが一番速い。<b>最初に人が集まらないとアプリが成立しない</b></td></tr>
+      <tr><th>他の団体・他の競技へ広げたい</th>
+        <td><b>Web / PWA / ストア。</b>LIFFは団体ごとにLINEの設定が必要で不利</td></tr>
+      <tr><th>少人数で長く保守する</th>
+        <td><b>Web / PWA。</b>1つのコードで済む</td></tr>
+      <tr><th>競合が既にストアアプリ</th>
+        <td><b>Web / PWA。</b>同じ土俵では後発が不利。<b>「インストール不要」が差別化になる</b></td></tr>
+    </tbody>
+  </table>
+
+
+  <h2>7. ストアアプリが勝つ場面（公平のために）</h2>
+
+  <div class="card ok">
+    <ul style="margin-bottom:0">
+      <li><b>iPhoneでも通知が確実に届く。</b>週1回・1,000人に通知するアプリなので、<b>ここは今回いちばん重い長所</b></li>
+      <li><b>信頼感・売り込みやすさ。</b>「App Storeにあります」は団体への提案で効く。<b>これは本物の価値</b></li>
+      <li><b>ログイン状態が消えない</b></li>
+      <li>ストア内で偶然見つけてもらえる可能性（ただし新規で評価ゼロのアプリが上位に出ることは、まずない）</li>
+    </ul>
+  </div>
+
+  <div class="card hot">
+    <h3>⚠️ 今回の条件では、ストアアプリの長所が特に効きます</h3>
+    <ul style="margin-bottom:0">
+      <li><b>週に1回、約1,000人に通知が飛ぶアプリ</b>（第1章）。
+          <b>通知が確実に届くこと</b>の価値が、ふつうのアプリより大きい</li>
+      <li><b>導入が団体から降りてくる。</b>「リーグからのお願い」であれば、
+          <b>インストールの壁も越えられる可能性がある</b></li>
+    </ul>
+  </div>
+
+  <p>それでも Web を勧めるのは、<b>「いまの段階だから」</b>であって、
+  <b>ストアアプリが機能として劣るからではありません。</b>理由は次章。</p>
+
+
+  <h2>8. ⭐ 最大の理由：後から変えられる</h2>
+
+  <div class="flow">Webアプリで作っておくと──
+
+   ├─→ <b>PWA化</b>          部品を足すだけ。1日程度
+   ├─→ <b>LINEの中で開く</b>  ほぼそのまま動く
+   └─→ <b>ストアアプリ</b>    その時に判断できる
+
+ストアアプリから始めると──
+
+   └─→ <b style="color:#e8590c">後戻りが効かない</b></div>
+
+  <p><b>いま決め打ちする必要がない ── これが Web を勧める最大の理由です。</b></p>
+
+  <div class="card blue">
+    <h3>段階を分けて考える</h3>
+    <div class="flow"><b>フェーズ1（いま〜実証）</b>
+    Web／PWA で作る
+    1つの団体で実際に回して、仕様を固める
+    <b>通知がどれだけ届くかを実測する</b>
+        ↓
+<b>フェーズ2（広げるとき）</b>
+    「通知が届かない人が多い」と<b>実測で分かったら</b>
+    その時ストア版を出す
+    サーバー・データ・処理はそのまま使える</div>
+    <p style="margin-bottom:0">いま議論している「iPhoneで通知が届くか」は、<b>推測でしか話せません。</b>
+    フェーズ1を回せば<b>実際の数字が出ます。</b>その数字を見てから決める方が、確実です。</p>
+  </div>
+
+
+  <h2>9. まとめ</h2>
+
+  <table>
+    <thead>
+      <tr><th style="width:190px"></th><th class="c">Webアプリ＋PWA</th><th class="c">ストアアプリ</th><th class="c">LIFF</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>1,000人に使ってもらえるか</th><td class="c"><span class="o">◎</span></td><td class="c"><span class="x">✕</span></td><td class="c"><span class="o">◎</span></td></tr>
+      <tr><th>団体を増やしやすいか</th><td class="c"><span class="o">◎</span></td><td class="c"><span class="x">✕</span></td><td class="c"><span class="t">△</span></td></tr>
+      <tr><th>立ち上げやすいか</th><td class="c"><span class="o">◎</span></td><td class="c"><span class="x">✕</span></td><td class="c"><span class="o">◎</span></td></tr>
+      <tr><th>他の団体へ広げやすいか</th><td class="c"><span class="o">◎</span></td><td class="c"><span class="o">◎</span></td><td class="c"><span class="x">✕</span></td></tr>
+      <tr><th><b>通知の確実さ</b></th><td class="c"><span class="t">△</span></td><td class="c"><span class="o">◎</span></td><td class="c"><span class="o">◎</span>（有料）</td></tr>
+      <tr><th>作る・直す手間</th><td class="c"><span class="o">◎</span></td><td class="c"><span class="x">✕</span></td><td class="c"><span class="o">◯</span></td></tr>
+      <tr><th>後から変えられるか</th><td class="c"><span class="o">◎</span></td><td class="c"><span class="x">✕</span></td><td class="c"><span class="o">◯</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="card blue">
+    <h3>提案</h3>
+    <p><b>Webアプリ（ホーム画面に置ける形＝PWA）で「始める」。</b>
+    <span style="color:var(--sub);font-size:13px">※ ストアアプリを否定するものではなく、順番の話です</span></p>
+    <ul style="margin-bottom:0">
+      <li>通知は<b>メールを基本線</b>に。プッシュ通知は<b>ホーム画面に追加してくれた人へのおまけ</b>と考える</li>
+      <li>ログインは<b>「LINEでログイン」「Googleでログイン」</b>でパスワードを作らせない</li>
+      <li>通知のリンクから開けば<b>ログイン画面を見ずに済む</b>ようにする</li>
+      <li><b>ホーム画面への追加は、しっかり案内する</b>（特にiPhone。週1回使うので追加してもらいやすい）</li>
+      <li><b>ストアアプリは、必要になったら後から出す</b></li>
+    </ul>
+  </div>
+
+
+  <div class="foot">
+    作成：2026-09-20<br>
+    ※ 手数料・登録料・iOSの仕様は変わることがあります。<span class="pill p-chk">要確認</span> の項目は、決定する前に最新情報をご確認ください。<br>
+    ※ LINE Notify（グループへ無料で通知を送る機能）は 2025年3月31日でサービスを終了しています。
+  </div>
+
+</div>
+</body>
+</html>
