@@ -27,6 +27,17 @@
   <div class="float-row">
     <button class="float-btn proto-hide" id="back" type="button" aria-label="戻る" title="戻る">←</button>
     <div class="float-spacer"></div>
+
+    <button class="float-btn" data-go="snews" type="button" aria-label="お知らせ" title="お知らせ">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+      <span class="badge player-only">1</span>
+      <span class="badge rep-only">2</span>
+    </button>
+
     <details class="menu-wrap" id="gearWrap">
       <summary class="float-btn" aria-label="設定" title="設定">
         <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor"
@@ -61,16 +72,72 @@
     <div class="flow">
       <ol>
         <li><b>下のタブで移動します</b>
-          <small>募集を探す ／ 私の予定 ／ 募集を出す</small></li>
+          <small>募集を探す ／ 募集を出す ／ 私の予定</small></li>
         <li><b>いちばん上のバーで、選手と代表を切り替えられます</b>
           <small>代表には「募集を出す」タブが増えます</small></li>
-        <li><b>上のバーの［画面一覧］から、どの画面へも直接開けます</b></li>
+        <li><b>右上のベルに、届いたお知らせがたまります</b>
+          <small>メールや端末への通知が届かなかったときも、ここに残ります</small></li>
+        <li><b>いちばん上の［画面一覧］から、どの画面へも直接開けます</b></li>
       </ol>
     </div>
 
     <button class="btn" data-go="sw1" type="button">はじめの登録から見る</button>
     <button class="btn sub" data-go="sfind" type="button" style="margin-top:8px;">登録済みとしてアプリを開く</button>
     <button class="btn quiet" id="menu2" type="button" style="margin-top:8px;">画面の一覧を開く</button>
+  </section>
+
+  <!-- ==================================================== snews お知らせ -->
+  <section data-screen="snews" data-title="お知らせ">
+    <p class="lead">押すと、その画面が開きます。</p>
+
+    <button class="card tap" data-go="s7" type="button">
+      <div class="gate">
+        <div class="news-dot"></div>
+        <div class="gate-t">
+          <b>9月27日（土）の助っ人に決まりました</b>
+          <span>川岸ファイターズ ／ 連絡先が出ています</span>
+        </div>
+        <div class="gate-time">1時間前</div>
+      </div>
+    </button>
+
+    <button class="card tap rep-only" data-go="s6" type="button">
+      <div class="gate">
+        <div class="news-dot"></div>
+        <div class="gate-t">
+          <b>応募が3人来ています</b>
+          <span>9/27（土）午前の助っ人 ／ <b>選んでください</b></span>
+        </div>
+        <div class="gate-time">3時間前</div>
+      </div>
+    </button>
+
+    <button class="card tap" data-go="scanceled" type="button">
+      <div class="gate">
+        <div class="news-dot read"></div>
+        <div class="gate-t">
+          <b>10月12日（日）の試合が中止になりました</b>
+          <span>みどりヶ丘ベースボール ／ 雨のため</span>
+        </div>
+        <div class="gate-time">昨日</div>
+      </div>
+    </button>
+
+    <button class="card tap" data-go="s3" type="button">
+      <div class="gate">
+        <div class="news-dot read"></div>
+        <div class="gate-t">
+          <b>9月27日（土）午前の助っ人を募集しています</b>
+          <span>川岸ファイターズ ／ 外野手・内野手 あと2人</span>
+        </div>
+        <div class="gate-time">3日前</div>
+      </div>
+    </button>
+
+    <p class="note">
+      メールと端末への通知が届かなかったときも、<b>ここに残っています。</b><br>
+      残るのは<b>30日ぶん</b>です。それより古いものは消えます。
+    </p>
   </section>
 
   <!-- ==================================================== sfind 探す -->
@@ -1597,8 +1664,8 @@
   <!-- ==================================================== 下タブ（横並びはここだけ） -->
   <div class="tabbar" id="tabbar">
     <button type="button" data-tab="find" data-go="sfind" aria-current="true">募集を探す</button>
-    <button type="button" data-tab="me"   data-go="sme"   aria-current="false">私の予定</button>
     <button type="button" data-tab="team" data-go="steam" aria-current="false" class="rep-only">募集を出す</button>
+    <button type="button" data-tab="me"   data-go="sme"   aria-current="false">私の予定</button>
   </div>
 
 </div><!-- /frame -->
@@ -1612,6 +1679,7 @@
     <div class="proto-group">はじめに</div>
     <div class="proto-list">
       <button type="button" data-go="s0"><i>─</i><b>この試作の見かた</b></button>
+      <button type="button" data-go="snews"><i>★</i><b>お知らせ</b><em>ベルから。未読にバッジ</em></button>
     </div>
 
     <div class="proto-group">はじめの登録（下タブは出ません）</div>
@@ -1857,6 +1925,7 @@
 
 </body>
 </html>
+
 
 
 

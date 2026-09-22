@@ -115,6 +115,27 @@ body {
   list-style: none;          /* <summary> の標準の三角を消す */
 }
 
+.float-btn { position: relative; }
+
+/* ⭐ 未読の件数。⚠️ 赤は「あなたが動かないと止まること」だけに使う */
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--warn);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  border: 2px solid var(--bg);   /* 本文色で縁取り、浮いて見せる */
+}
+
 .float-btn::-webkit-details-marker { display: none; }  /* Safari の三角 */
 .float-btn::marker { content: ""; }
 .float-btn > svg { display: block; }
@@ -307,6 +328,24 @@ h2.sec:first-child { margin-top: 2px; }
   color: var(--faint);
   font-size: 18px;
 }
+
+/* お知らせの行 */
+.gate-time {
+  flex: none;
+  font-size: 11.5px;
+  color: var(--faint);
+  white-space: nowrap;
+}
+
+.news-dot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--warn);
+}
+
+.news-dot.read { background: transparent; }
 
 /* --- 種別のバッジ --- */
 
