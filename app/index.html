@@ -1,0 +1,1809 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>試合マッチングアプリ ── 画面の試作</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-mode="player">
+
+<div class="frame">
+
+  <div class="proto-top">
+    <p>画面の<b>試作</b>です。名前・チーム名・数字・連絡先は<b>すべて架空</b>です。</p>
+    <div class="proto-row">
+      <div class="proto-switch">
+        <button type="button" id="mPlayer" aria-pressed="true">選手で見る</button>
+        <button type="button" id="mRep" aria-pressed="false">代表で見る</button>
+      </div>
+      <button class="proto-btn" id="menu" type="button">画面一覧</button>
+    </div>
+  </div>
+
+  <div class="bar">
+    <button class="bar-btn proto-hide" id="back" type="button">← 戻る</button>
+    <h1 id="title">試合マッチングアプリ</h1>
+    <details class="menu-wrap" id="gearWrap">
+      <summary class="bar-icon" aria-label="設定" title="設定">
+        <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3.2"/>
+          <path d="M19.1 15.5a1.7 1.7 0 0 0 .35 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.06a1.7 1.7 0 0 0-2.9-1.21l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0-1.2-2.9H3a2 2 0 1 1 0-4h.06a1.7 1.7 0 0 0 1.21-2.9l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 2.9-1.2V3a2 2 0 1 1 4 0v.06a1.7 1.7 0 0 0 2.9 1.21l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0 1.2 2.9H21a2 2 0 1 1 0 4h-.06a1.7 1.7 0 0 0-1.84 1.5z"/>
+        </svg>
+      </summary>
+      <div class="menu">
+        <button type="button" data-go="s8">自分の設定</button>
+        <button type="button" data-go="s11" class="rep-only">チームの設定</button>
+      </div>
+    </details>
+  </div>
+
+  <div class="body" id="body">
+
+  <!-- ==================================================== s0 はじめに -->
+  <section data-screen="s0" data-title="試合マッチングアプリ">
+    <div class="card">
+      <p style="margin:0 0 10px;font-size:15px;">
+        <b>「同じ日に探している者どうし」を突き合わせるアプリ</b>の、画面の試作です。
+      </p>
+      <p class="note" style="margin:0;">
+        対戦相手・助っ人・メンバーの3つの募集を、地域・リーグ・日付・ポジションで突き合わせます。
+        応募が来たら、募集を出した代表が選びます。決まったら双方に連絡先が出ます。
+      </p>
+    </div>
+
+    <h2 class="sec">見かた</h2>
+
+    <div class="flow">
+      <ol>
+        <li><b>下のタブで移動します</b>
+          <small>募集を探す ／ 予定を見る ／ 募集する</small></li>
+        <li><b>いちばん上のバーで、選手と代表を切り替えられます</b>
+          <small>代表には「募集する」タブが増えます</small></li>
+        <li><b>上のバーの［画面一覧］から、どの画面へも直接開けます</b></li>
+      </ol>
+    </div>
+
+    <button class="btn" data-go="sw1" type="button">はじめの登録から見る</button>
+    <button class="btn sub" data-go="sfind" type="button" style="margin-top:8px;">登録済みとしてアプリを開く</button>
+    <button class="btn quiet" id="menu2" type="button" style="margin-top:8px;">画面の一覧を開く</button>
+  </section>
+
+  <!-- ==================================================== sfind 探す -->
+  <section data-screen="sfind" data-title="募集を探す">
+    <p class="lead">どの募集を探しますか。</p>
+
+    <button class="card tap" data-go="s2h" type="button">
+      <div class="gate">
+        <div class="gate-t">
+          <b><span class="tag helper">助っ人</span> の募集を探す</b>
+          <span>この日だけ手伝ってほしい、というチーム</span>
+        </div>
+        <div class="gate-n">5件</div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+
+    <button class="card tap" data-go="s2n" type="button">
+      <div class="gate">
+        <div class="gate-t">
+          <b><span class="tag member">メンバー</span> の募集を探す</b>
+          <span>ずっと入ってくれる人を探しているチーム</span>
+        </div>
+        <div class="gate-n">8件</div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+
+  </section>
+
+  <!-- ============================= smatch 同じ日を探しているチーム（突き合わせ） -->
+  <section data-screen="smatch" data-title="同じ日を探しているチーム">
+    <div class="card">
+      <div class="post-h">
+        <span class="tag match">対戦相手</span>
+        <span class="pill">うちが出した募集</span>
+      </div>
+      <div style="font-size:18px;font-weight:700;margin:2px 0;">10月4日（日）午後</div>
+      <div class="post-meta">会場あり ／ 安佐南区 かわぎしグラウンド</div>
+    </div>
+
+    <h2 class="sec">同じ日を探しているチーム　3件</h2>
+
+    <button class="card tap" data-go="s3m" type="button">
+      <div class="post-h">
+        <span class="post-team" style="margin:0;">もみじストライカーズ</span>
+        <span class="pill">会場を探している</span>
+      </div>
+      <div class="post-meta">広島市佐伯区 ／ さくらリーグ 2部<br>10/4（日）午前・午後</div>
+    </button>
+
+    <button class="card tap" data-go="s3m" type="button">
+      <div class="post-h">
+        <span class="post-team" style="margin:0;">城北クラブ</span>
+        <span class="pill ok">会場あり</span>
+      </div>
+      <div class="post-meta">広島市東区 ／ さくらリーグ 2部<br>10/4（日）午後</div>
+    </button>
+
+    <button class="card tap" data-go="s3m" type="button">
+      <div class="post-h">
+        <span class="post-team" style="margin:0;">港南クラブ</span>
+        <span class="pill">会場を探している</span>
+      </div>
+      <div class="post-meta">広島市南区 ／ さくらリーグ 2部<br>10/4（日）午後</div>
+    </button>
+  </section>
+
+  <!-- ==================================================== s2m 相手を探しているチーム -->
+  <section data-screen="s2m" data-title="相手を探しているチーム">
+    <div class="filter">
+      <div class="filter-v">
+        <b>広島市安佐南区</b>／さくらリーグ 2部<br>
+        日にち 指定なし ／ 会場 どちらでも
+      </div>
+      <button class="btn-sm" data-go="sfm" type="button">変える</button>
+    </div>
+
+    <button class="card tap" data-go="s3m" type="button">
+      <div class="post-h">
+        <span class="post-when">10/4（日）午後</span>
+        <span class="pill ok">会場あり</span>
+      </div>
+      <div class="post-team">城北クラブ</div>
+      <div class="post-meta">広島市東区<br>さくらリーグ 2部</div>
+    </button>
+
+    <button class="card tap" data-go="s3m" type="button">
+      <div class="post-h">
+        <span class="post-when">10/11（土）午前</span>
+        <span class="pill">会場を探している</span>
+      </div>
+      <div class="post-team">もみじストライカーズ</div>
+      <div class="post-meta">広島市佐伯区<br>さくらリーグ 2部</div>
+    </button>
+
+    <p class="note">12件のうち、上の条件に合う2件を出しています。</p>
+  </section>
+
+  <!-- ==================================================== s2h 助っ人を探す -->
+  <section data-screen="s2h" data-title="助っ人の募集を探す">
+    <div class="filter">
+      <div class="filter-v">
+        <b>広島市安佐南区</b>／さくらリーグ 2部<br>
+        日にち 指定なし ／ ポジション 指定なし
+      </div>
+      <button class="btn-sm" data-go="sfh" type="button">変える</button>
+    </div>
+
+    <button class="card tap" data-go="s3" type="button">
+      <div class="post-h">
+        <span class="post-when">9/27（土）午前</span>
+        <span class="pill">あと2人</span>
+      </div>
+      <div class="post-team">川岸ファイターズ</div>
+      <div class="post-meta">外野手 ・ 内野手 ／ 安佐南区<br>さくらリーグ 2部</div>
+    </button>
+
+    <button class="card tap" data-go="s3" type="button">
+      <div class="post-h">
+        <span class="post-when">9/27（土）午後</span>
+        <span class="pill">あと1人</span>
+      </div>
+      <div class="post-team">東雲アスレチックス</div>
+      <div class="post-meta">投手 ／ 西区<br>さくらリーグ 1部</div>
+    </button>
+
+    <button class="card tap" data-go="s3" type="button">
+      <div class="post-h">
+        <span class="post-when">10/4（日）午前・午後</span>
+        <span class="pill">あと3人</span>
+      </div>
+      <div class="post-team">みどりヶ丘ベースボール</div>
+      <div class="post-meta">だれでも ／ 佐伯区<br>リーグに入っていないチーム</div>
+    </button>
+  </section>
+
+  <!-- ==================================================== s2n メンバーを探す -->
+  <section data-screen="s2n" data-title="メンバーの募集を探す">
+    <div class="filter">
+      <div class="filter-v">
+        <b>広島市安佐南区</b>／さくらリーグ 2部<br>
+        ポジション 指定なし
+      </div>
+      <button class="btn-sm" data-go="sfn" type="button">変える</button>
+    </div>
+
+    <button class="card tap" data-go="s3n" type="button">
+      <div class="post-team">港南クラブ</div>
+      <div class="post-meta">投手 ・ 捕手 ／ 広島市南区<br>さくらリーグ 2部 ／ 月2回 日曜の午前</div>
+    </button>
+
+    <button class="card tap" data-go="s3n" type="button">
+      <div class="post-team">みどりヶ丘ベースボール</div>
+      <div class="post-meta">だれでも ／ 広島市佐伯区<br>リーグに入っていないチーム ／ 土曜の午前</div>
+    </button>
+  </section>
+
+  <!-- ==================================================== s3 助っ人の募集 -->
+  <section data-screen="s3" data-title="助っ人の募集">
+    <div class="card">
+      <div class="post-h">
+        <span class="tag helper">助っ人</span>
+        <span class="pill">募集中</span>
+      </div>
+      <div style="font-size:20px;font-weight:700;margin:2px 0;">9月27日（土）午前</div>
+      <div class="post-team" style="font-size:16px;">川岸ファイターズ</div>
+
+      <dl class="dl" style="margin-top:12px;">
+        <div><dt>ほしい人</dt><dd>外野手 ・ 内野手<small>あと2人</small></dd></div>
+        <div><dt>場所</dt><dd>広島市安佐南区<small>かわぎしグラウンド</small></dd></div>
+        <div><dt>リーグ</dt><dd>さくらリーグ 2部</dd></div>
+        <div><dt>ひとこと</dt><dd>はじめての方も歓迎です。道具はこちらで用意します。集合は8時30分、9時試合開始の予定です。</dd></div>
+      </dl>
+    </div>
+
+    <button class="btn" data-go="s4" type="button">行けます</button>
+
+    <p class="note">
+      押すとチームの代表に届きます。<b>代表が選びます</b>（先着ではありません）。<br>
+      決まったらお知らせします。<b>連絡先が出るのは、決まってからです。</b>
+    </p>
+  </section>
+
+  <!-- ==================================================== s3m 対戦相手の募集 -->
+  <section data-screen="s3m" data-title="対戦相手の募集">
+    <div class="card">
+      <div class="post-h">
+        <span class="tag match">対戦相手</span>
+        <span class="pill">募集中</span>
+      </div>
+      <div style="font-size:20px;font-weight:700;margin:2px 0;">10月4日（日）午後</div>
+      <div class="post-team" style="font-size:16px;">城北クラブ</div>
+
+      <dl class="dl" style="margin-top:12px;">
+        <div>
+          <dt>会場</dt>
+          <dd><span class="pill ok">用意してあります</span>
+            <small>広島市東区 しろきたグラウンド／使用料は半分ずつ</small></dd>
+        </div>
+        <div><dt>リーグ</dt><dd>さくらリーグ 2部</dd></div>
+        <div><dt>ひとこと</dt><dd>3時間とってあります。審判はお互いで出し合う形でお願いします。</dd></div>
+      </dl>
+    </div>
+
+    <button class="btn" data-go="s4" type="button">この日に試合したいです</button>
+
+    <p class="note">
+      押すと相手チームの代表に届きます。<b>向こうの代表が選びます。</b><br>
+      <b>連絡先が出るのは、決まってからです。</b>
+    </p>
+  </section>
+
+  <!-- ==================================================== s3n メンバーの募集 -->
+  <section data-screen="s3n" data-title="メンバーの募集">
+    <div class="card">
+      <div class="post-h">
+        <span class="tag member">メンバー</span>
+        <span class="pill">募集中</span>
+      </div>
+      <div class="post-team" style="font-size:18px;margin-top:4px;">港南クラブ</div>
+
+      <dl class="dl" style="margin-top:12px;">
+        <div><dt>ほしい人</dt><dd>投手 ・ 捕手</dd></div>
+        <div><dt>場所</dt><dd>広島市南区</dd></div>
+        <div><dt>活動</dt><dd>月2回ほど<small>日曜の午前が中心です</small></dd></div>
+        <div><dt>リーグ</dt><dd>さくらリーグ 2部</dd></div>
+        <div><dt>ひとこと</dt><dd>30代が中心です。経験は問いません。まず1回、見に来てもらえるとうれしいです。</dd></div>
+      </dl>
+    </div>
+
+    <button class="btn" data-go="s4" type="button">話を聞いてみたいです</button>
+  </section>
+
+  <!-- ==================================================== s4 送りました -->
+  <section data-screen="s4" data-title="送りました">
+    <div class="result">
+      <div class="result-mark">✓</div>
+      <h2>送りました</h2>
+      <p>相手チームの代表が選びます。<br>決まったらお知らせします。</p>
+    </div>
+
+    <p class="note">
+      決まったときと、雨などで中止になったときは、<b>メールと通知の両方</b>でお知らせします。<br>
+      <b>通知が届かないとメールだけになる</b>ので、当日の朝はメールも見てください。
+    </p>
+
+    <button class="btn sub" data-go="sfind" type="button" style="margin-top:14px;">ほかの募集を見る</button>
+  </section>
+
+  <!-- ==================================================== sme 自分 -->
+  <section data-screen="sme" data-title="予定を見る">
+    <p class="lead"><b>はるき</b>さん ／ 広島県広島市安佐南区</p>
+
+    <h2 class="sec">この先の予定</h2>
+
+    <button class="card tap" data-go="s7" type="button">
+      <div class="post-h">
+        <span class="post-when">9月27日（土）午前</span>
+        <span class="pill ok">決定</span>
+      </div>
+      <div class="post-meta">川岸ファイターズの助っ人 ／ 安佐南区 かわぎしグラウンド</div>
+    </button>
+
+    <button class="card tap" data-go="scanceled" type="button">
+      <div class="post-h">
+        <span class="post-when">10月12日（日）午前</span>
+        <span class="pill warn">中止</span>
+      </div>
+      <div class="post-meta">みどりヶ丘ベースボールの助っ人 ／ <b>雨で中止になりました</b></div>
+    </button>
+
+    <h2 class="sec">返事を待っているもの</h2>
+
+    <button class="card tap" data-go="s3" type="button">
+      <div class="post-h">
+        <span class="post-when">10月4日（日）午前</span>
+        <span class="pill">選ばれるのを待っています</span>
+      </div>
+      <div class="post-meta">みどりヶ丘ベースボールの助っ人</div>
+    </button>
+
+  </section>
+
+  <!-- ==================================================== s8 自分の設定 -->
+  <section data-screen="s8" data-title="自分の設定">
+    <h2 class="sec">自分のこと</h2>
+
+    <div class="field">
+      <label class="f-label">呼ばれ方</label>
+      <input type="text" value="はるき">
+    </div>
+
+    <div class="field">
+      <label class="f-label">所属チーム<span class="hint">いくつでも入れます。掛け持ちもできます</span></label>
+
+      <div class="card" style="margin-bottom:10px;">
+        <div class="row">
+          <div class="row-t">
+            <b>あおぞらクラブ</b>
+            <span class="rep-only">代表 ／ さくらリーグ 2部 ／ 広島市安佐南区</span>
+            <span class="player-only">さくらリーグ 2部 ／ 広島市安佐南区</span>
+          </div>
+          <button class="btn-sm quiet" data-act="remove" type="button">外れる</button>
+        </div>
+        <div class="row">
+          <div class="row-t">
+            <b>みどりヶ丘ベースボール</b>
+            <span>リーグに入っていないチーム ／ 広島市佐伯区</span>
+          </div>
+          <button class="btn-sm quiet" data-act="remove" type="button">外れる</button>
+        </div>
+      </div>
+
+      <button class="set-row" data-go="steamsel" type="button">
+        <span>チームを増やす</span>
+        <i>›</i>
+      </button>
+
+      <p class="note player-only" style="margin-top:4px;">
+        代表になるときは、いまの代表に<b>［代表を増やす］で追加してもらってください。</b><br>
+        新しくチームを作った場合は、<b>作った人がそのまま代表になります。</b>
+      </p>
+      <button class="set-row player-only" data-go="shandover" type="button">
+        <span>いまの代表に連絡が取れない</span>
+        <i>›</i>
+      </button>
+    </div>
+
+    <div class="field field-row">
+      <div>
+        <label class="f-label">都道府県</label>
+        <select><option>広島県</option></select>
+      </div>
+      <div>
+        <label class="f-label">市区町村</label>
+        <select><option>広島市安佐南区</option></select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="f-label">できるポジション<span class="hint">いくつでも選べます</span></label>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="false">投手</button>
+        <button class="chip" type="button" aria-pressed="true">捕手</button>
+        <button class="chip" type="button" aria-pressed="true">内野手</button>
+        <button class="chip" type="button" aria-pressed="false">外野手</button>
+      </div>
+    </div>
+
+    <h2 class="sec">連絡先</h2>
+
+    <p class="note" style="margin:0 0 12px;">
+      メールはお知らせの届け先です。LINEは
+      <b>試合や助っ人が決まったときだけ、相手のチームの代表に出ます。</b>一覧や名簿には出ません。
+    </p>
+
+    <div class="field">
+      <label class="f-label">メールアドレス</label>
+      <input type="email" value="dummy@example.com">
+    </div>
+
+    <div class="field">
+      <label class="f-label">LINEの友だち追加リンク（入れなくても使えます）
+        <span class="hint">LINE →「ホーム」→ 右上の友だち追加 → QRコード →「マイQRコード」→ リンクをコピー</span></label>
+      <input type="url" value="https://line.me/ti/p/dummy0000">
+      <p class="note" style="margin-top:6px;">
+        入れておくと、<b>急な中止の連絡が早く届きます。</b><br>
+        LINEでQRコードを「更新」すると、このリンクは使えなくなります。入れ直してください。
+      </p>
+    </div>
+
+    <h2 class="sec">お知らせを受け取る条件</h2>
+
+    <div class="field">
+      <label class="f-label">どんな募集が出たときに知らせますか<span class="hint">いくつでも選べます</span></label>
+
+      <label class="check rep-only">
+        <input type="checkbox" checked>
+        <div class="check-t">
+          <b>対戦相手の募集</b>
+          <span>「この日に試合したい」というチームが出したとき</span>
+        </div>
+      </label>
+
+      <label class="check">
+        <input type="checkbox" checked>
+        <div class="check-t">
+          <b>助っ人の募集</b>
+          <span>「この日だけ手伝ってほしい」というチームが出したとき</span>
+        </div>
+      </label>
+
+      <label class="check">
+        <input type="checkbox" checked>
+        <div class="check-t">
+          <b>メンバーの募集</b>
+          <span>「ずっと入ってくれる人を探している」チームが出したとき</span>
+        </div>
+      </label>
+    </div>
+
+    <div class="field field-row">
+      <div>
+        <label class="f-label">場所<span class="hint">この市区町村のものだけ</span></label>
+        <select><option>広島市安佐南区</option></select>
+      </div>
+      <div>
+        <label class="f-label">リーグ<span class="hint">このリーグのものだけ</span></label>
+        <select><option>さくらリーグ 2部</option></select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="f-label">日にち・ポジション<span class="hint">絞ると、合うものだけ届きます</span></label>
+      <select><option>指定なし（ぜんぶ受け取る）</option></select>
+    </div>
+
+    <h2 class="sec">通知</h2>
+
+    <div class="card">
+      <div class="row">
+        <div class="row-t">
+          <b>このスマホには届きます</b>
+          <span>メールと、この端末への通知の両方で届きます</span>
+        </div>
+        <span class="pill ok">オン</span>
+      </div>
+    </div>
+
+    <p class="note">
+      通知が届くかは<b>端末ごと</b>に決まります。パソコンや別のスマホでは、それぞれで許可が必要です。<br>
+      iPhone は<b>ホーム画面に置いたアイコンから開いたとき</b>だけ届きます。
+    </p>
+
+    <button class="btn" data-act="toast" data-msg="保存しました" type="button" style="margin-top:14px;">保存する</button>
+  </section>
+
+  <!-- ==================================================== shandover 代表を引き継ぐ -->
+  <section data-screen="shandover" data-title="代表を引き継ぐ">
+    <div class="card">
+      <div class="post-team" style="font-size:16px;">あおぞらクラブ</div>
+      <div class="post-meta">さくらリーグ 2部 ／ 広島市安佐南区</div>
+      <dl class="dl" style="margin-top:12px;">
+        <div><dt>いまの代表</dt><dd>ゆうと<small>最後にアプリを開いたのは 3月28日</small></dd></div>
+      </dl>
+    </div>
+
+    <div class="field">
+      <label class="f-label">ひとこと<span class="hint">いまの代表に、そのまま届きます</span></label>
+      <textarea>4月からあおぞらクラブの顧問になりました。前の顧問と連絡が取れないので、こちらから申し出ます。</textarea>
+    </div>
+
+    <h2 class="sec">お知らせが届く先</h2>
+
+    <div class="card">
+      <div class="row">
+        <div class="row-t"><b>いまの代表</b><span>ゆうと</span></div>
+        <span class="pill">1人</span>
+      </div>
+      <div class="row">
+        <div class="row-t"><b>あおぞらクラブに登録している人</b><span>全員に届きます</span></div>
+        <span class="pill">18人</span>
+      </div>
+    </div>
+
+    <h2 class="sec">申し出たあとの流れ</h2>
+
+    <div class="flow">
+      <ol>
+        <li><b>上の全員に、お知らせが届きます</b>
+          <small>「はるきさんが代表を引き継ぎたいと言っています」</small></li>
+        <li><b>3日のあいだ、いまの代表は止められます</b>
+          <small>心当たりがなければ、その場で止められます</small></li>
+        <li><b>3日たって返事がなければ、代表が移ります</b>
+          <small>前の代表に連絡が取れなくても、ここで止まりません</small></li>
+      </ol>
+    </div>
+
+    <button class="btn" data-go="shandoverdone" type="button">代表の引き継ぎを申し出る</button>
+  </section>
+
+  <!-- ==================================================== shandoverdone 申し出ました -->
+  <section data-screen="shandoverdone" data-title="申し出ました">
+    <div class="result">
+      <div class="result-mark">✓</div>
+      <h2>申し出ました</h2>
+      <p>いまの代表に、お知らせを送りました。</p>
+    </div>
+
+    <div class="card" style="border-color:var(--key);">
+      <dl class="dl" style="margin-top:0;">
+        <div>
+          <dt>代表が移る日</dt>
+          <dd><b>4月4日（土）18時</b><small>あと3日</small></dd>
+        </div>
+        <div>
+          <dt>お知らせの先</dt>
+          <dd>いまの代表（ゆうと）<small>と、あおぞらクラブに登録している18人</small></dd>
+        </div>
+        <div>
+          <dt>止まるとき</dt>
+          <dd>いまの代表が「心当たりがない」と答えたとき<small>そのときは、すぐお知らせします</small></dd>
+        </div>
+      </dl>
+    </div>
+
+    <p class="note">
+      それまでは、いままでどおり選手として使えます。<br>
+      移ったら、<b>「募集する」タブが出ます。</b>
+    </p>
+  </section>
+
+  <!-- ============================= shandoverask 引き継ぎの申し出（いまの代表に届く） -->
+  <section data-screen="shandoverask" data-title="代表の引き継ぎ">
+    <div class="card">
+      <div class="post-h">
+        <span class="pill warn">あと3日</span>
+      </div>
+      <div style="font-size:17px;font-weight:700;margin:2px 0 4px;">
+        はるき さんが、代表を引き継ぎたいと言っています
+      </div>
+      <div class="post-meta">あおぞらクラブ ／ さくらリーグ 2部</div>
+
+      <dl class="dl" style="margin-top:12px;">
+        <div><dt>ひとこと</dt><dd>4月からあおぞらクラブの顧問になりました。前の顧問と連絡が取れないので、こちらから申し出ます。</dd></div>
+        <div>
+          <dt>移る日</dt>
+          <dd><b>4月4日（土）18時</b><small>このまま何もしなければ、この日に移ります</small></dd>
+        </div>
+      </dl>
+    </div>
+
+    <button class="btn" data-go="shmoved" type="button">引き継ぐ（いま移す）</button>
+    <button class="btn danger" data-go="shstopped" type="button" style="margin-top:8px;">心当たりがない（止める）</button>
+
+    <p class="note">
+      止めると、代表は移りません。申し出た人にも、止めたことが伝わります。<br>
+      このお知らせは、<b>あおぞらクラブに登録している18人にも届いています。</b>
+    </p>
+  </section>
+
+  <!-- ==================================================== steam チーム -->
+  <section data-screen="steam" data-title="募集する">
+    <p class="lead"><b>あおぞらクラブ</b> ／ さくらリーグ 2部 ／ 広島市安佐南区</p>
+
+    <button class="btn" data-go="spost" type="button">募集を出す</button>
+
+    <h2 class="sec">出している募集</h2>
+
+    <button class="card tap" data-go="smatch" type="button">
+      <div class="post-h">
+        <span class="post-when">10/4（日）午後</span>
+        <span class="tag match">対戦相手</span>
+        <span class="pill warn">同じ日を探しているチーム 3件</span>
+      </div>
+      <div class="post-meta">会場あり ／ 安佐南区</div>
+    </button>
+
+    <button class="card tap" data-go="s6" type="button">
+      <div class="post-h">
+        <span class="post-when">9/27（土）午前</span>
+        <span class="tag helper">助っ人</span>
+        <span class="pill warn">応募 3人</span>
+      </div>
+      <div class="post-meta">外野手・内野手 ／ あと2人 ／ <b>選んでください</b></div>
+    </button>
+
+    <button class="card tap" data-go="s3n" type="button">
+      <div class="post-h">
+        <span class="post-team" style="margin:0;">メンバー募集</span>
+        <span class="tag member">メンバー</span>
+        <span class="pill">応募 なし</span>
+      </div>
+      <div class="post-meta">投手・捕手 ／ ずっと出しています</div>
+    </button>
+
+    <button class="set-row" data-go="s2m" type="button" style="margin-top:14px;">
+      <span>ほかに相手を探しているチーム　<b>12件</b></span>
+      <i>›</i>
+    </button>
+
+    <h2 class="sec">チームのこと</h2>
+
+    <button class="card tap" data-go="s10" type="button">
+      <div class="gate">
+        <div class="gate-t"><b>対戦の履歴</b><span>どこと何回やったか</span></div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+  </section>
+
+  <!-- ==================================================== spost 何を募集するか -->
+  <section data-screen="spost" data-title="募集を出す">
+    <p class="lead">何を募集しますか。</p>
+
+    <button class="card tap" data-go="s5" type="button">
+      <div class="gate">
+        <div class="gate-t">
+          <b><span class="tag match">対戦相手</span> を募集する</b>
+          <span>日にちと、会場を用意してあるかを入れます</span>
+        </div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+
+    <button class="card tap" data-go="s5" type="button">
+      <div class="gate">
+        <div class="gate-t">
+          <b><span class="tag helper">助っ人</span> を募集する</b>
+          <span>日にちと、ほしいポジション・人数を入れます</span>
+        </div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+
+    <button class="card tap" data-go="s5" type="button">
+      <div class="gate">
+        <div class="gate-t">
+          <b><span class="tag member">メンバー</span> を募集する</b>
+          <span>日にちは入れません。ずっと出しておく募集です</span>
+        </div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+  </section>
+
+  <!-- ==================================================== s5 募集を出す -->
+  <section data-screen="s5" data-title="助っ人を募集する">
+    <div class="field">
+      <label class="f-label">日にち</label>
+      <input type="date" value="2026-09-27">
+    </div>
+
+    <div class="field">
+      <label class="f-label">時間<span class="hint">いくつでも選べます。集合時刻は下の「ひとこと」に書いてください</span></label>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="true">午前</button>
+        <button class="chip" type="button" aria-pressed="false">午後</button>
+        <button class="chip" type="button" aria-pressed="false">夜</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="f-label">ほしいポジション<span class="hint">いくつでも選べます</span></label>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="false">投手</button>
+        <button class="chip" type="button" aria-pressed="false">捕手</button>
+        <button class="chip" type="button" aria-pressed="false">内野手</button>
+        <button class="chip" type="button" aria-pressed="true">外野手</button>
+        <button class="chip" type="button" aria-pressed="false">だれでも</button>
+      </div>
+    </div>
+
+    <div class="field field-row">
+      <div>
+        <label class="f-label">人数</label>
+        <input type="number" value="2" min="1">
+      </div>
+      <div>
+        <label class="f-label">場所</label>
+        <input type="text" value="広島市安佐南区">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="f-label">ひとこと<span class="hint">求めることがあれば、ここに自由に書いてください</span></label>
+      <textarea>はじめての方も歓迎です。道具はこちらで用意します。集合は8時30分、9時試合開始の予定です。</textarea>
+    </div>
+
+    <div class="field">
+      <label class="check">
+        <input type="checkbox">
+        <div class="check-t">
+          <b>同じリーグの選手だけに出す</b>
+          <span>入れなければ、リーグの外の人にも届きます</span>
+        </div>
+      </label>
+    </div>
+
+    <button class="btn" data-go="steam" type="button">この内容で募集を出す</button>
+  </section>
+
+  <!-- ==================================================== s6 応募した人 -->
+  <section data-screen="s6" data-title="応募した人">
+    <div class="card">
+      <div class="post-h">
+        <span class="post-when">9/27（土）午前</span>
+        <span class="tag helper">助っ人</span>
+      </div>
+      <div class="post-meta">外野手・内野手 ／ あと2人 ／ 応募 3人</div>
+    </div>
+
+    <h2 class="sec">この中から選びます</h2>
+
+    <div class="card">
+      <div class="row">
+        <div class="count"><b>7</b><span>回</span></div>
+        <div class="row-t"><b>ゆうき</b><span>東雲アスレチックス ／ 外野手・内野手</span></div>
+        <button class="btn-sm" data-act="pick" type="button">この人に</button>
+      </div>
+      <div class="row">
+        <div class="count"><b>2</b><span>回</span></div>
+        <div class="row-t"><b>かずま</b><span>城北クラブ ／ 内野手</span></div>
+        <button class="btn-sm" data-act="pick" type="button">この人に</button>
+      </div>
+      <div class="row">
+        <div class="count"><b>0</b><span>回</span></div>
+        <div class="row-t"><b>しんじ</b><span>チームに入っていない ／ 外野手</span></div>
+        <button class="btn-sm" data-act="pick" type="button">この人に</button>
+      </div>
+    </div>
+
+    <p class="note">左の数字は<b>助っ人として参加した回数</b>です。</p>
+
+    <button class="btn" data-go="s7" type="button">2人を決めて確定する</button>
+    <button class="btn quiet" data-go="steam" type="button" style="margin-top:8px;">この募集を締める</button>
+  </section>
+
+  <!-- ==================================================== s7 決まりました -->
+  <section data-screen="s7" data-title="決まりました">
+    <div class="result">
+      <div class="result-mark">✓</div>
+      <h2>決まりました</h2>
+      <p>双方に連絡先が出ています。</p>
+    </div>
+
+    <div class="card">
+      <div class="post-h">
+        <span class="post-when">9月27日（土）午前</span>
+        <span class="pill ok">決定</span>
+      </div>
+      <dl class="dl" style="margin-top:8px;">
+        <div><dt>相手</dt><dd>川岸ファイターズ<small>さくらリーグ 2部</small></dd></div>
+        <div><dt>場所</dt><dd>広島市安佐南区<small>かわぎしグラウンド</small></dd></div>
+        <div>
+          <dt>連絡先</dt>
+          <dd>やまもと（代表）
+            <small>dummy@example.com</small>
+            <small style="color:var(--warn);">架空のアドレスです</small>
+          </dd>
+        </div>
+        <div>
+          <dt>LINE</dt>
+          <dd>
+            <button class="btn-sm" data-act="toast" data-msg="架空のリンクなので、開きません"
+                    type="button">LINEで連絡する</button>
+            <small>
+              <button class="link-quiet" style="padding:2px 0;"
+                      data-act="toast" data-msg="やまもとさんに「リンクが開けませんでした」と知らせました"
+                      type="button">開けなかった</button>
+            </small>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--key);">
+      <p style="margin:0;font-size:14.5px;">
+        <b>いまのうちに、上の［LINEで連絡する］から友だちになっておいてください。</b>
+      </p>
+      <p class="post-meta" style="margin:4px 0 0;">
+        当日になってからでは間に合いません。<b>先に友だちになっておくと、急な中止の連絡が1回で届きます。</b>
+      </p>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--warn);">
+      <p style="margin:0;font-size:14.5px;">
+        <b>当日の朝は、メールも見てください。</b>
+      </p>
+      <p class="post-meta" style="margin:4px 0 0;">
+        雨などで中止になったときの連絡は、<b>通知が届かないとメールだけ</b>になります。
+      </p>
+    </div>
+
+    <h2 class="sec rep-only">雨などで流れたとき</h2>
+    <button class="btn danger rep-only" data-go="scancel" type="button">中止・順延を知らせる</button>
+  </section>
+
+  <!-- ==================================================== scancel 中止・順延を知らせる -->
+  <section data-screen="scancel" data-title="中止・順延を知らせる">
+    <div class="card">
+      <div class="post-h">
+        <span class="post-when">9月27日（土）午前</span>
+        <span class="pill ok">決定</span>
+      </div>
+      <div class="post-meta">川岸ファイターズ ／ 安佐南区 かわぎしグラウンド</div>
+    </div>
+
+    <div class="field">
+      <label class="f-label">どちらですか</label>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="true">中止</button>
+        <button class="chip" type="button" aria-pressed="false">順延</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="f-label">ひとこと<span class="hint">理由を書いてください。そのまま届きます</span></label>
+      <textarea>朝から雨で、グラウンドが使えなくなりました。急なご連絡になってすみません。</textarea>
+    </div>
+
+    <h2 class="sec">お知らせが届く先</h2>
+
+    <div class="card">
+      <div class="row">
+        <div class="row-t"><b>決まった助っ人</b><span>ゆうき ・ かずま ・ しんじ</span></div>
+        <span class="pill">3人</span>
+      </div>
+      <div class="row">
+        <div class="row-t"><b>その助っ人の所属チームの代表</b><span>依頼の取り消しとして届きます</span></div>
+        <span class="pill">2チーム</span>
+      </div>
+      <div class="row">
+        <div class="row-t"><b>対戦相手のチーム</b><span>川岸ファイターズ</span></div>
+        <span class="pill">1チーム</span>
+      </div>
+    </div>
+
+    <button class="btn danger" data-go="sdone" type="button">この内容で知らせる</button>
+  </section>
+
+  <!-- ==================================================== sdone 知らせました -->
+  <section data-screen="sdone" data-title="知らせました">
+    <div class="result">
+      <div class="result-mark">✓</div>
+      <h2>知らせました</h2>
+      <p>6件のお知らせを送りました。</p>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--warn);">
+      <p style="margin:0;font-size:14.5px;">
+        <b>すぐに気づいてもらえないことがあります。</b>
+      </p>
+      <p class="post-meta" style="margin:4px 0 0;">
+        通知が届かない人には、メールだけが届きます。<b>LINEで友だちになっている人には、LINEでも追えます。</b>
+      </p>
+    </div>
+
+    <h2 class="sec">送った先</h2>
+
+    <div class="card">
+      <div class="row">
+        <div class="row-t"><b>ゆうき</b><span>東雲アスレチックス の代表にも届いています</span></div>
+        <button class="btn-sm" data-act="toast" data-msg="架空のリンクなので、開きません" type="button">LINEで送る</button>
+      </div>
+      <div class="row">
+        <div class="row-t"><b>かずま</b><span>城北クラブ の代表にも届いています</span></div>
+        <button class="btn-sm" data-act="toast" data-msg="架空のリンクなので、開きません" type="button">LINEで送る</button>
+      </div>
+      <div class="row">
+        <div class="row-t">
+          <b>しんじ</b>
+          <span>チームに入っていないので、本人だけ</span>
+          <span><button class="link-quiet" style="padding:2px 0;"
+                        data-act="toast" data-msg="しんじさんに「LINEの登録をお願いします」と知らせました"
+                        type="button">LINEの登録をお願いする</button></span>
+        </div>
+        <span class="pill warn">LINEなし</span>
+      </div>
+      <div class="row">
+        <div class="row-t"><b>川岸ファイターズ</b><span>対戦相手の代表</span></div>
+        <button class="btn-sm" data-act="toast" data-msg="架空のリンクなので、開きません" type="button">LINEで送る</button>
+      </div>
+    </div>
+
+    <p class="note">
+      <b>所属チームの代表にも同じお知らせが届いています。</b>本人が気づかなくても、そちらから伝わることがあります。<br>
+      <b>しんじ</b>さんは、チームに入っておらずLINEも入れていないので、その道がありません。<br>
+      LINEは任意なので、<b>入れていない人もいます。</b>
+    </p>
+
+    <h2 class="sec">日をあらためるとき</h2>
+
+    <button class="btn sub" data-go="s5" type="button">同じ人に、もう一度声をかける</button>
+    <p class="note">前に決まっていた3人が入った状態で、募集の画面が開きます。</p>
+  </section>
+
+  <!-- ==================================================== scanceled 中止になりました（選手） -->
+  <section data-screen="scanceled" data-title="中止になりました">
+    <div class="card">
+      <div class="post-h">
+        <span class="post-when">10月12日（日）午前</span>
+        <span class="pill warn">中止</span>
+      </div>
+      <div class="post-team" style="font-size:16px;">みどりヶ丘ベースボール の助っ人</div>
+
+      <dl class="dl" style="margin-top:12px;">
+        <div><dt>場所</dt><dd>広島市佐伯区<small>みどりヶ丘グラウンド</small></dd></div>
+        <div><dt>知らせ</dt><dd>朝から雨で、グラウンドが使えなくなりました。急なご連絡になってすみません。<small>10月12日 6時42分</small></dd></div>
+      </dl>
+    </div>
+
+    <p class="note">
+      行かなくて大丈夫です。<br>
+      日があらためて決まったら、<b>また声をかけてもらえることがあります。</b>
+    </p>
+  </section>
+
+  <!-- ==================================================== s10 対戦の履歴 -->
+  <section data-screen="s10" data-title="対戦の履歴">
+    <p class="lead">あおぞらクラブ ／ さくらリーグ 2部</p>
+
+    <h2 class="sec">やった相手と、その回数</h2>
+
+    <div class="card">
+      <div class="row">
+        <div class="count"><b>3</b><span>回</span></div>
+        <div class="row-t"><b>城北クラブ</b><span>いちばん近いのは 9/27（土）</span></div>
+      </div>
+      <div class="row">
+        <div class="count"><b>2</b><span>回</span></div>
+        <div class="row-t"><b>東雲アスレチックス</b><span>いちばん近いのは 7/19（土）</span></div>
+      </div>
+      <div class="row">
+        <div class="count"><b>1</b><span>回</span></div>
+        <div class="row-t"><b>みどりヶ丘ベースボール</b><span>いちばん近いのは 5/10（土）</span></div>
+      </div>
+    </div>
+
+    <h2 class="sec">アプリで対戦した記録がない相手</h2>
+
+    <div class="card">
+      <div class="row">
+        <div class="row-t"><b>川岸ファイターズ</b><span>さくらリーグ 2部</span></div>
+        <button class="btn-sm quiet" data-act="remove" type="button">もう対戦した</button>
+      </div>
+      <div class="row">
+        <div class="row-t"><b>港南クラブ</b><span>さくらリーグ 2部</span></div>
+        <button class="btn-sm quiet" data-act="remove" type="button">もう対戦した</button>
+      </div>
+      <div class="row">
+        <div class="row-t"><b>もみじストライカーズ</b><span>さくらリーグ 2部</span></div>
+        <button class="btn-sm quiet" data-act="remove" type="button">もう対戦した</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================== s11 チームの設定 -->
+  <section data-screen="s11" data-title="チームの設定">
+    <div class="field">
+      <label class="f-label">チーム名</label>
+      <input type="text" value="あおぞらクラブ">
+    </div>
+
+    <div class="field field-row">
+      <div>
+        <label class="f-label">都道府県</label>
+        <select><option>広島県</option></select>
+      </div>
+      <div>
+        <label class="f-label">市区町村</label>
+        <select><option>広島市安佐南区</option></select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="f-label">入っているリーグ<span class="hint">なくてもかまいません。いくつでも足せます</span></label>
+      <div class="chips" style="margin-bottom:10px;">
+        <button class="chip" type="button" aria-pressed="true">さくらリーグ 2部</button>
+      </div>
+      <button class="btn sub" data-go="sleague" type="button">リーグを足す</button>
+    </div>
+
+    <h2 class="sec">代表</h2>
+
+    <div class="card">
+      <div class="row">
+        <div class="row-t"><b>はるき</b><span>あなた</span></div>
+      </div>
+      <div class="row">
+        <div class="row-t"><b>ゆうと</b><span>代表</span></div>
+        <button class="btn-sm quiet" data-act="remove" type="button">外す</button>
+      </div>
+    </div>
+    <button class="btn sub" data-go="srep" type="button" style="margin-top:10px;">代表を増やす</button>
+
+    <h2 class="sec">選手を呼ぶ</h2>
+
+    <div class="field">
+      <input type="text" value="（ここに招待リンクが出ます）" readonly>
+    </div>
+    <button class="btn sub" data-act="toast" data-msg="コピーしました" type="button">リンクをコピーする</button>
+
+    <h2 class="sec">このチームを消す</h2>
+
+    <button class="btn quiet" type="button" disabled
+            style="opacity:.45;cursor:default;">このチームを消す</button>
+    <p class="note">
+      <b>自分ひとりしか登録していないチーム</b>だけ消せます。<br>
+      あおぞらクラブは<b>ほかに17人が登録している</b>ので、いまは消せません。
+    </p>
+  </section>
+
+  <!-- ==================================================== sw1 ようこそ -->
+  <section data-screen="sw1" data-title="はじめまして">
+    <div class="card">
+      <p style="margin:0 0 10px;font-size:15px;"><b>パスワードは作りません。</b></p>
+      <p class="note" style="margin:0;">どちらかを押すと、そのまま始められます。</p>
+    </div>
+
+    <button class="btn" data-go="sw2" type="button" style="background:#06c755;">LINEでつづける</button>
+    <button class="btn sub" data-go="sw2" type="button" style="margin-top:8px;">Googleでつづける</button>
+
+    <p class="note">つづけると、利用規約とプライバシーポリシーに同意したことになります。</p>
+  </section>
+
+  <!-- ==================================================== sw2 あなたのこと -->
+  <section data-screen="sw2" data-title="あなたのこと">
+    <div class="field">
+      <label class="f-label">呼ばれ方<span class="hint">チームで呼ばれている名前で構いません</span></label>
+      <input type="text" placeholder="はるき">
+    </div>
+
+    <div class="field">
+      <label class="f-label">メールアドレス<span class="hint">お知らせの届け先です</span></label>
+      <input type="email" placeholder="dummy@example.com">
+      <p class="note" style="margin-top:6px;">異動や転職でも変わらないアドレスをおすすめします。</p>
+    </div>
+
+    <h2 class="sec">決まったときの連絡先（入れなくても使えます）</h2>
+
+    <p class="note" style="margin:0 0 12px;">
+      <b>試合や助っ人が決まったときだけ、相手のチームの代表に出ます。</b>
+      一覧や名簿には出ません。あとから自分の設定でも入れられます。
+    </p>
+
+    <div class="field">
+      <label class="f-label">LINEの友だち追加リンク
+        <span class="hint">LINE →「ホーム」→ 右上の友だち追加 → QRコード →「マイQRコード」→ リンクをコピー</span></label>
+      <input type="url" placeholder="https://line.me/ti/p/...">
+      <p class="note" style="margin-top:6px;">
+        入れておくと、<b>急な中止の連絡が早く届きます。</b><br>
+        LINEでQRコードを「更新」すると、このリンクは使えなくなります。入れ直してください。
+      </p>
+    </div>
+
+    <button class="btn" data-go="steamsel" type="button">つづける</button>
+  </section>
+
+  <!-- ==================================================== steamsel チームのこと（3択・共用） -->
+  <section data-screen="steamsel" data-title="チームのこと">
+    <p class="lead">どうしますか。</p>
+
+    <button class="card tap" data-go="steamnew" type="button">
+      <div class="gate">
+        <div class="gate-t">
+          <b>チームを作る</b>
+          <span>新しく登録します。作った人が代表になります</span>
+        </div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+
+    <button class="card tap" data-go="steamjoin" type="button">
+      <div class="gate">
+        <div class="gate-t">
+          <b>あるチームに入る</b>
+          <span>すでにあるチームの選手になります</span>
+        </div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+
+    <button class="card tap" data-go="sw5" type="button">
+      <div class="gate">
+        <div class="gate-t">
+          <b>どこにも入らない</b>
+          <span>助っ人として声をかけてもらいます。あとから入れます</span>
+        </div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+
+    <p class="note">
+      招待リンクから入った場合は、この画面は出ません。<b>チームが決まっています。</b>
+    </p>
+  </section>
+
+  <!-- ==================================================== steamnew チームを作る（共用） -->
+  <section data-screen="steamnew" data-title="チームを作る">
+    <div class="field">
+      <label class="f-label">チーム名</label>
+      <input type="text" placeholder="あおぞらクラブ">
+    </div>
+
+    <div class="field field-row">
+      <div>
+        <label class="f-label">都道府県</label>
+        <select><option>広島県</option></select>
+      </div>
+      <div>
+        <label class="f-label">市区町村</label>
+        <select><option>広島市安佐南区</option></select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="f-label">入っているリーグ<span class="hint">なくてもかまいません。いくつでも足せます</span></label>
+      <p class="note" style="margin:0 0 8px;">まだありません。</p>
+      <button class="btn sub" data-go="sleague" type="button">リーグを足す</button>
+    </div>
+
+    <p class="note">
+      作った人が、そのチームの<b>代表</b>になります。<br>
+      このあとすぐ、募集を出せます。
+    </p>
+
+    <button class="btn" data-go="sw5" type="button">このチームを作る</button>
+  </section>
+
+  <!-- ==================================================== sleague リーグを足す（共用） -->
+  <section data-screen="sleague" data-title="リーグを足す">
+    <div class="field">
+      <label class="f-label">リーグの名前で探す<span class="hint">部やブロックまで入っているものを選んでください</span></label>
+      <input type="text" value="さくら">
+    </div>
+
+    <h2 class="sec">見つかったリーグ</h2>
+
+    <button class="card tap" data-back="1" type="button">
+      <div class="gate">
+        <div class="gate-t"><b>さくらリーグ 1部</b><span>広島県 ／ 10チーム</span></div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+
+    <button class="card tap" data-back="1" type="button">
+      <div class="gate">
+        <div class="gate-t"><b>さくらリーグ 2部</b><span>広島県 ／ 10チーム</span></div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+
+    <button class="card tap" data-back="1" type="button">
+      <div class="gate">
+        <div class="gate-t"><b>さくらリーグ 3部</b><span>広島県 ／ 9チーム</span></div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+
+    <p class="note">
+      <b>表記が1文字違うと、別のリーグとして扱われます。</b>
+      絞り込みもお知らせも、このリーグ名で突き合わせています。<br>
+      すでにあるものは、必ず上から選んでください。
+    </p>
+
+    <p style="text-align:center;margin:20px 0 0;">
+      <button class="link-quiet" data-back="1" type="button">見つからない ──「さくら」を新しく登録する</button>
+    </p>
+  </section>
+
+  <!-- ==================================================== steamjoin あるチームに入る（共用） -->
+  <section data-screen="steamjoin" data-title="あるチームに入る">
+    <div class="field">
+      <label class="f-label">チーム名で探す</label>
+      <input type="text" value="あおぞら">
+    </div>
+
+    <h2 class="sec">見つかったチーム</h2>
+
+    <button class="card tap" data-go="sw5" type="button">
+      <div class="gate">
+        <div class="gate-t">
+          <b>あおぞらクラブ</b>
+          <span>さくらリーグ 2部 ／ 広島市安佐南区 ／ 18人</span>
+        </div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+
+    <button class="card tap" data-go="sw5" type="button">
+      <div class="gate">
+        <div class="gate-t">
+          <b>あおぞら少年野球クラブ</b>
+          <span>リーグに入っていないチーム ／ 広島市西区 ／ 24人</span>
+        </div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+
+    <p class="note">
+      承認はありません。選ぶとすぐ所属になります。<br>
+      見つからないときは、ひとつ前から<b>［チームを作る］</b>へ。
+    </p>
+  </section>
+
+  <!-- ==================================================== sw5 お知らせの条件 -->
+  <section data-screen="sw5" data-title="お知らせの条件">
+    <p class="lead">
+      条件に合う募集が出たときだけ、お知らせします。<br>
+      はじめは広めに入れてあります。あとから変えられます。
+    </p>
+
+    <div class="field">
+      <label class="f-label">どんな募集が出たときに知らせますか<span class="hint">いくつでも選べます</span></label>
+
+      <label class="check rep-only">
+        <input type="checkbox" checked>
+        <div class="check-t">
+          <b>対戦相手の募集</b>
+          <span>「この日に試合したい」というチームが出したとき</span>
+        </div>
+      </label>
+
+      <label class="check">
+        <input type="checkbox" checked>
+        <div class="check-t">
+          <b>助っ人の募集</b>
+          <span>「この日だけ手伝ってほしい」というチームが出したとき</span>
+        </div>
+      </label>
+
+      <label class="check">
+        <input type="checkbox" checked>
+        <div class="check-t">
+          <b>メンバーの募集</b>
+          <span>「ずっと入ってくれる人を探している」チームが出したとき</span>
+        </div>
+      </label>
+    </div>
+
+    <div class="field field-row">
+      <div>
+        <label class="f-label">場所<span class="hint">この市区町村のものだけ</span></label>
+        <select><option>広島市安佐南区</option></select>
+      </div>
+      <div>
+        <label class="f-label">リーグ<span class="hint">このリーグのものだけ</span></label>
+        <select><option>さくらリーグ 2部</option></select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="f-label">日にち・ポジション<span class="hint">絞ると、合うものだけ届きます</span></label>
+      <select><option>指定なし（ぜんぶ受け取る）</option></select>
+    </div>
+
+    <button class="btn" data-go="sw6" type="button">お知らせを受け取る</button>
+  </section>
+
+  <!-- ==================================================== sw6 ホーム画面に追加 -->
+  <section data-screen="sw6" data-title="ホーム画面に追加">
+    <div class="result">
+      <div class="result-mark">✓</div>
+      <h2>登録できました</h2>
+      <p>あと1つだけ、お願いがあります。</p>
+    </div>
+
+    <div class="flow">
+      <ol>
+        <li><b>画面の下の　共有ボタン　を押す</b></li>
+        <li><b>「ホーム画面に追加」を押す</b></li>
+        <li><b>ホーム画面に出たアイコンから、開き直す</b>
+          <small>もう一度ログインを聞かれます。さきほどと同じ LINE ／ Google で大丈夫です</small></li>
+        <li><b>「通知を許可しますか」と出たら、必ず［許可］を押す</b>
+          <small>［許可しない］を押すと、この端末に通知が届かなくなり、
+            <b>当日朝の中止の連絡などの大事な連絡に気づけないことがあります。</b>
+            元に戻すには、iPhone の設定を自分で開くしかありません。</small></li>
+      </ol>
+    </div>
+
+    <p style="text-align:center;margin:20px 0 0;">
+      <button class="link-quiet" data-go="sfind" type="button">あとにする（メールだけ受け取る）</button>
+    </p>
+
+    <p class="note" style="margin-top:24px;">
+      この画面は iPhone の人にだけ出ます。<b>ホーム画面のアイコンから開いたときしか、通知の許可を聞けない</b>ためです。<br>
+      Android とパソコンでは、ひとつ前の画面で許可が終わっています。
+    </p>
+  </section>
+
+  <!-- ==================================================== sfh 助っ人の絞り込み -->
+  <section data-screen="sfh" data-title="助っ人の募集の絞り込み">
+    <p class="lead">この条件に合うものだけ出します。</p>
+
+    <div class="field field-row">
+      <div>
+        <label class="f-label">都道府県</label>
+        <select><option>広島県</option></select>
+      </div>
+      <div>
+        <label class="f-label">市区町村</label>
+        <select><option>広島市安佐南区</option></select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="f-label">リーグ</label>
+      <select><option>さくらリーグ 2部</option><option>指定なし（ぜんぶ）</option></select>
+    </div>
+
+    <div class="field">
+      <label class="f-label">日にち</label>
+      <select><option>指定なし（ぜんぶ）</option><option>今週の土日</option><option>日を選ぶ</option></select>
+    </div>
+
+    <div class="field">
+      <label class="f-label">ポジション<span class="hint">いくつでも選べます。選ばなければ、ぜんぶ出ます</span></label>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="false">投手</button>
+        <button class="chip" type="button" aria-pressed="false">捕手</button>
+        <button class="chip" type="button" aria-pressed="false">内野手</button>
+        <button class="chip" type="button" aria-pressed="false">外野手</button>
+      </div>
+    </div>
+
+    <button class="btn" data-back="1" type="button">この条件にする</button>
+
+    <p class="note">
+      この条件は、<b>お知らせを受け取る条件としても保存されます。</b><br>
+      絞ると、その条件に合う募集だけが届くようになります。
+    </p>
+  </section>
+
+  <!-- ==================================================== sfm 対戦相手の絞り込み -->
+  <section data-screen="sfm" data-title="対戦相手の募集の絞り込み">
+    <p class="lead">この条件に合うものだけ出します。</p>
+
+    <div class="field field-row">
+      <div>
+        <label class="f-label">都道府県</label>
+        <select><option>広島県</option></select>
+      </div>
+      <div>
+        <label class="f-label">市区町村</label>
+        <select><option>広島市安佐南区</option></select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="f-label">リーグ</label>
+      <select><option>さくらリーグ 2部</option><option>指定なし（ぜんぶ）</option></select>
+    </div>
+
+    <div class="field">
+      <label class="f-label">日にち</label>
+      <select><option>指定なし（ぜんぶ）</option><option>今週の土日</option><option>日を選ぶ</option></select>
+    </div>
+
+    <div class="field">
+      <label class="f-label">会場<span class="hint">相手が会場を用意してあるかどうか</span></label>
+      <select>
+        <option>どちらでも</option>
+        <option>用意してあるチームだけ</option>
+        <option>これから探すチームだけ</option>
+      </select>
+    </div>
+
+    <button class="btn" data-back="1" type="button">この条件にする</button>
+
+    <p class="note">
+      <b>「どちらでも」のままにしておくのをおすすめします。</b><br>
+      片方が会場を持っていれば組めるので、絞ると組める相手が減ります。
+    </p>
+  </section>
+
+  <!-- ==================================================== sfn メンバーの絞り込み -->
+  <section data-screen="sfn" data-title="メンバーの募集の絞り込み">
+    <p class="lead">この条件に合うものだけ出します。</p>
+
+    <div class="field field-row">
+      <div>
+        <label class="f-label">都道府県</label>
+        <select><option>広島県</option></select>
+      </div>
+      <div>
+        <label class="f-label">市区町村</label>
+        <select><option>広島市安佐南区</option></select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="f-label">リーグ</label>
+      <select><option>さくらリーグ 2部</option><option>指定なし（ぜんぶ）</option></select>
+    </div>
+
+    <div class="field">
+      <label class="f-label">ポジション<span class="hint">いくつでも選べます。選ばなければ、ぜんぶ出ます</span></label>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="false">投手</button>
+        <button class="chip" type="button" aria-pressed="false">捕手</button>
+        <button class="chip" type="button" aria-pressed="false">内野手</button>
+        <button class="chip" type="button" aria-pressed="false">外野手</button>
+      </div>
+    </div>
+
+    <button class="btn" data-back="1" type="button">この条件にする</button>
+
+    <p class="note">
+      <b>日にちの欄はありません。</b>メンバーの募集は、ずっと出しておくものなので日にちを持ちません。
+    </p>
+  </section>
+
+  <!-- ==================================================== srep 代表を増やす -->
+  <section data-screen="srep" data-title="代表を増やす">
+    <p class="lead">あおぞらクラブに登録している人から選びます。</p>
+
+    <div class="field">
+      <label class="f-label">名前で探す</label>
+      <input type="text" placeholder="かずま">
+    </div>
+
+    <h2 class="sec">登録している人</h2>
+
+    <div class="card">
+      <div class="row">
+        <div class="row-t"><b>ゆうと</b><span>内野手</span></div>
+        <span class="pill ok">すでに代表</span>
+      </div>
+      <div class="row">
+        <div class="row-t"><b>かずま</b><span>内野手</span></div>
+        <button class="btn-sm" data-back="1" type="button">代表にする</button>
+      </div>
+      <div class="row">
+        <div class="row-t"><b>ゆうき</b><span>外野手・内野手</span></div>
+        <button class="btn-sm" data-back="1" type="button">代表にする</button>
+      </div>
+      <div class="row">
+        <div class="row-t"><b>しんじ</b><span>投手</span></div>
+        <button class="btn-sm" data-back="1" type="button">代表にする</button>
+      </div>
+    </div>
+
+    <p class="note">
+      代表は何人でも置けます。<b>2人以上にしておくと、1人が抜けてもチームが止まりません。</b>
+    </p>
+  </section>
+
+  <!-- ==================================================== shmoved 引き継ぎました -->
+  <section data-screen="shmoved" data-title="引き継ぎました">
+    <div class="result">
+      <div class="result-mark">✓</div>
+      <h2>引き継ぎました</h2>
+      <p>はるき さんが、あおぞらクラブの代表になりました。</p>
+    </div>
+
+    <p class="note">
+      あなたはこのチームの<b>代表ではなくなりました。</b>選手としての登録は残っています。<br>
+      はるきさんと、あおぞらクラブに登録している18人に、お知らせが届きます。
+    </p>
+
+    <button class="btn sub" data-go="sme" type="button" style="margin-top:14px;">予定を見るへ</button>
+  </section>
+
+  <!-- ==================================================== shstopped 止めました -->
+  <section data-screen="shstopped" data-title="止めました">
+    <div class="result">
+      <div class="result-mark no">×</div>
+      <h2>止めました</h2>
+      <p>代表は移りません。</p>
+    </div>
+
+    <p class="note">
+      はるきさんに<b>「心当たりがないと言われました」</b>と伝わります。<br>
+      あおぞらクラブに登録している18人にも、止めたことが届きます。
+    </p>
+
+    <button class="btn sub" data-go="steam" type="button" style="margin-top:14px;">募集するへ</button>
+  </section>
+
+  </div><!-- /body -->
+
+  <!-- ==================================================== 下タブ（横並びはここだけ） -->
+  <div class="tabbar" id="tabbar">
+    <button type="button" data-tab="find" data-go="sfind" aria-current="true">募集を探す</button>
+    <button type="button" data-tab="me"   data-go="sme"   aria-current="false">予定を見る</button>
+    <button type="button" data-tab="team" data-go="steam" aria-current="false" class="rep-only">募集する</button>
+  </div>
+
+</div><!-- /frame -->
+
+<!-- ==================================================== 画面一覧（試作だけ） -->
+<div class="proto-sheet proto-hide" id="sheet">
+  <div>
+    <h2>画面の一覧</h2>
+    <p class="note" style="margin:0;">代表の画面を選ぶと、立場も切り替わります。</p>
+
+    <div class="proto-group">はじめに</div>
+    <div class="proto-list">
+      <button type="button" data-go="s0"><i>─</i><b>この試作の見かた</b></button>
+    </div>
+
+    <div class="proto-group">はじめの登録（下タブは出ません）</div>
+    <div class="proto-list">
+      <button type="button" data-go="sw1"><i>★</i><b>はじめまして</b><em>LINE／Google</em></button>
+      <button type="button" data-go="sw2"><i>2</i><b>あなたのこと</b><em>呼ばれ方・メール</em></button>
+      <button type="button" data-go="steamsel"><i>★</i><b>チームのこと</b><em>3択。設定からも使う</em></button>
+      <button type="button" data-go="steamnew"><i>4</i><b>チームを作る</b><em>作った人が代表</em></button>
+      <button type="button" data-go="steamjoin"><i>5</i><b>あるチームに入る</b><em>承認なし</em></button>
+      <button type="button" data-go="sleague"><i>★</i><b>リーグを足す</b><em>選ぶのが基本。設定からも使う</em></button>
+      <button type="button" data-go="sw5"><i>6</i><b>お知らせの条件</b><em>既定値＋通知の許可</em></button>
+      <button type="button" data-go="sw6"><i>7</i><b>ホーム画面に追加</b><em>iPhoneだけ</em></button>
+    </div>
+
+    <div class="proto-group">「募集を探す」タブ</div>
+    <div class="proto-list">
+      <button type="button" data-go="s3"><i>★</i><b>助っ人の募集</b><em>お知らせの着地点</em></button>
+      <button type="button" data-go="s4"><i>2</i><b>送りました</b></button>
+      <button type="button" data-go="sfind"><i>3</i><b>募集を探す</b><em>入口2つ</em></button>
+      <button type="button" data-go="s2h"><i>4</i><b>助っ人の募集を探す</b><em>一覧</em></button>
+      <button type="button" data-go="s2n"><i>5</i><b>メンバーの募集を探す</b><em>一覧・日にちなし</em></button>
+      <button type="button" data-go="sfh"><i>6</i><b>助っ人の絞り込み</b><em>お知らせの条件にもなる</em></button>
+      <button type="button" data-go="sfn"><i>7</i><b>メンバーの絞り込み</b><em>日にちの欄がない</em></button>
+      <button type="button" data-go="s3n"><i>6</i><b>メンバーの募集</b></button>
+    </div>
+
+    <div class="proto-group">「予定を見る」タブ（選手・代表 共通）</div>
+    <div class="proto-list">
+      <button type="button" data-go="sme"><i>7</i><b>予定を見る</b><em>この先の予定・返事待ち</em></button>
+      <button type="button" data-go="s8"><i>8</i><b>自分の設定</b><em>歯車から。所属チーム・お知らせの条件</em></button>
+      <button type="button" data-go="s7"><i>9</i><b>決まりました</b><em>連絡先</em></button>
+      <button type="button" data-go="scanceled"><i>10</i><b>中止になりました</b><em>助っ人に届いたあと</em></button>
+      <button type="button" data-go="shandover"><i>★</i><b>代表を引き継ぐ</b><em>前の代表に連絡が取れないとき</em></button>
+      <button type="button" data-go="shandoverdone"><i>11</i><b>申し出ました</b><em>3日後に移る</em></button>
+      <button type="button" data-go="shandoverask"><i>12</i><b>代表の引き継ぎ</b><em>いまの代表に届く。止められる</em></button>
+      <button type="button" data-go="shmoved"><i>13</i><b>引き継ぎました</b></button>
+    </div>
+
+    <div class="proto-group">「募集する」タブ（代表だけ）</div>
+    <div class="proto-list">
+      <button type="button" data-go="steam"><i>10</i><b>募集する</b><em>代表の入口</em></button>
+      <button type="button" data-go="spost"><i>11</i><b>何を募集するか</b></button>
+      <button type="button" data-go="s5"><i>12</i><b>助っ人を募集する</b></button>
+      <button type="button" data-go="smatch"><i>★</i><b>同じ日を探しているチーム</b><em>日付の突き合わせ</em></button>
+      <button type="button" data-go="s3m"><i>13</i><b>対戦相手の募集</b><em>会場の2択</em></button>
+      <button type="button" data-go="s2m"><i>14</i><b>相手を探しているチーム</b><em>まだ出していない人向け</em></button>
+      <button type="button" data-go="s6"><i>15</i><b>応募した人から選ぶ</b></button>
+      <button type="button" data-go="s10"><i>16</i><b>対戦の履歴</b></button>
+      <button type="button" data-go="s11"><i>17</i><b>チームの設定</b><em>歯車から</em></button>
+      <button type="button" data-go="srep"><i>18</i><b>代表を増やす</b><em>登録者から選ぶ</em></button>
+      <button type="button" data-go="sfm"><i>19</i><b>対戦相手の絞り込み</b><em>会場の欄がある</em></button>
+      <button type="button" data-go="shstopped"><i>20</i><b>止めました</b><em>引き継ぎを断った</em></button>
+      <button type="button" data-go="scancel"><i>★</i><b>中止・順延を知らせる</b><em>必須の機能</em></button>
+      <button type="button" data-go="sdone"><i>18</i><b>知らせました</b><em>送った先が出る</em></button>
+    </div>
+
+    <button class="btn quiet" id="sheetClose" type="button" style="margin-top:16px;">閉じる</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var screens = {};
+  Array.prototype.forEach.call(document.querySelectorAll('[data-screen]'), function (el) {
+    screens[el.dataset.screen] = el;
+    el.classList.add('proto-hide');
+  });
+
+  var sheet    = document.getElementById('sheet');
+  var gearWrap = document.getElementById('gearWrap');
+  var titleEl = document.getElementById('title');
+  var backBtn = document.getElementById('back');
+  var tabbar  = document.getElementById('tabbar');
+  var stack   = [];
+
+  // ⭐ 対戦相手まわりと中止の連絡は代表だけ。選手として見ているときは開かせない
+  var repOnly = {
+    steam: 1, spost: 1, s5: 1, s6: 1, s10: 1, s11: 1,
+    smatch: 1, s2m: 1, s3m: 1,
+    scancel: 1, sdone: 1,         // 中止を知らせるのは、募集を出した代表だけ
+    sfm: 1, srep: 1, shmoved: 1, shstopped: 1,
+    shandoverask: 1               // 引き継ぎの申し出が届くのは、いまの代表
+  };
+
+  // ⚠️ 下タブの印を動かすのは「タブの根っこ」に来たときだけ。
+  //    途中の画面で印を動かすと、たとえば「決まりました」のように
+  //    複数のタブから来る画面で、来た道と違うタブが点いてしまう。
+  var tabRoot = { sfind: 'find', sme: 'me', steam: 'team' };
+
+  // 直リンクと［画面一覧］から飛んだときだけ、印の初期位置に使う
+  var tabHint = {
+    s2h: 'find', s2n: 'find', s3: 'find', s3n: 'find', s4: 'find',
+    s7: 'me', s8: 'me', scanceled: 'me',
+    shandover: 'me', shandoverdone: 'me', shandoverask: 'me',
+    steamsel: 'me', steamnew: 'me', steamjoin: 'me', sleague: 'me',
+    spost: 'team', s5: 'team', s6: 'team', s10: 'team', s11: 'team',
+    smatch: 'team', s2m: 'team', s3m: 'team', scancel: 'team', sdone: 'team',
+    sfm: 'team', srep: 'team', shmoved: 'me', shstopped: 'team'
+  };
+
+  // 下タブを出さない画面（登録の流れの中）
+  var noTabs = {
+    sw1: 1, sw2: 1, sw5: 1, sw6: 1,
+    steamsel: 1, steamnew: 1, steamjoin: 1, sleague: 1
+  };
+
+  function setTab(tab) {
+    if (!tab) return;
+    Array.prototype.forEach.call(tabbar.children, function (b) {
+      b.setAttribute('aria-current', String(b.dataset.tab === tab));
+    });
+  }
+
+  function show(id, push) {
+    if (document.body.dataset.mode === 'player' && repOnly[id]) id = 'sfind';
+    var el = screens[id];
+    if (!el) return;
+
+    Object.keys(screens).forEach(function (k) { screens[k].classList.add('proto-hide'); });
+    el.classList.remove('proto-hide');
+    titleEl.textContent = el.dataset.title || '';
+
+    setTab(tabRoot[id]);   // 根っこ以外では印を動かさない＝来た道のタブが残る
+    document.body.classList.toggle('no-tabs', !!noTabs[id]);
+
+    if (push !== false) stack.push(id);
+    // ⚠️ タブの先頭では ← 戻る を出さない。タブで移るのが筋で、
+    //    ここで戻れると「別のタブの画面」に戻ってしまう
+    backBtn.classList.toggle('proto-hide', stack.length < 2 || !!tabRoot[id]);
+    if (history.replaceState) history.replaceState(null, '', '#' + id);
+    window.scrollTo(0, 0);
+  }
+
+  function setMode(mode) {
+    document.body.dataset.mode = mode;
+    document.getElementById('mPlayer').setAttribute('aria-pressed', String(mode === 'player'));
+    document.getElementById('mRep').setAttribute('aria-pressed', String(mode === 'rep'));
+  }
+
+  // ⭐ 歯車の開閉そのものは <details> がやるので、ここは無くても動く。
+  //    「外を押したら閉じる」だけを足している（あれば嬉しい、程度のもの）
+  function closeMenu() { gearWrap.open = false; }
+
+  var toastTimer;
+  function toast(msg) {
+    var el = document.getElementById('protoToast');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'protoToast';
+      el.className = 'proto-toast';
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.style.display = '';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.style.display = 'none'; }, 1800);
+  }
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('#gearWrap')) closeMenu();
+
+    if (e.target.closest('#mPlayer')) { setMode('player'); stack = []; show('sfind', true); return; }
+    if (e.target.closest('#mRep'))    { setMode('rep');    stack = []; show('steam', true); return; }
+
+    // 下タブを押したら、そのタブの先頭に戻って履歴を切る
+    var tabBtn = e.target.closest('#tabbar button');
+    if (tabBtn) {
+      closeMenu();
+      stack = [];
+      show(tabBtn.dataset.go, true);
+      return;
+    }
+
+    // その場で反応するもの（⛔ 試作専用。本番はサーバー側で処理する）
+    var act = e.target.closest('[data-act]');
+    if (act) {
+      if (act.dataset.act === 'remove') {
+        var row = act.closest('.row');
+        if (row) row.remove();
+      } else if (act.dataset.act === 'pick') {
+        var mark = document.createElement('span');
+        mark.className = 'pill ok';
+        mark.textContent = '決定';
+        act.replaceWith(mark);
+      } else {
+        toast(act.dataset.msg || 'できました');
+      }
+      return;
+    }
+
+    // 選んだら、呼び出した画面に戻る（共用の選択画面のため）
+    if (e.target.closest('[data-back]')) {
+      closeMenu();
+      stack.pop();
+      show(stack[stack.length - 1] || 'sfind', false);
+      return;
+    }
+
+    var go = e.target.closest('[data-go]');
+    if (go) {
+      var id = go.dataset.go;
+      var fromSheet = !!e.target.closest('#sheet');   // ［画面一覧］からの飛び先
+      sheet.classList.add('proto-hide');
+      closeMenu();
+      // 代表の画面を選んだら、立場も合わせて切り替える
+      if (repOnly[id] && document.body.dataset.mode === 'player') setMode('rep');
+      // 一覧から飛んだときは来た道が無いので、その画面が属するタブを点ける
+      if (fromSheet) setTab(tabRoot[id] || tabHint[id]);
+      show(id, true);
+      return;
+    }
+
+    if (e.target.closest('#menu, #menu2')) { sheet.classList.remove('proto-hide'); return; }
+    if (e.target.id === 'sheetClose' || e.target === sheet) { sheet.classList.add('proto-hide'); return; }
+
+    if (e.target.closest('#back')) {
+      stack.pop();
+      show(stack[stack.length - 1] || 'sfind', false);
+      return;
+    }
+
+    var chip = e.target.closest('.chip');
+    if (chip) {
+      chip.setAttribute('aria-pressed', chip.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+    }
+  });
+
+  var start = (location.hash || '').replace('#', '');
+  if (screens[start]) {
+    if (repOnly[start]) setMode('rep');
+    setTab(tabRoot[start] || tabHint[start] || 'find');
+    show(start, true);
+  } else {
+    show('s0', true);
+  }
+})();
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
