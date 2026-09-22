@@ -34,7 +34,7 @@
         </svg>
       </summary>
       <div class="menu">
-        <button type="button" data-go="s8">自分の設定</button>
+        <button type="button" data-go="s8">私の設定</button>
         <button type="button" data-go="s11" class="rep-only">チームの設定</button>
       </div>
     </details>
@@ -59,9 +59,9 @@
     <div class="flow">
       <ol>
         <li><b>下のタブで移動します</b>
-          <small>募集を探す ／ 予定を見る ／ 募集する</small></li>
+          <small>募集を探す ／ 私の予定 ／ 募集を出す</small></li>
         <li><b>いちばん上のバーで、選手と代表を切り替えられます</b>
-          <small>代表には「募集する」タブが増えます</small></li>
+          <small>代表には「募集を出す」タブが増えます</small></li>
         <li><b>上のバーの［画面一覧］から、どの画面へも直接開けます</b></li>
       </ol>
     </div>
@@ -319,8 +319,8 @@
     <button class="btn sub" data-go="sfind" type="button" style="margin-top:14px;">ほかの募集を見る</button>
   </section>
 
-  <!-- ==================================================== sme 自分 -->
-  <section data-screen="sme" data-title="予定を見る">
+  <!-- ==================================================== sme 私の予定 -->
+  <section data-screen="sme" data-title="私の予定">
     <p class="lead"><b>はるき</b>さん ／ 広島県広島市安佐南区</p>
 
     <h2 class="sec">この先の予定</h2>
@@ -353,9 +353,9 @@
 
   </section>
 
-  <!-- ==================================================== s8 自分の設定 -->
-  <section data-screen="s8" data-title="自分の設定">
-    <h2 class="sec">自分のこと</h2>
+  <!-- ==================================================== s8 私の設定 -->
+  <section data-screen="s8" data-title="私の設定">
+    <h2 class="sec">私のこと</h2>
 
     <div class="field">
       <label class="f-label">呼ばれ方</label>
@@ -578,7 +578,7 @@
 
     <p class="note">
       それまでは、いままでどおり選手として使えます。<br>
-      移ったら、<b>「募集する」タブが出ます。</b>
+      移ったら、<b>「募集を出す」タブが出ます。</b>
     </p>
   </section>
 
@@ -612,7 +612,7 @@
   </section>
 
   <!-- ==================================================== steam チーム -->
-  <section data-screen="steam" data-title="募集する">
+  <section data-screen="steam" data-title="募集を出す">
     <p class="lead"><b>あおぞらクラブ</b> ／ さくらリーグ 2部 ／ 広島市安佐南区</p>
 
     <button class="btn" data-go="spost" type="button">募集を出す</button>
@@ -1093,7 +1093,7 @@
 
     <p class="note" style="margin:0 0 12px;">
       <b>試合や助っ人が決まったときだけ、相手のチームの代表に出ます。</b>
-      一覧や名簿には出ません。あとから自分の設定でも入れられます。
+      一覧や名簿には出ません。あとから私の設定でも入れられます。
     </p>
 
     <div class="field">
@@ -1511,7 +1511,7 @@
       はるきさんと、あおぞらクラブに登録している18人に、お知らせが届きます。
     </p>
 
-    <button class="btn sub" data-go="sme" type="button" style="margin-top:14px;">予定を見るへ</button>
+    <button class="btn sub" data-go="sme" type="button" style="margin-top:14px;">私の予定へ</button>
   </section>
 
   <!-- ==================================================== shstopped 止めました -->
@@ -1527,7 +1527,7 @@
       あおぞらクラブに登録している18人にも、止めたことが届きます。
     </p>
 
-    <button class="btn sub" data-go="steam" type="button" style="margin-top:14px;">募集するへ</button>
+    <button class="btn sub" data-go="steam" type="button" style="margin-top:14px;">募集を出すへ</button>
   </section>
 
   </div><!-- /body -->
@@ -1535,8 +1535,8 @@
   <!-- ==================================================== 下タブ（横並びはここだけ） -->
   <div class="tabbar" id="tabbar">
     <button type="button" data-tab="find" data-go="sfind" aria-current="true">募集を探す</button>
-    <button type="button" data-tab="me"   data-go="sme"   aria-current="false">予定を見る</button>
-    <button type="button" data-tab="team" data-go="steam" aria-current="false" class="rep-only">募集する</button>
+    <button type="button" data-tab="me"   data-go="sme"   aria-current="false">私の予定</button>
+    <button type="button" data-tab="team" data-go="steam" aria-current="false" class="rep-only">募集を出す</button>
   </div>
 
 </div><!-- /frame -->
@@ -1576,10 +1576,10 @@
       <button type="button" data-go="s3n"><i>6</i><b>メンバーの募集</b></button>
     </div>
 
-    <div class="proto-group">「予定を見る」タブ（選手・代表 共通）</div>
+    <div class="proto-group">「私の予定」タブ（選手・代表 共通）</div>
     <div class="proto-list">
-      <button type="button" data-go="sme"><i>7</i><b>予定を見る</b><em>この先の予定・返事待ち</em></button>
-      <button type="button" data-go="s8"><i>8</i><b>自分の設定</b><em>歯車から。所属チーム・お知らせの条件</em></button>
+      <button type="button" data-go="sme"><i>7</i><b>私の予定</b><em>この先の予定・返事待ち</em></button>
+      <button type="button" data-go="s8"><i>8</i><b>私の設定</b><em>歯車から。所属チーム・お知らせの条件</em></button>
       <button type="button" data-go="s7"><i>9</i><b>決まりました</b><em>連絡先</em></button>
       <button type="button" data-go="scanceled"><i>10</i><b>中止になりました</b><em>助っ人に届いたあと</em></button>
       <button type="button" data-go="shandover"><i>★</i><b>代表を引き継ぐ</b><em>前の代表に連絡が取れないとき</em></button>
@@ -1588,9 +1588,9 @@
       <button type="button" data-go="shmoved"><i>13</i><b>引き継ぎました</b></button>
     </div>
 
-    <div class="proto-group">「募集する」タブ（代表だけ）</div>
+    <div class="proto-group">「募集を出す」タブ（代表だけ）</div>
     <div class="proto-list">
-      <button type="button" data-go="steam"><i>10</i><b>募集する</b><em>代表の入口</em></button>
+      <button type="button" data-go="steam"><i>10</i><b>募集を出す</b><em>代表の入口</em></button>
       <button type="button" data-go="spost"><i>11</i><b>何を募集するか</b></button>
       <button type="button" data-go="s5"><i>12</i><b>助っ人を募集する</b></button>
       <button type="button" data-go="smatch"><i>★</i><b>同じ日を探しているチーム</b><em>日付の突き合わせ</em></button>
@@ -1670,7 +1670,11 @@
 
     Object.keys(screens).forEach(function (k) { screens[k].classList.add('proto-hide'); });
     el.classList.remove('proto-hide');
-    titleEl.textContent = el.dataset.title || '';
+
+    // ⭐ タブの根っこでは画面名を出さない。下タブが名前を兼ねているので重複になる。
+    //    深い画面（大半がこれ）では、← 戻る と画面名を出す。
+    //    ⚠️ ホーム画面に追加したアプリにはブラウザの戻るが無いので、ここは必須。
+    titleEl.textContent = tabRoot[id] ? '' : (el.dataset.title || '');
 
     setTab(tabRoot[id]);   // 根っこ以外では印を動かさない＝来た道のタブが残る
     document.body.classList.toggle('no-tabs', !!noTabs[id]);
@@ -1790,6 +1794,7 @@
 
 </body>
 </html>
+
 
 
 
