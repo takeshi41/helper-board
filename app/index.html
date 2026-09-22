@@ -22,11 +22,13 @@
     </div>
   </div>
 
-  <div class="bar">
-    <button class="bar-btn proto-hide" id="back" type="button">← 戻る</button>
-    <h1 id="title">試合マッチングアプリ</h1>
+  <div class="body" id="body">
+
+  <div class="float-row">
+    <button class="float-btn proto-hide" id="back" type="button" aria-label="戻る" title="戻る">←</button>
+    <div class="float-spacer"></div>
     <details class="menu-wrap" id="gearWrap">
-      <summary class="bar-icon" aria-label="設定" title="設定">
+      <summary class="float-btn" aria-label="設定" title="設定">
         <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor"
              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="12" cy="12" r="3.2"/>
@@ -40,7 +42,7 @@
     </details>
   </div>
 
-  <div class="body" id="body">
+  <h1 class="page-title" id="title"></h1>
 
   <!-- ==================================================== s0 はじめに -->
   <section data-screen="s0" data-title="試合マッチングアプリ">
@@ -1733,10 +1735,9 @@
     Object.keys(screens).forEach(function (k) { screens[k].classList.add('proto-hide'); });
     el.classList.remove('proto-hide');
 
-    // ⭐ タブの根っこでは画面名を出さない。下タブが名前を兼ねているので重複になる。
-    //    深い画面（大半がこれ）では、← 戻る と画面名を出す。
-    //    ⚠️ ホーム画面に追加したアプリにはブラウザの戻るが無いので、ここは必須。
-    titleEl.textContent = tabRoot[id] ? '' : (el.dataset.title || '');
+    // ⭐ 画面名は全画面で出す。バーの中の小さな文字ではなく、本文の先頭の大見出しなので
+    //    下タブと重なって見えない。
+    titleEl.textContent = el.dataset.title || '';
 
     setTab(tabRoot[id]);   // 根っこ以外では印を動かさない＝来た道のタブが残る
     document.body.classList.toggle('no-tabs', !!noTabs[id]);
