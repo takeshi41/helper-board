@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>試合マッチングアプリ ── 画面では見えない部分の考え</title>
+<style>
+/* ⚠️ LINE内ブラウザ（スマホの狭い画面）で開かれる前提。
+   1カラム・横スクロールなし・文字は大きめ。表は使わず定義リストで組む。 */
+:root{
+  --ink:#1a1d21; --sub:#5a6472; --faint:#8b95a3; --line:#e2e6eb;
+  --bg:#f4f6f8; --card:#fff; --key:#16697a; --key-bg:#e7f1f3;
+  --warn:#a8403a; --warn-bg:#fbecea; --ok:#1f7a45;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI",Meiryo,sans-serif;
+  font-size:16px; line-height:1.85; -webkit-text-size-adjust:100%;
+}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px 64px}
+header{background:var(--key);color:#fff;padding:26px 16px 22px;margin-bottom:22px}
+header .in{max-width:680px;margin:0 auto}
+header h1{margin:0 0 8px;font-size:21px;line-height:1.5}
+header p{margin:0;font-size:14px;opacity:.9;line-height:1.7}
+h2{
+  margin:36px 0 12px;font-size:19px;line-height:1.5;
+  padding-bottom:8px;border-bottom:2px solid var(--key);
+}
+h3{margin:24px 0 8px;font-size:16.5px;line-height:1.6}
+p{margin:0 0 14px}
+.lead{color:var(--sub);font-size:15px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:0 0 14px}
+.card > :last-child{margin-bottom:0}
+.key{border-left:4px solid var(--key)}
+.warn{border-left:4px solid var(--warn)}
+dl{margin:0}
+dl > div{padding:11px 0;border-bottom:1px solid var(--line)}
+dl > div:first-child{padding-top:0}
+dl > div:last-child{border-bottom:0;padding-bottom:0}
+dt{font-weight:700;font-size:15.5px;margin-bottom:3px}
+dd{margin:0;color:var(--sub);font-size:14.5px;line-height:1.75}
+ul{margin:0 0 14px;padding-left:1.25em}
+li{margin-bottom:7px}
+.tag{
+  display:inline-block;font-size:12.5px;font-weight:700;line-height:1.7;
+  padding:1px 9px;border-radius:5px;background:var(--key-bg);color:var(--key);
+  margin-bottom:6px;
+}
+.tag.no{background:var(--warn-bg);color:var(--warn)}
+.tag.yes{background:#e8f4ec;color:var(--ok)}
+.flow{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:0 0 14px;
+  font-size:14.5px;line-height:1.9;color:var(--sub)}
+.flow b{color:var(--ink)}
+.arrow{color:var(--faint);padding-left:2px}
+.note{font-size:14px;color:var(--sub);margin:0 0 14px}
+b{font-weight:700}
+a{color:var(--key)}
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--faint)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="in">
+    <h1>試合マッチングアプリ<br>画面では見えない部分の考え</h1>
+    <p>触れる試作とあわせてご覧ください。<br>
+      ここには、<b>画面を触っても伝わらないところ</b>だけを書いています。</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <p class="lead">
+    試作 → <a href="./app/?1">https://takeshi41.github.io/helper-board/app/</a><br>
+    全39画面あり、実際に押して進めます。上の黒い帯で「選手」と「代表」を切り替えると、
+    見える画面が変わります。
+  </p>
+
+  <h2>1. リーグの運営に、作業は発生しません</h2>
+
+  <div class="card">
+    <dl>
+      <div><dt>選手が入れるもの</dt>
+        <dd>呼ばれ方・所属チーム・地域・できるポジション・メールアドレス。<b>最初の1回だけ</b>です</dd></div>
+      <div><dt>代表が入れるもの</dt>
+        <dd>チームの情報と、募集</dd></div>
+      <div><dt>自動でやること</dt>
+        <dd>所属チームへの連絡／対戦の履歴の記録／条件に合う人へのお知らせ</dd></div>
+      <div><dt>リーグの運営</dt>
+        <dd><b>何もしません。</b>承認も、名簿の取り込みも、お知らせの更新もありません</dd></div>
+    </dl>
+  </div>
+
+  <h2>2. 何を記録するか</h2>
+
+  <p>持つものを最小限にしています。<b>持たないと決めたものも、あわせて書きます。</b></p>
+
+  <div class="card">
+    <dl>
+      <div><dt>人</dt><dd>呼ばれ方・地域・できるポジション・連絡先・お知らせを受け取る条件</dd></div>
+      <div><dt>チーム</dt><dd>名前・競技・地域・所属リーグ</dd></div>
+      <div><dt>所属</dt><dd>誰がどのチームか。代表かどうか。<b>掛け持ちもできます</b></dd></div>
+      <div><dt>リーグ</dt><dd>チームに付く<b>ただのタグ</b>です。特別扱いしません</dd></div>
+      <div><dt>募集</dt><dd>種別・日にち・時間・場所・ほしいポジション・人数・条件（自由記述）</dd></div>
+      <div><dt>応募と成立</dt><dd>誰が応募して、誰が選ばれたか</dd></div>
+      <div><dt>対戦の履歴</dt><dd><b>成立した記録から数えます。</b>専用の表は持ちません</dd></div>
+    </dl>
+  </div>
+
+  <h3>持たないもの</h3>
+
+  <div class="card warn">
+    <ul style="margin:0">
+      <li><b>選手の本名・住所・生年月日</b> ── 呼ばれ方だけで足ります</li>
+      <li><b>電話番号</b> ── LINE がほぼ全員に行き渡っているため、持ちません</li>
+      <li><b>勝敗・得点・順位</b> ── v1 では持ちません</li>
+      <li><b>チーム内の出欠</b> ── いまお使いの仕組みを置き換えません</li>
+    </ul>
+  </div>
+
+  <h3>リーグ名は「選ぶ」形にします</h3>
+
+  <p>ここは地味ですが、<b>間違えると全体が壊れる</b>ところです。</p>
+
+  <div class="flow">
+    もし自由入力にすると…<br>
+    「さくらリーグ2部」「さくらリーグ 2部」「桜リーグ2部」<span class="arrow">→</span>
+    <b>3つの別のリーグとして扱われます</b><br>
+    <span class="arrow">→</span> 絞り込み・お知らせ・まだ対戦していない相手の一覧が、すべて噛み合わなくなります
+  </div>
+
+  <p>
+    そこで<b>すでにあるリーグから選ぶ形</b>にし、見つからないときだけ新しく作れるようにしています。
+    <b>最初の1人が付けた名前が、そのまま基準になります。</b>
+  </p>
+
+  <p class="note">
+    ⭐ 部ごとに分けたい場合は、<b>「さくらリーグ 2部」のように部まで入れて登録していただく</b>と、
+    まだ対戦していない相手の一覧も、その部の中だけで出ます。
+    <b>アプリ側に「5部制」のような仕組みを持たせずに済みます。</b>
+  </p>
+
+  <h2>3. お知らせの届き方と、その限界</h2>
+
+  <div class="card">
+    <dl>
+      <div><dt>土台はメール</dt>
+        <dd>全員に送れます。アドレスは登録のときに1回入れてもらいます</dd></div>
+      <div><dt>上乗せでスマホへの通知</dt>
+        <dd>Android とパソコンは問題なく届きます</dd></div>
+      <div><dt>iPhone だけ条件があります</dt>
+        <dd><b>ホーム画面にアイコンを追加して、そこから開いた人にしか届きません。</b>
+          これは iPhone 側の決まりで、こちらでは変えられません</dd></div>
+    </dl>
+  </div>
+
+  <p>
+    そのため試作では、iPhone の方に<b>4つの手順を画面で案内</b>しています。
+    <b>ここを通れるかどうかが、このアプリのいちばんの関門です。</b>
+  </p>
+
+  <div class="card warn">
+    <p style="margin:0 0 8px"><b>通知の許可は、一度断られると二度とお願いできません。</b></p>
+    <p style="margin:0" class="note">
+      ブラウザが「断った」ことを覚えてしまうためです。
+      なので、<b>何が届くのかをお伝えしたあとで</b>お願いする順番にしています。
+      断られた方には「端末の設定から許可してください」とご案内するしかありません。
+    </p>
+  </div>
+
+  <h3>送りすぎないようにしています</h3>
+
+  <ul>
+    <li><b>全員への一斉配信はしません。</b>条件に合う方にだけ届きます</li>
+    <li>条件は<b>本人が最初に1回</b>決めます。はじめは広めに入れておきます</li>
+    <li>選手の方には<b>「対戦相手の募集」の通知は届きません。</b>
+      応じられるのは代表だけなので、届いても何もできず、通知疲れの原因になります</li>
+  </ul>
+
+  <h2>4. 連絡先の扱い</h2>
+
+  <div class="card">
+    <dl>
+      <div><dt>メールアドレス</dt><dd>必須。<b>お知らせの届け先で、相手には出しません</b></dd></div>
+      <div><dt>LINEの友だち追加リンク</dt>
+        <dd>任意。<b>試合や助っ人が決まったときだけ</b>、相手のチームの代表に出ます</dd></div>
+    </dl>
+  </div>
+
+  <p>
+    <b>一覧や名簿からは、誰の連絡先も見えません。</b>決まってから初めて出ます。
+    なりすましがあっても被害が小さいのは、この作りのためです。
+  </p>
+
+  <div class="card key">
+    <p style="margin:0 0 8px"><b>雨で中止になったときが、いちばん大事です。</b></p>
+    <p style="margin:0" class="note">
+      助っ人の方に無駄足を踏ませると、二度と来ていただけません。
+      当日の朝でも数タップで、<b>決まった助っ人の全員・その方の所属チームの代表・対戦相手</b>に
+      まとめてお知らせが飛びます。<br>
+      ⭐ そのため試作では、<b>成立した時点で「いまのうちに LINE で友だちになっておいてください」</b>と
+      出しています。<b>当日になってからでは間に合いません。</b>
+    </p>
+  </div>
+
+  <h2>5. 顧問や代表が代わったとき</h2>
+
+  <p>
+    <b>中学校・高校の部活に広げるときに、必ず起きる話</b>として作り込みました。
+    顧問の先生はお一人で、しかも選手ではなく、<b>年度末に一斉に入れ替わります。</b>
+  </p>
+
+  <div class="flow">
+    3月末<span class="arrow">──</span> 顧問が異動。前任の先生はもうアプリを開きません<br>
+    4月<span class="arrow">──</span> 新しい顧問が着任。<b>前任の先生に連絡を取るのは現実的ではありません</b>
+  </div>
+
+  <p>そこで、<b>前任者に連絡が取れなくても引き継げる</b>形にしました。</p>
+
+  <div class="card">
+    <dl>
+      <div><dt>1. 申し出る</dt><dd>新しい代表になりたい方が、アプリから申し出ます</dd></div>
+      <div><dt>2. お知らせが届く</dt>
+        <dd>いまの代表と、<b>そのチームに登録している全員</b>に届きます</dd></div>
+      <div><dt>3. 3日で移ります</dt>
+        <dd><b>返事がなければ、自動で代表が移ります。</b>
+          前任の先生が反対されたときだけ止まります</dd></div>
+    </dl>
+  </div>
+
+  <p class="note">
+    ⭐ <b>「返事が来ないこと」が引き継ぎの条件</b>なので、
+    前任の先生のアドレスが使えなくなっていても止まりません。
+    部員の皆さんにもお知らせが届くので、<b>知らない人が名乗れば誰かが気づきます。</b>
+  </p>
+
+  <p class="note">
+    なお<b>代表は何人でも置けます。</b>2人以上にしておくと、1人が抜けてもチームが止まりません。
+  </p>
+
+  <h2>6. どこで動かすか、いくらかかるか</h2>
+
+  <div class="card">
+    <dl>
+      <div><dt>置き場所</dt><dd>Cloudflare（世界中にあるサーバーを借りる形）。<b>商用利用が認められています</b></dd></div>
+      <div><dt>メール送信</dt><dd>Amazon のメール配信</dd></div>
+      <div><dt>登録・ログイン</dt><dd><b>パスワードは作らせません。</b>LINE または Google のボタン1つ</dd></div>
+      <div><dt>立ち上げ期の費用</dt><dd><b>月あたり数百円</b>（ドメイン代とメール代。金額は変わるので着手前に再確認します）</dd></div>
+    </dl>
+  </div>
+
+  <p class="note">
+    ⚠️ <b>リーグのホームページのサーバーには置きません。</b>
+    ほかの団体の選手の個人情報を、別の団体の名義のサーバーに置くことになり、説明がつかないためです。
+  </p>
+
+  <h3>後戻りできるようにしています</h3>
+
+  <ul>
+    <li><b>データの出し入れは1か所にまとめます。</b>置き場所を変えたくなっても、作り直しにはなりません</li>
+    <li><b>ストアのアプリ（App Store / Google Play）にも、後から出せます。</b>
+      逆はできないので、先に Web で作っています</li>
+    <li><b>グランドリーグ固有の仕組みは、中に持ち込みません。</b>
+      ほかの地域・ほかの競技にそのまま広げられます</li>
+  </ul>
+
+  <h2>7. お金のこと（決めていないことも含めて）</h2>
+
+  <div class="card">
+    <dl>
+      <div><dt>お金を払う人</dt><dd><b>団体。選手個人からは取りません</b></dd></div>
+      <div><dt>方式</dt><dd>基本は無料。そのうえで団体向けの有料の機能をつける形</dd></div>
+      <div><dt>まだ決めていないこと</dt>
+        <dd><b>何を有料にするか、金額、取り分。</b>
+          まず無料で出して、実際に使われてから決めたいと考えています</dd></div>
+    </dl>
+  </div>
+
+  <p class="note">
+    ⚠️ <b>3つの募集とお知らせは、有料にしません。</b>
+    使う人が減るとマッチングが成立しなくなり、アプリ自体が死ぬためです。
+  </p>
+
+  <h2>8. 作らないもの</h2>
+
+  <p>迷った末に「作らない」と決めたものです。<b>理由もあわせて書きます。</b></p>
+
+  <div class="card">
+    <span class="tag no">作りません</span>
+    <h3 style="margin:0 0 6px">アプリの中のチャット（トーク）</h3>
+    <p style="margin:0 0 10px;font-size:14.5px;color:var(--sub)">
+      <b>チャットは「届くこと」が前提の機能</b>です。募集のお知らせは届かなくても翌週に拾えますが、
+      <b>チャットは届かないと会話が止まり、試合が流れます。</b><br>
+      先に書いたとおり、<b>iPhone には通知が届かない方がどうしても出ます。</b>
+      その土台の上にチャットを置くと、いまより悪くなります。
+    </p>
+    <p style="margin:0;font-size:14.5px;color:var(--sub)">
+      もうひとつ、<b>利用者同士のやりとりを預かると、通報への対応やトラブルの責任が発生します。</b>
+      部活に広げると、部員（未成年）同士のやりとりも生まれます。少人数で長く続けるには重すぎます。<br>
+      ⭐ <b>やりとりは LINE でお願いします。LINE なら確実に届きます。</b>
+    </p>
+  </div>
+
+  <div class="card">
+    <span class="tag no">作りません</span>
+    <h3 style="margin:0 0 6px">日程表の読み込み</h3>
+    <p style="margin:0;font-size:14.5px;color:var(--sub)">
+      リーグが公開している日程表を、アプリが読み取ることはしません。
+      <b>汎用のアプリの機能としては成り立たない</b>ためです。
+    </p>
+  </div>
+
+  <div class="card">
+    <span class="tag no">作りません</span>
+    <h3 style="margin:0 0 6px">チーム内の出欠管理／会場の予約代行</h3>
+    <p style="margin:0;font-size:14.5px;color:var(--sub)">
+      出欠は<b>いまお使いの仕組みを置き換えません。</b>
+      会場の予約は施設ごとに方式がばらばらで、代行はできません。
+      <b>アプリが入るのは「場所を押さえたあと」です。</b>
+    </p>
+  </div>
+
+  <div class="card">
+    <span class="tag no">作りません</span>
+    <h3 style="margin:0 0 6px">評価・点数・星</h3>
+    <p style="margin:0;font-size:14.5px;color:var(--sub)">
+      信頼の目安は<b>「助っ人として参加した回数」だけ</b>にします。
+      人に点数を付ける仕組みは置きません。
+    </p>
+  </div>
+
+  <div class="card">
+    <span class="tag yes">v1 の外（あとで検討）</span>
+    <h3 style="margin:0 0 6px">星取表・順位・年間の集計</h3>
+    <p style="margin:0;font-size:14.5px;color:var(--sub)">
+      <b>有料の機能の候補として残しています。</b>
+      ただし入れるとアプリの性格が変わるので、まずマッチングを回してからにさせてください。
+    </p>
+  </div>
+
+  <h2>9. 広め方</h2>
+
+  <div class="card key">
+    <p style="margin:0 0 8px"><b>いきなりリーグ全体に配ります。</b></p>
+    <p style="margin:0" class="note">
+      少人数で始めると<b>相手が見つからず、使われないまま終わります。</b>
+      50チームあれば、その中だけで成立します。
+    </p>
+  </div>
+
+  <div class="card">
+    <dl>
+      <div><dt>まず代表の皆さん（約50人）に登録していただきます</dt>
+        <dd>チームを作ると<b>「招待リンク」</b>が出ます。それをチームのグループに貼っていただければ、
+          選手の皆さんは<b>所属チームを選ぶ手間なく</b>登録できます</dd></div>
+      <div><dt>最初の告知は、アプリの外から</dt>
+        <dd>選手のメールアドレスは登録後にしか分からないため、
+          <b>代表経由・ホームページ・公式LINE</b>でお願いすることになります</dd></div>
+    </dl>
+  </div>
+
+  <footer>
+    試作の画面に出ている名前・チーム名・リーグ名・連絡先は、すべて架空のものです。<br>
+    試作 → <a href="./app/?1">https://takeshi41.github.io/helper-board/app/</a>
+  </footer>
+
+</div>
+</body>
+</html>
