@@ -5,9 +5,1001 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <title>試合マッチングアプリ ── 画面の試作</title>
-<!-- ⚠️ CSSにも版を付けること。HTMLの ?N は別ファイルのCSSには効かない。
-     CSSを変えたら、必ずこの数字を上げる。 -->
-<link rel="stylesheet" href="style.css?v=4">
+<style>
+/* ==========================================================================
+   試合マッチングアプリ ── 画面の見た目
+   ⚠️ このファイルは本番（Cloudflare Workers / Hono）にそのまま持っていく。
+      試作固有のものは末尾の「試作だけで使うもの」にまとめてある。
+   ========================================================================== */
+
+:root {
+  --ink: #1a1d21;
+  --sub: #667080;
+  --faint: #8b95a3;
+  --line: #e2e6eb;
+  --bg: #f4f6f8;
+  --card: #ffffff;
+
+  --key: #16697a;
+  --key-dark: #0f4c59;
+  --key-bg: #e7f1f3;
+
+  --warn: #a8403a;
+  --warn-bg: #fbecea;
+  --ok: #1f7a45;
+  --ok-bg: #e8f4ec;
+
+  /* 募集の種別 */
+  --t-match: #16697a;
+  --t-helper: #9a6212;
+  --t-member: #55499a;
+
+  --r: 12px;
+  --shadow: 0 1px 2px rgba(20, 30, 40, .06), 0 1px 8px rgba(20, 30, 40, .05);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #dfe3e8;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
+               "Noto Sans JP", "Yu Gothic UI", Meiryo, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* --- 画面の枠（スマホ前提。PCでは中央に寄せる） --- */
+
+.frame {
+  max-width: 420px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  background: var(--bg);
+  position: relative;
+  box-shadow: 0 0 40px rgba(0, 0, 0, .10);
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- 浮いている操作（⚠️ 上にバーを作らない） ---
+   ⭐ position: sticky なので、スクロール0では本文の流れの中にあり、
+      スクロールすると上端に貼り付いて内容の上に浮く。JavaScript は要らない。
+   ⚠️ 戻るは常に押せる必要がある（ホーム画面に追加したアプリにはブラウザの戻るが無い） */
+
+.float-row {
+  position: sticky;
+  top: 0;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  /* ⚠️ 背景を本文と同じ色にして、内容が裏に透けないようにする。
+     透けると、見えていないものを押してしまう。枠線は引かない（バーに見えるので） */
+  background: var(--bg);
+  margin: -14px -14px 0;
+  padding: 12px 14px 6px;
+}
+
+/* 下側だけ柔らかく消す。⭐ これで「バーの線」が出ない */
+.float-row::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 16px;
+  background: linear-gradient(var(--bg), rgba(244, 246, 248, 0));
+  pointer-events: none;
+}
+
+.float-spacer { flex: 1; }
+
+.float-btn {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--sub);
+  font: inherit;
+  font-size: 19px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(20, 30, 40, .14);
+  list-style: none;          /* <summary> の標準の三角を消す */
+}
+
+.float-btn { position: relative; }
+
+/* ⭐ 未読の件数。⚠️ 赤は「あなたが動かないと止まること」だけに使う */
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--warn);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  border: 2px solid var(--bg);   /* 本文色で縁取り、浮いて見せる */
+}
+
+.float-btn::-webkit-details-marker { display: none; }  /* Safari の三角 */
+.float-btn::marker { content: ""; }
+.float-btn > svg { display: block; }
+.float-btn:active { background: var(--bg); color: var(--key); }
+
+/* 画面の名前。⭐ バーの中ではなく、本文の先頭に大きく置く */
+.page-title {
+  margin: 14px 0 16px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: .01em;
+}
+
+.page-title:empty { display: none; }
+
+/* 右上の歯車（設定）。⭐ 全画面から届くので、置くのは1か所だけ。
+   ⚠️ <details>/<summary> で作る。スクリプトが届いていなくても開ける。 */
+.menu-wrap {
+  position: relative;
+  flex: none;
+}
+
+.menu-wrap[open] > .float-btn { background: var(--bg); color: var(--key); }
+
+/* 歯車から出るプルダウン。⭐ 中身は役割で変わる（代表だけチームの設定が増える） */
+.menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 40;
+  min-width: 172px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 8px 26px rgba(20, 30, 40, .20);
+  padding: 5px;
+}
+
+.menu button {
+  appearance: none;
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink);
+  text-align: left;
+  padding: 11px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.menu button:active { background: var(--bg); color: var(--key); }
+
+/* --- 本文 --- */
+
+.body {
+  padding: 14px 14px 96px; /* 下の余白は、下タブに隠れないぶん */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- 下タブ（⚠️ 横スクロールさせない。多くても3つ） ---
+   ⭐ 「募集する」は代表にだけ出す。選手（約1,000人）には2つしか見えない */
+
+.tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: flex;
+  max-width: 420px;
+  margin: 0 auto;
+  background: var(--card);
+  border-top: 1px solid var(--line);
+  padding: 7px 8px calc(9px + env(safe-area-inset-bottom));
+  gap: 6px;
+}
+
+.tabbar button {
+  flex: 1;
+  min-width: 0;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--faint);
+  padding: 8px 2px;
+  border-radius: 9px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tabbar button[aria-current="true"] {
+  color: var(--key);
+  background: var(--key-bg);
+}
+
+/* ⚠️ 初回登録と、チームを増やす流れの間は下タブを出さない。
+   まだアプリの中に入っていないので、タブで移れると筋が通らない */
+body.no-tabs .tabbar { display: none; }
+body.no-tabs .body { padding-bottom: 40px; }
+
+.lead {
+  margin: 0 0 14px;
+  color: var(--sub);
+  font-size: 13.5px;
+}
+
+h2.sec {
+  margin: 22px 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--faint);
+  letter-spacing: .04em;
+}
+
+h2.sec:first-child { margin-top: 2px; }
+
+/* --- カード --- */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow);
+}
+
+.card.tap {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+
+.card.tap:active { background: #fafbfc; }
+
+/* 入口の3カード（横に並べず縦積み。1行の説明を入れられる形） */
+
+.gate {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.gate-t {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ⚠️ 子セレクタ（>）にすること。子孫セレクタだと中の .tag / .pill を
+   詳細度で打ち負かして display:block にしてしまう */
+.gate-t > b {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.gate-t > span {
+  display: block;
+  color: var(--sub);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.gate-n {
+  flex: none;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--key);
+  background: var(--key-bg);
+  border-radius: 999px;
+  padding: 3px 11px;
+}
+
+.gate-arrow {
+  flex: none;
+  color: var(--faint);
+  font-size: 18px;
+}
+
+/* お知らせの行 */
+.gate-time {
+  flex: none;
+  font-size: 11.5px;
+  color: var(--faint);
+  white-space: nowrap;
+}
+
+.news-dot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--warn);
+}
+
+.news-dot.read { background: transparent; }
+
+/* --- 種別のバッジ --- */
+
+.tag {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.6;
+  padding: 1px 8px;
+  border-radius: 5px;
+  color: #fff;
+  vertical-align: 2px;
+}
+
+.tag.match  { background: var(--t-match); }
+.tag.helper { background: var(--t-helper); }
+.tag.member { background: var(--t-member); }
+
+.pill {
+  display: inline-block;
+  font-size: 11.5px;
+  line-height: 1.6;
+  padding: 1px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--line);
+  color: var(--sub);
+  background: var(--bg);
+}
+
+.pill.ok   { color: var(--ok);   background: var(--ok-bg);   border-color: #c6e2d0; }
+.pill.warn { color: var(--warn); background: var(--warn-bg); border-color: #efd0cd; }
+
+/* ⚠️ 3等分のセグメント（横並びのタブ）は使わない。
+   下タブと見分けがつかず、どちらが上位なのか読めなくなる。
+   3つから選ばせる場面は、すべて .gate のカードを並べる形にそろえる。 */
+
+/* --- 絞り込み（⚠️ 折りたたまない。いまの値を出しておく） --- */
+
+.filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 10px;
+  margin-bottom: 12px;
+}
+
+.filter-v {
+  flex: 1;
+  min-width: 0;
+  font-size: 12.5px;
+  color: var(--sub);
+  line-height: 1.5;
+}
+
+.filter-v b { color: var(--ink); font-weight: 700; }
+
+/* --- 募集の行 --- */
+
+.post-h {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.post-when {
+  font-size: 15.5px;
+  font-weight: 700;
+}
+
+.post-team {
+  font-size: 14.5px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.post-meta {
+  color: var(--sub);
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+
+/* --- 定義リスト（詳細画面） --- */
+
+.dl {
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.dl > div {
+  display: flex;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.dl dt {
+  flex: none;
+  width: 92px;
+  color: var(--faint);
+  font-size: 12.5px;
+  line-height: 1.8;
+}
+
+.dl dd {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 14.5px;
+}
+
+.dl dd small {
+  display: block;
+  color: var(--sub);
+  font-size: 12.5px;
+}
+
+/* --- ボタン --- */
+
+.btn {
+  appearance: none;
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  padding: 14px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  background: var(--key);
+  color: #fff;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.btn:active { background: var(--key-dark); }
+
+.btn.sub {
+  background: var(--card);
+  color: var(--key);
+  border: 1px solid var(--key);
+  font-size: 15px;
+  padding: 11px;
+}
+
+.btn.quiet {
+  background: var(--card);
+  color: var(--sub);
+  border: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 400;
+  padding: 11px;
+}
+
+.btn.danger {
+  background: var(--card);
+  color: var(--warn);
+  border: 1px solid #e6c4c1;
+  font-size: 15px;
+  padding: 11px;
+}
+
+/* 逃げ道。⚠️ 隠さないが、押したくなる形も与えない。
+   ボタンの形をしているものは、読まずに押される */
+.link-quiet {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  color: var(--faint);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  padding: 6px 8px;
+}
+
+.link-quiet:active { color: var(--sub); }
+
+.btn-sm {
+  appearance: none;
+  border: 1px solid var(--key);
+  background: var(--card);
+  color: var(--key);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-sm.quiet {
+  border-color: var(--line);
+  color: var(--sub);
+  font-weight: 400;
+}
+
+/* --- 注記 --- */
+
+.note {
+  margin: 10px 0 0;
+  color: var(--sub);
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+
+/* --- 入力 --- */
+
+.field { margin-bottom: 14px; }
+
+/* ⚠️ 要素セレクタ（label）で書かないこと。
+   .field の中には .check のラベルも入るので、display を奪い合う */
+.f-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.f-label .hint {
+  display: block;
+  font-weight: 400;
+  color: var(--sub);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.field-row > div { flex: 1; min-width: 0; }
+
+/* ⚠️ 種類を列挙しないこと。tel / search / url などを足すたびに漏れる。
+   除くのはチェックボックスとラジオだけ */
+.field input:not([type="checkbox"]):not([type="radio"]),
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1px solid #ccd3db;
+  border-radius: 9px;
+  background: var(--card);
+  padding: 11px 12px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.field textarea { min-height: 84px; resize: vertical; }
+
+.field-row {
+  display: flex;
+  gap: 8px;
+}
+
+.field-row > * { flex: 1; min-width: 0; }
+
+/* チップ（複数選択）⚠️ datalist は使わない */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.chip {
+  appearance: none;
+  border: 1px solid #ccd3db;
+  background: var(--card);
+  color: var(--sub);
+  font: inherit;
+  font-size: 13.5px;
+  border-radius: 999px;
+  padding: 6px 13px;
+  cursor: pointer;
+}
+
+.chip[aria-pressed="true"] {
+  background: var(--key);
+  border-color: var(--key);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* チェック1つ */
+
+.check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.check + .check { margin-top: 8px; }
+.check input { margin: 4px 0 0; flex: none; width: 18px; height: 18px; }
+.check-t { flex: 1; min-width: 0; }
+.check-t > b { display: block; font-size: 14px; }
+.check-t > span { display: block; color: var(--sub); font-size: 12.5px; line-height: 1.6; }
+
+/* --- 一段軽い行 ---
+   設定のように「毎回は触らないが、探させてはいけない」もの。
+   ⚠️ 枠を外すと文字だけになって見つけられなくなる。
+   カードと同じ形のまま、影と説明文を落として一段だけ軽くする。 */
+
+.set-row {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 13px 14px;
+  margin-bottom: 10px;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.set-row:active { background: #fafbfc; }
+.set-row > span { flex: 1; min-width: 0; }
+.set-row > span > b { color: var(--key); }
+.set-row > i { flex: none; font-style: normal; color: var(--faint); font-size: 18px; }
+
+/* --- 人の行（応募者・履歴） --- */
+
+.row {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.row:last-child { border-bottom: 0; }
+
+.row-t { flex: 1; min-width: 0; }
+.row-t > b { display: block; font-size: 15px; }
+.row-t > span { display: block; color: var(--sub); font-size: 12.5px; line-height: 1.6; }
+
+.count {
+  flex: none;
+  text-align: center;
+  min-width: 46px;
+}
+
+.count > b { display: block; font-size: 19px; font-weight: 700; line-height: 1.2; }
+.count > span { display: block; color: var(--faint); font-size: 11px; }
+
+/* --- 手順（初回登録） --- */
+
+.steps {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.steps > div {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: #d9dee4;
+}
+
+.steps > div.on { background: var(--key); }
+
+.step-n {
+  color: var(--key);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+/* --- 成立・通知の図 --- */
+
+.flow {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.flow ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: f;
+}
+
+.flow li {
+  position: relative;
+  padding: 0 0 14px 30px;
+  counter-increment: f;
+  font-size: 14px;
+}
+
+.flow li:last-child { padding-bottom: 0; }
+
+.flow li::before {
+  content: counter(f);
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: var(--key);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 21px;
+}
+
+.flow li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 26px;
+  bottom: 4px;
+  width: 1px;
+  background: #ccd3db;
+}
+
+.flow li small {
+  display: block;
+  color: var(--sub);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+/* --- 結果（完了・成立） --- */
+
+.result {
+  text-align: center;
+  padding: 26px 14px 20px;
+}
+
+.result-mark {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--ok-bg);
+  color: var(--ok);
+  font-size: 28px;
+  line-height: 56px;
+  margin: 0 auto 12px;
+}
+
+.result-mark.no { background: var(--warn-bg); color: var(--warn); }
+
+.result h2 {
+  margin: 0 0 6px;
+  font-size: 19px;
+}
+
+.result p {
+  margin: 0;
+  color: var(--sub);
+  font-size: 13.5px;
+}
+
+/* ==========================================================================
+   試作だけで使うもの（⛔ 本番には持っていかない）
+   ========================================================================== */
+
+.proto-hide { display: none !important; }
+
+/* その場で反応したことを見せるだけの表示（⛔ 本番には持っていかない） */
+.proto-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%);
+  z-index: 60;
+  background: #2c3440;
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(20, 30, 40, .25);
+  white-space: nowrap;
+}
+
+/* 立場の切替。選手にしか見えないもの／代表にしか見えないものを分ける */
+body[data-mode="player"] .rep-only { display: none !important; }
+body[data-mode="rep"] .player-only { display: none !important; }
+
+/* 上のバー（試作の案内と立場の切替） */
+.proto-top {
+  background: #2c3440;
+  color: #cfd6de;
+  font-size: 11.5px;
+  line-height: 1.6;
+  padding: 8px 12px 9px;
+}
+
+.proto-top p { margin: 0 0 7px; text-align: center; }
+.proto-top b { color: #fff; }
+
+/* ⛔ 画面一覧は「試作の道具」なので、アプリのバーではなくこの黒い帯に置く。
+   アプリのバーには、本番に残るものだけを置く（戻る・題名・歯車） */
+.proto-row {
+  display: flex;
+  gap: 6px;
+  align-items: stretch;
+}
+
+.proto-row > .proto-switch { flex: 1; min-width: 0; }
+
+.proto-btn {
+  flex: none;
+  appearance: none;
+  border: 1px solid #4a5666;
+  background: #1e2530;
+  color: #cfd6de;
+  font: inherit;
+  font-size: 12px;
+  border-radius: 9px;
+  padding: 7px 11px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.proto-btn:active { background: #475467; color: #fff; }
+
+.proto-switch {
+  display: flex;
+  gap: 5px;
+  background: #1e2530;
+  border-radius: 9px;
+  padding: 4px;
+}
+
+.proto-switch button {
+  flex: 1;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: #98a3b1;
+  padding: 7px 4px;
+  border-radius: 7px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.proto-switch button[aria-pressed="true"] { background: #475467; color: #fff; }
+
+.proto-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(15, 25, 35, .45);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.proto-sheet > div {
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg);
+  border-radius: 16px 16px 0 0;
+  padding: 16px 14px 24px;
+  max-height: 84dvh;
+  overflow: auto;
+}
+
+.proto-sheet h2 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.proto-list {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.proto-list button {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 10px 12px;
+  cursor: pointer;
+  color: inherit;
+}
+
+.proto-list button i {
+  flex: none;
+  font-style: normal;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--faint);
+  background: var(--bg);
+  border-radius: 5px;
+  padding: 1px 6px;
+  min-width: 30px;
+  text-align: center;
+}
+
+.proto-list button b { font-weight: 700; font-size: 14px; }
+.proto-list button em { font-style: normal; color: var(--sub); font-size: 12px; }
+
+.proto-group {
+  margin: 14px 0 2px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--faint);
+  letter-spacing: .04em;
+}
+
+.proto-banner {
+  background: #2c3440;
+  color: #cfd6de;
+  font-size: 11.5px;
+  line-height: 1.6;
+  padding: 7px 14px;
+  text-align: center;
+}
+
+.proto-banner b { color: #fff; }
+</style>
 </head>
 <body data-mode="player">
 
@@ -1927,6 +2919,7 @@
 
 </body>
 </html>
+
 
 
 
