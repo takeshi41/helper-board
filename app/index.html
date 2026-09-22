@@ -253,6 +253,66 @@
     </p>
   </section>
 
+  <!-- ============================= s3waiting 応募済みの助っ人の募集（選手が見る） -->
+  <section data-screen="s3waiting" data-title="助っ人の募集">
+    <div class="card">
+      <div class="post-h">
+        <span class="tag helper">助っ人</span>
+        <span class="pill">募集中</span>
+      </div>
+      <div style="font-size:20px;font-weight:700;margin:2px 0;">10月4日（日）午前</div>
+      <div class="post-team" style="font-size:16px;">みどりヶ丘ベースボール</div>
+
+      <dl class="dl" style="margin-top:12px;">
+        <div><dt>ほしい人</dt><dd>だれでも<small>あと3人</small></dd></div>
+        <div><dt>場所</dt><dd>広島市佐伯区<small>みどりヶ丘グラウンド</small></dd></div>
+        <div><dt>リーグ</dt><dd>リーグに入っていないチーム</dd></div>
+        <div><dt>ひとこと</dt><dd>人数が足りません。経験は問いません。集合は8時、9時試合開始です。</dd></div>
+      </dl>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--key);">
+      <p style="margin:0;font-size:15px;"><b>選ばれるのを待っています</b></p>
+      <p class="post-meta" style="margin:4px 0 0;">
+        10月1日に「行けます」を送りました。決まったらお知らせします。
+      </p>
+    </div>
+
+    <button class="btn danger" data-act="toast" data-msg="応募を取り消しました" type="button">応募を取り消す</button>
+
+    <p class="note">
+      取り消すと、<b>選ばれる候補から外れます。</b>あとでまた応募し直せます。
+    </p>
+  </section>
+
+  <!-- ============================= smine 自分が出した募集（応募なし・代表が見る） -->
+  <section data-screen="smine" data-title="出している募集">
+    <div class="card">
+      <div class="post-h">
+        <span class="tag member">メンバー</span>
+        <span class="pill">募集中</span>
+      </div>
+      <div class="post-team" style="font-size:18px;margin-top:4px;">あおぞらクラブ</div>
+
+      <dl class="dl" style="margin-top:12px;">
+        <div><dt>ほしい人</dt><dd>投手 ・ 捕手</dd></div>
+        <div><dt>場所</dt><dd>広島市安佐南区</dd></div>
+        <div><dt>出した日</dt><dd>9月10日<small>ずっと出しています</small></dd></div>
+        <div><dt>ひとこと</dt><dd>平日の夜も練習しています。見学だけでも大丈夫です。</dd></div>
+      </dl>
+    </div>
+
+    <div class="card">
+      <p style="margin:0;font-size:15px;"><b>応募はまだありません</b></p>
+      <p class="post-meta" style="margin:4px 0 0;">
+        応募が来たら、この画面から選べるようになります。
+      </p>
+    </div>
+
+    <button class="btn sub" type="button" data-act="toast" data-msg="この試作では内容を変えられません">内容を変える</button>
+    <button class="btn quiet" data-go="steam" type="button" style="margin-top:8px;">この募集を締める</button>
+  </section>
+
   <!-- ==================================================== s3m 対戦相手の募集 -->
   <section data-screen="s3m" data-title="対戦相手の募集">
     <div class="card">
@@ -343,7 +403,7 @@
 
     <h2 class="sec">返事を待っているもの</h2>
 
-    <button class="card tap" data-go="s3" type="button">
+    <button class="card tap" data-go="s3waiting" type="button">
       <div class="post-h">
         <span class="post-when">10月4日（日）午前</span>
         <span class="pill">選ばれるのを待っています</span>
@@ -637,7 +697,7 @@
       <div class="post-meta">外野手・内野手 ／ あと2人 ／ <b>選んでください</b></div>
     </button>
 
-    <button class="card tap" data-go="s3n" type="button">
+    <button class="card tap" data-go="smine" type="button">
       <div class="post-h">
         <span class="post-team" style="margin:0;">メンバー募集</span>
         <span class="tag member">メンバー</span>
@@ -1582,6 +1642,7 @@
       <button type="button" data-go="s8"><i>8</i><b>私の設定</b><em>歯車から。所属チーム・お知らせの条件</em></button>
       <button type="button" data-go="s7"><i>9</i><b>決まりました</b><em>連絡先</em></button>
       <button type="button" data-go="scanceled"><i>10</i><b>中止になりました</b><em>助っ人に届いたあと</em></button>
+      <button type="button" data-go="s3waiting"><i>★</i><b>助っ人の募集（応募済み）</b><em>取り消せる</em></button>
       <button type="button" data-go="shandover"><i>★</i><b>代表を引き継ぐ</b><em>前の代表に連絡が取れないとき</em></button>
       <button type="button" data-go="shandoverdone"><i>11</i><b>申し出ました</b><em>3日後に移る</em></button>
       <button type="button" data-go="shandoverask"><i>12</i><b>代表の引き継ぎ</b><em>いまの代表に届く。止められる</em></button>
@@ -1597,6 +1658,7 @@
       <button type="button" data-go="s3m"><i>13</i><b>対戦相手の募集</b><em>会場の2択</em></button>
       <button type="button" data-go="s2m"><i>14</i><b>相手を探しているチーム</b><em>まだ出していない人向け</em></button>
       <button type="button" data-go="s6"><i>15</i><b>応募した人から選ぶ</b></button>
+      <button type="button" data-go="smine"><i>★</i><b>出している募集（応募なし）</b><em>自分が出したもの</em></button>
       <button type="button" data-go="s10"><i>16</i><b>対戦の履歴</b></button>
       <button type="button" data-go="s11"><i>17</i><b>チームの設定</b><em>歯車から</em></button>
       <button type="button" data-go="srep"><i>18</i><b>代表を増やす</b><em>登録者から選ぶ</em></button>
@@ -1630,7 +1692,7 @@
     steam: 1, spost: 1, s5: 1, s6: 1, s10: 1, s11: 1,
     smatch: 1, s2m: 1, s3m: 1,
     scancel: 1, sdone: 1,         // 中止を知らせるのは、募集を出した代表だけ
-    sfm: 1, srep: 1, shmoved: 1, shstopped: 1,
+    sfm: 1, srep: 1, shmoved: 1, shstopped: 1, smine: 1,
     shandoverask: 1               // 引き継ぎの申し出が届くのは、いまの代表
   };
 
@@ -1647,7 +1709,7 @@
     steamsel: 'me', steamnew: 'me', steamjoin: 'me', sleague: 'me',
     spost: 'team', s5: 'team', s6: 'team', s10: 'team', s11: 'team',
     smatch: 'team', s2m: 'team', s3m: 'team', scancel: 'team', sdone: 'team',
-    sfm: 'team', srep: 'team', shmoved: 'me', shstopped: 'team'
+    sfm: 'team', srep: 'team', shmoved: 'me', shstopped: 'team', smine: 'team'
   };
 
   // 下タブを出さない画面（登録の流れの中）
@@ -1794,6 +1856,7 @@
 
 </body>
 </html>
+
 
 
 
