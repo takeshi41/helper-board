@@ -1100,7 +1100,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <div class="news-dot"></div>
         <div class="gate-t">
           <b>応募が3人来ています</b>
-          <span>9/27（土）午前の助っ人 ／ <b>選んでください</b></span>
+          <span>10/11（土）午前の助っ人 ／ <b>選んでください</b></span>
         </div>
         <div class="gate-time">3時間前</div>
       </div>
@@ -1448,6 +1448,14 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
     <h2 class="sec">この先の予定</h2>
 
+    <button class="card tap rep-only" data-go="s7rep" type="button">
+      <div class="post-h">
+        <span class="post-when">10月11日（土）午前</span>
+        <span class="pill ok">決定</span>
+      </div>
+      <div class="post-meta">うちの募集 ／ 助っ人2人が決まりました ／ 安佐南区 かわぎしグラウンド</div>
+    </button>
+
     <button class="card tap" data-go="s7" type="button">
       <div class="post-h">
         <span class="post-when">9月27日（土）午前</span>
@@ -1753,7 +1761,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
     <button class="card tap" data-go="s6" type="button">
       <div class="post-h">
-        <span class="post-when">9/27（土）午前</span>
+        <span class="post-when">10/11（土）午前</span>
         <span class="tag helper">助っ人</span>
         <span class="pill warn">応募 3人</span>
       </div>
@@ -1879,7 +1887,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
   <section data-screen="s6" data-title="応募した人">
     <div class="card">
       <div class="post-h">
-        <span class="post-when">9/27（土）午前</span>
+        <span class="post-when">10/11（土）午前</span>
         <span class="tag helper">助っ人</span>
       </div>
       <div class="post-meta">外野手・内野手 ／ あと2人 ／ 応募 3人</div>
@@ -1907,7 +1915,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
     <p class="note">左の数字は<b>助っ人として参加した回数</b>です。</p>
 
-    <button class="btn" data-go="s7" type="button">2人を決めて確定する</button>
+    <button class="btn" data-go="s7rep" type="button">2人を決めて確定する</button>
     <button class="btn quiet" data-go="steam" type="button" style="margin-top:8px;">この募集を締める</button>
   </section>
 
@@ -1967,18 +1975,70 @@ body[data-mode="rep"] .player-only { display: none !important; }
       </p>
     </div>
 
-    <h2 class="sec rep-only">雨などで流れたとき</h2>
-    <button class="btn danger rep-only" data-go="scancel" type="button">中止・順延を知らせる</button>
+  </section>
+
+  <!-- ============================= s7rep 決まりました（募集を出した代表が見る） -->
+  <section data-screen="s7rep" data-title="決まりました">
+    <div class="result">
+      <div class="result-mark">✓</div>
+      <h2>決まりました</h2>
+      <p>2人にお願いしました。</p>
+    </div>
+
+    <div class="card">
+      <div class="post-h">
+        <span class="post-when">10月11日（土）午前</span>
+        <span class="tag helper">助っ人</span>
+        <span class="pill ok">決定</span>
+      </div>
+      <div class="post-meta">外野手・内野手 ／ 安佐南区 かわぎしグラウンド</div>
+    </div>
+
+    <h2 class="sec">決まった助っ人</h2>
+
+    <div class="card">
+      <div class="row">
+        <div class="row-t"><b>ゆうき</b><span>東雲アスレチックス</span></div>
+        <button class="btn-sm" data-act="toast" data-msg="架空のリンクなので、開きません"
+                type="button">LINEで連絡する</button>
+      </div>
+      <div class="row">
+        <div class="row-t"><b>かずま</b><span>城北クラブ</span></div>
+        <button class="btn-sm" data-act="toast" data-msg="架空のリンクなので、開きません"
+                type="button">LINEで連絡する</button>
+      </div>
+    </div>
+
+    <p class="note">
+      <b>本人2人と、その所属チームの代表2チーム</b>にお知らせを送りました。
+    </p>
+
+    <div class="card" style="border-left:3px solid var(--key);">
+      <p style="margin:0;font-size:14.5px;">
+        <b>いまのうちに、LINEで友だちになっておいてください。</b>
+      </p>
+      <p class="post-meta" style="margin:4px 0 0;">
+        当日になってからでは間に合いません。<b>先に友だちになっておくと、急な中止の連絡が1回で届きます。</b>
+      </p>
+    </div>
+
+    <h2 class="sec">雨などで流れたとき</h2>
+
+    <button class="btn danger" data-go="scancel" type="button">中止・順延を知らせる</button>
+
+    <p class="note">
+      この画面は<b>「私の予定」からも開けます。</b>当日の朝は、そこから入ってください。
+    </p>
   </section>
 
   <!-- ==================================================== scancel 中止・順延を知らせる -->
   <section data-screen="scancel" data-title="中止・順延を知らせる">
     <div class="card">
       <div class="post-h">
-        <span class="post-when">9月27日（土）午前</span>
+        <span class="post-when">10月11日（土）午前</span>
         <span class="pill ok">決定</span>
       </div>
-      <div class="post-meta">川岸ファイターズ ／ 安佐南区 かわぎしグラウンド</div>
+      <div class="post-meta">うちの募集 ／ 安佐南区 かわぎしグラウンド</div>
     </div>
 
     <div class="field">
@@ -2704,7 +2764,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <div class="proto-list">
       <button type="button" data-go="sme"><i>7</i><b>私の予定</b><em>この先の予定・返事待ち</em></button>
       <button type="button" data-go="s8"><i>8</i><b>私の設定</b><em>歯車から。所属チーム・お知らせの条件</em></button>
-      <button type="button" data-go="s7"><i>9</i><b>決まりました</b><em>連絡先</em></button>
+      <button type="button" data-go="s7"><i>9</i><b>決まりました</b><em>選手が見る。相手の連絡先</em></button>
       <button type="button" data-go="scanceled"><i>10</i><b>中止になりました</b><em>助っ人に届いたあと</em></button>
       <button type="button" data-go="s3waiting"><i>★</i><b>助っ人の募集（応募済み）</b><em>取り消せる</em></button>
       <button type="button" data-go="shandover"><i>★</i><b>代表を引き継ぐ</b><em>前の代表に連絡が取れないとき</em></button>
@@ -2723,6 +2783,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
       <button type="button" data-go="s2m"><i>14</i><b>相手を探しているチーム</b><em>まだ出していない人向け</em></button>
       <button type="button" data-go="s6"><i>15</i><b>応募した人から選ぶ</b></button>
       <button type="button" data-go="smine"><i>★</i><b>出している募集（応募なし）</b><em>自分が出したもの</em></button>
+      <button type="button" data-go="s7rep"><i>★</i><b>決まりました（代表）</b><em>決まった助っ人・中止の入口</em></button>
       <button type="button" data-go="s10"><i>16</i><b>対戦の履歴</b></button>
       <button type="button" data-go="s11"><i>17</i><b>チームの設定</b><em>歯車から</em></button>
       <button type="button" data-go="srep"><i>18</i><b>代表を増やす</b><em>登録者から選ぶ</em></button>
@@ -2756,7 +2817,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     steam: 1, spost: 1, s5: 1, s6: 1, s10: 1, s11: 1,
     smatch: 1, s2m: 1, s3m: 1,
     scancel: 1, sdone: 1,         // 中止を知らせるのは、募集を出した代表だけ
-    sfm: 1, srep: 1, shmoved: 1, shstopped: 1, smine: 1,
+    sfm: 1, srep: 1, shmoved: 1, shstopped: 1, smine: 1, s7rep: 1,
     shandoverask: 1               // 引き継ぎの申し出が届くのは、いまの代表
   };
 
@@ -2773,7 +2834,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     steamsel: 'me', steamnew: 'me', steamjoin: 'me', sleague: 'me',
     spost: 'team', s5: 'team', s6: 'team', s10: 'team', s11: 'team',
     smatch: 'team', s2m: 'team', s3m: 'team', scancel: 'team', sdone: 'team',
-    sfm: 'team', srep: 'team', shmoved: 'me', shstopped: 'team', smine: 'team'
+    sfm: 'team', srep: 'team', shmoved: 'me', shstopped: 'team', smine: 'team', s7rep: 'team'
   };
 
   // 下タブを出さない画面（登録の流れの中）
@@ -2919,6 +2980,10 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
 </body>
 </html>
+
+
+
+
 
 
 
