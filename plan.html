@@ -74,8 +74,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 <div class="wrap">
 
   <p class="lead">
-    試作 → <a href="./app/?v=10">https://takeshi41.github.io/helper-board/app/</a><br>
-    全47画面あり、実際に押して進めます。上の黒い帯で「選手」と「代表」を切り替えると、
+    試作 → <a class="app-link" href="./app/">https://takeshi41.github.io/helper-board/app/</a><br>
+    全48画面あり、実際に押して進めます。上の黒い帯で「選手」と「代表」を切り替えると、
     見える画面が変わります。
   </p>
 
@@ -417,9 +417,13 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 
   <footer>
     試作の画面に出ている名前・チーム名・リーグ名・連絡先は、すべて架空のものです。<br>
-    試作 → <a href="./app/?v=10">https://takeshi41.github.io/helper-board/app/</a>
+    試作 → <a class="app-link" href="./app/">https://takeshi41.github.io/helper-board/app/</a>
   </footer>
 
 </div>
+<script>
+  // 試作へのリンクに、開くたびに新しい番号を付ける（端末が古い試作を覚えたままにならないように）
+  document.querySelectorAll('a.app-link').forEach(function (a) { a.href = './app/?v=' + Date.now(); });
+</script>
 </body>
 </html>
