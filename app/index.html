@@ -721,6 +721,22 @@ h2.sec:first-child { margin-top: 2px; }
 .opt > .check { border: 0; border-radius: 0; }
 .opt > .set-row { border: 0; border-top: 1px solid var(--line); border-radius: 0; margin: 0; }
 
+/* --- この端末で通知が受け取れないときだけ出す1枚 ---
+   タブの根っこ3画面（募集を探す・募集を出す・私の予定）と、お知らせの設定の先頭。
+   ⛔ オンのときは出さない。⛔ 赤にしない（文で書いてあるので色で急かさない）。
+   「この端末では受け取らない」を押した端末では出さない（再入口はお知らせの設定）。 */
+.push {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 14px;
+  margin-bottom: 14px;
+}
+.push > b { display: block; font-size: 15px; }
+.push > p { margin: 4px 0 0; color: var(--sub); font-size: 12.5px; line-height: 1.6; }
+.push > .btn { margin-top: 12px; }
+.push > .push-skip { text-align: center; margin-top: 4px; }
+
 /* --- 人の行（応募者・履歴） --- */
 
 .row {
@@ -1169,6 +1185,13 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
   <!-- ==================================================== sfind 探す -->
   <section data-screen="sfind" data-title="募集を探す">
+    <div class="push">
+      <b>このスマホには、まだ通知が届きません</b>
+      <p>中止の連絡などは、通知が無いと気づけません。</p>
+      <button class="btn sub" data-go="shome" type="button">この端末で通知を受け取る</button>
+      <p class="push-skip"><button class="link-quiet" data-act="toast" data-msg="この端末には出さないようにしました" type="button">この端末では受け取らない</button></p>
+    </div>
+
     <p class="lead">どの募集を探しますか。</p>
 
     <button class="card tap" data-go="s2h" type="button">
@@ -1523,6 +1546,13 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
   <!-- ==================================================== sme 私の予定 -->
   <section data-screen="sme" data-title="私の予定">
+    <div class="push">
+      <b>このスマホには、まだ通知が届きません</b>
+      <p>中止の連絡などは、通知が無いと気づけません。</p>
+      <button class="btn sub" data-go="shome" type="button">この端末で通知を受け取る</button>
+      <p class="push-skip"><button class="link-quiet" data-act="toast" data-msg="この端末には出さないようにしました" type="button">この端末では受け取らない</button></p>
+    </div>
+
     <p class="lead"><b>はるき</b>さん ／ 広島県広島市安佐南区</p>
 
     <h2 class="sec">この先の予定</h2>
@@ -1693,31 +1723,20 @@ body[data-mode="rep"] .player-only { display: none !important; }
   </section>
 
   <!-- ==================================================== s9 お知らせの設定（歯車から）
-       ⭐ 「この端末への通知」を先頭に置く。届くかどうかの前提条件で、
-          ⚠️ 断られている の赤い状態は真っ先に見えなければならない。
+       ⭐ この端末で通知が受け取れないときだけ、先頭に .push のカードを出す（オンなら何も出ない）。
+          タブの根っこ3画面で「この端末では受け取らない」を押した人の、再入口。
        ⭐ 募集の種類ごとに、チェックと条件の行を1枚（.opt）にまとめる。
           上下の節で助っ人↔助っ人を突き合わせさせない。
        ⚠️ 条件そのものは持たない。募集の種類ごとの絞り込み画面へ飛ばす。
           絞り込みは種類ごとに項目が違うので、ここに1組だけ置くと
           どれを編集しているのか読めなくなる（設計方針 III-8「仕組みを2つ作らない」）。 -->
   <section data-screen="s9" data-title="お知らせの設定">
-    <h2 class="sec">この端末への通知</h2>
-
-    <div class="card">
-      <div class="row">
-        <div class="row-t">
-          <b>このスマホには届きます</b>
-          <span>このスマホに通知が出ます</span>
-        </div>
-        <span class="pill ok">オン</span>
-      </div>
+    <div class="push">
+      <b>このスマホには、まだ通知が届きません</b>
+      <p>中止の連絡などは、通知が無いと気づけません。</p>
+      <button class="btn sub" data-go="shome" type="button">この端末で通知を受け取る</button>
+      <p class="push-skip"><button class="link-quiet" data-act="toast" data-msg="この端末には出さないようにしました" type="button">この端末では受け取らない</button></p>
     </div>
-
-    <p class="note">
-      通知が届くかは<b>端末ごと</b>に決まります。パソコンや別のスマホでは、それぞれで許可が必要です。<br>
-      iPhone は<b>ホーム画面に置いたアイコンから開いたとき</b>だけ届きます。<br>
-      ⭐ <b>通知が届かなかったお知らせも、右上のベルに残ります。</b>
-    </p>
 
     <h2 class="sec">受け取るもの</h2>
 
@@ -1880,6 +1899,13 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
   <!-- ==================================================== steam チーム -->
   <section data-screen="steam" data-title="募集を出す">
+    <div class="push">
+      <b>このスマホには、まだ通知が届きません</b>
+      <p>中止の連絡などは、通知が無いと気づけません。</p>
+      <button class="btn sub" data-go="shome" type="button">この端末で通知を受け取る</button>
+      <p class="push-skip"><button class="link-quiet" data-act="toast" data-msg="この端末には出さないようにしました" type="button">この端末では受け取らない</button></p>
+    </div>
+
     <p class="lead"><b>あおぞらクラブ</b>（野球・男子）／ さくらリーグ 2部 ／ 広島市安佐南区</p>
 
     <p class="note" style="margin:-6px 0 12px;">
@@ -2830,6 +2856,35 @@ body[data-mode="rep"] .player-only { display: none !important; }
     </p>
   </section>
 
+  <!-- ==================================================== shome ホーム画面に追加（あとから開く用）
+       ⭐ 手順は sw6 と同じ。登録直後ではないので「登録できました」の見出しが無い。
+       「まだ」の端末に出すカードの［この端末で通知を受け取る］から来る（iPhone の Safari のとき）。
+       Android・パソコンでは画面に来ず、ボタンを押した時点でブラウザが許可を聞く。 -->
+  <section data-screen="shome" data-title="ホーム画面に追加">
+    <p class="lead">iPhone は、<b>ホーム画面に置いたアイコンから開いたときだけ</b>通知を受け取れます。</p>
+
+    <div class="flow">
+      <ol>
+        <li><b>画面の下の　共有ボタン　を押す</b></li>
+        <li><b>「ホーム画面に追加」を押す</b></li>
+        <li><b>ホーム画面に出たアイコンから、開き直す</b>
+          <small>もう一度ログインを聞かれます。いつもと同じ LINE ／ Google で大丈夫です</small></li>
+        <li><b>「通知を許可しますか」と出たら、必ず［許可］を押す</b>
+          <small>［許可しない］を押すと、この端末に通知が届かなくなり、
+            <b>当日朝の中止の連絡などの大事な連絡に気づけないことがあります。</b>
+            元に戻すには、iPhone の設定を自分で開くしかありません。</small></li>
+      </ol>
+    </div>
+
+    <p style="text-align:center;margin:20px 0 0;">
+      <button class="link-quiet" data-back="1" type="button">あとにする</button>
+    </p>
+
+    <p class="note" style="margin-top:24px;">
+      この画面は iPhone の人にだけ出ます。Android とパソコンでは、［この端末で通知を受け取る］を押した時点でブラウザが「通知を許可しますか」と聞きます。
+    </p>
+  </section>
+
   <!-- ==================================================== sarea 市区町村を足す（共用）
        ⚠️ 全国で約1,900件。ひとつのプルダウンには入らない。
        ⭐ 都道府県 → 市区町村 の2段に分ける。自分の地域の入力（私の設定・チームを作る）と同じ形。
@@ -3158,7 +3213,8 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <div class="proto-list">
       <button type="button" data-go="sme"><i>7</i><b>私の予定</b><em>この先の予定・返事待ち</em></button>
       <button type="button" data-go="s8"><i>8</i><b>私の設定</b><em>歯車から。私のこと・LINE・所属チーム</em></button>
-      <button type="button" data-go="s9"><i>★</i><b>お知らせの設定</b><em>条件は種類ごとの絞り込みへ</em></button>
+      <button type="button" data-go="s9"><i>★</i><b>お知らせの設定</b><em>届かない端末のときだけ先頭にカード。条件は種類ごとの絞り込みへ</em></button>
+      <button type="button" data-go="shome"><i>★</i><b>ホーム画面に追加（あとから）</b><em>カードの［受け取る］から。iPhoneだけ</em></button>
       <button type="button" data-go="s7"><i>9</i><b>決まりました</b><em>選手が見る。相手の連絡先</em></button>
       <button type="button" data-go="scanceled"><i>10</i><b>中止になりました</b><em>助っ人に届いたあと</em></button>
       <button type="button" data-go="s3waiting"><i>★</i><b>助っ人の募集（応募済み）</b><em>取り消せる</em></button>
