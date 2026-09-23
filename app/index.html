@@ -698,6 +698,16 @@ h2.sec:first-child { margin-top: 2px; }
 .set-row > span { flex: 1; min-width: 0; }
 .set-row > span > b { color: var(--key); }
 .set-row > i { flex: none; font-style: normal; color: var(--faint); font-size: 18px; }
+/* 設定の行に添える、いまの値。⚠️ 明示クラスではなく em を使うので子セレクタで閉じる */
+.set-row > span > em {
+  display: block;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--sub);
+  margin-top: 3px;
+}
 
 /* --- 人の行（応募者・履歴） --- */
 
@@ -1052,6 +1062,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
       </summary>
       <div class="menu">
         <button type="button" data-go="s8">私の設定</button>
+        <button type="button" data-go="s9">お知らせの設定</button>
         <button type="button" data-go="s11" class="rep-only">チームの設定</button>
       </div>
     </details>
@@ -1665,7 +1676,15 @@ body[data-mode="rep"] .player-only { display: none !important; }
       </p>
     </div>
 
-    <h2 class="sec">お知らせを受け取る条件</h2>
+    <button class="btn" data-act="toast" data-msg="保存しました" type="button" style="margin-top:14px;">保存する</button>
+  </section>
+
+  <!-- ==================================================== s9 お知らせの設定（歯車から）
+       ⭐ 条件そのものは持たない。募集の種類ごとの絞り込みへ飛ばす。
+       ⚠️ 絞り込みは種類ごとに項目が違うので、ここに1組だけ置くと
+          どれを編集しているのか読めなくなる（設計方針 III-8「仕組みを2つ作らない」）。 -->
+  <section data-screen="s9" data-title="お知らせの設定">
+    <h2 class="sec">受け取るもの</h2>
 
     <div class="field">
       <label class="f-label">どんな募集が出たときに知らせますか<span class="hint">いくつでも選べます</span></label>
@@ -1695,28 +1714,27 @@ body[data-mode="rep"] .player-only { display: none !important; }
       </label>
     </div>
 
-    <div class="field field-row">
-      <div>
-        <label class="f-label">募集を探す範囲<span class="hint">⭐ 都道府県をまたいで足せます</span></label>
-        <div class="chips" style="margin-bottom:8px;">
-          <button class="chip" type="button" aria-pressed="true">安佐南区</button>
-          <button class="chip" type="button" aria-pressed="true">西区</button>
-          <button class="chip" type="button" aria-pressed="true">府中町</button>
-        </div>
-        <button class="btn-sm" data-go="sarea" type="button">市区町村を足す</button>
-      </div>
-      <div>
-        <label class="f-label">リーグ<span class="hint">このリーグのものだけ</span></label>
-        <select><option>さくらリーグ 2部</option></select>
-      </div>
-    </div>
+    <h2 class="sec">どんなものを受け取るか</h2>
 
-    <div class="field">
-      <label class="f-label">日にち・ポジション<span class="hint">絞ると、合うものだけ届きます</span></label>
-      <select><option>指定なし（ぜんぶ受け取る）</option></select>
-    </div>
+    <p class="note" style="margin:0 0 10px;">
+      <b>募集を探すときの絞り込みが、そのままお知らせの条件になります。</b>
+      一覧の［変える］から開くのと同じ画面です。
+    </p>
 
-    <h2 class="sec">通知</h2>
+    <button class="set-row" data-go="sfh" type="button">
+      <span>助っ人の募集の条件<em>安佐南区ほか2つ ／ さくらリーグ 2部</em></span>
+      <i>›</i>
+    </button>
+    <button class="set-row" data-go="sfn" type="button">
+      <span>メンバーの募集の条件<em>安佐南区ほか2つ ／ さくらリーグ 2部</em></span>
+      <i>›</i>
+    </button>
+    <button class="set-row rep-only" data-go="sfm" type="button">
+      <span>対戦相手の募集の条件<em>安佐南区ほか2つ ／ 会場 どちらでも</em></span>
+      <i>›</i>
+    </button>
+
+    <h2 class="sec">この端末への通知</h2>
 
     <div class="card">
       <div class="row">
@@ -1730,7 +1748,8 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
     <p class="note">
       通知が届くかは<b>端末ごと</b>に決まります。パソコンや別のスマホでは、それぞれで許可が必要です。<br>
-      iPhone は<b>ホーム画面に置いたアイコンから開いたとき</b>だけ届きます。
+      iPhone は<b>ホーム画面に置いたアイコンから開いたとき</b>だけ届きます。<br>
+      ⭐ <b>通知が届かなかったお知らせも、右上のベルに残ります。</b>
     </p>
 
     <button class="btn" data-act="toast" data-msg="保存しました" type="button" style="margin-top:14px;">保存する</button>
@@ -3120,6 +3139,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <div class="proto-list">
       <button type="button" data-go="sme"><i>7</i><b>私の予定</b><em>この先の予定・返事待ち</em></button>
       <button type="button" data-go="s8"><i>8</i><b>私の設定</b><em>歯車から。所属チーム・お知らせの条件</em></button>
+      <button type="button" data-go="s9"><i>★</i><b>お知らせの設定</b><em>条件は種類ごとの絞り込みへ</em></button>
       <button type="button" data-go="s7"><i>9</i><b>決まりました</b><em>選手が見る。相手の連絡先</em></button>
       <button type="button" data-go="scanceled"><i>10</i><b>中止になりました</b><em>助っ人に届いたあと</em></button>
       <button type="button" data-go="s3waiting"><i>★</i><b>助っ人の募集（応募済み）</b><em>取り消せる</em></button>
@@ -3187,7 +3207,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
   // 直リンクと［画面一覧］から飛んだときだけ、印の初期位置に使う
   var tabHint = {
     s2h: 'find', s2n: 'find', s3: 'find', s3n: 'find', s4: 'find',
-    s7: 'me', s8: 'me', scanceled: 'me',
+    s7: 'me', s8: 'me', s9: 'me', scanceled: 'me',
     shandover: 'me', shandoverdone: 'me', shandoverask: 'me',
     steamsel: 'me', steamnew: 'me', steamjoin: 'me', sleague: 'me', sarea: 'find',
     spost: 'team', s5: 'team', s5m: 'team', s5n: 'team', s6: 'team', s10: 'team', s11: 'team',
