@@ -254,6 +254,8 @@ body {
    まだアプリの中に入っていないので、タブで移れると筋が通らない */
 body.no-tabs .tabbar { display: none; }
 body.no-tabs .body { padding-bottom: 40px; }
+/* ⭐ 登録の流れ（下タブを出さない画面）では、ベルと歯車も出さない。登録が終わるまでお知らせも設定も無い。戻るは残す */
+body.no-tabs .float-btn[data-go="snews"], body.no-tabs #gearWrap { display: none; }
 
 .lead {
   margin: 0 0 14px;
