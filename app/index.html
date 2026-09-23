@@ -1610,17 +1610,6 @@ body[data-mode="rep"] .player-only { display: none !important; }
       </button>
     </div>
 
-    <div class="field field-row">
-      <div>
-        <label class="f-label">都道府県</label>
-        <select><option>広島県</option></select>
-      </div>
-      <div>
-        <label class="f-label">市区町村</label>
-        <select><option>広島市安佐南区</option></select>
-      </div>
-    </div>
-
     <div class="field">
       <label class="f-label">やる競技<span class="hint">選んだ競技の募集だけが届きます</span></label>
       <div class="chips">
@@ -1708,7 +1697,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
     <div class="field field-row">
       <div>
-        <label class="f-label">場所<span class="hint">選んだ市区町村のものだけ</span></label>
+        <label class="f-label">募集を探す範囲<span class="hint">⭐ 都道府県をまたいで足せます</span></label>
         <div class="chips" style="margin-bottom:8px;">
           <button class="chip" type="button" aria-pressed="true">安佐南区</button>
           <button class="chip" type="button" aria-pressed="true">西区</button>
@@ -2506,6 +2495,21 @@ body[data-mode="rep"] .player-only { display: none !important; }
       </p>
     </div>
 
+    <div class="field">
+      <label class="f-label">よく行ける市区町村<span class="hint">ここを基準に募集を探します</span></label>
+      <div class="field-row">
+        <div>
+          <select><option>広島県</option><option>岡山県</option><option>山口県</option></select>
+        </div>
+        <div>
+          <select><option>広島市安佐南区</option><option>広島市西区</option><option>府中町</option></select>
+        </div>
+      </div>
+      <p class="note" style="margin-top:6px;">
+        <b>あとから、いくつでも足せます。</b>⭐ 都道府県をまたいでも足せます。
+      </p>
+    </div>
+
     <h2 class="sec">決まったときの連絡先（入れなくても使えます）</h2>
 
     <p class="note" style="margin:0 0 12px;">
@@ -2738,11 +2742,9 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
     <div class="field field-row">
       <div>
-        <label class="f-label">場所<span class="hint">あとから私の設定で変えられます</span></label>
+        <label class="f-label">募集を探す範囲<span class="hint">あとから私の設定で足せます</span></label>
         <div class="chips">
-          <button class="chip" type="button" aria-pressed="true">安佐南区</button>
-          <button class="chip" type="button" aria-pressed="true">西区</button>
-          <button class="chip" type="button" aria-pressed="true">府中町</button>
+          <button class="chip" type="button" aria-pressed="true">広島市安佐南区</button>
         </div>
       </div>
       <div>
