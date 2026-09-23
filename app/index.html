@@ -1687,7 +1687,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <span class="hint">LINE →「ホーム」→ 右上の友だち追加 → QRコード →「マイQRコード」→ リンクをコピー</span></label>
       <input type="url" value="https://line.me/ti/p/dummy0000">
       <p class="note" style="margin-top:6px;">
-        入れておくと、<b>急な中止の連絡が早く届きます。</b><br>
+        入れておくと、<b>急な中止のとき、相手の代表があなたに LINE で直接知らせることができます。</b><br>
         LINEでQRコードを「更新」すると、このリンクは使えなくなります。入れ直してください。
       </p>
     </div>
@@ -1729,14 +1729,12 @@ body[data-mode="rep"] .player-only { display: none !important; }
       <i>›</i>
     </button>
 
+    <!-- ⭐ 引き継ぎの入口は逃げ道。ボタンの形にしない（枠つきの行は目立ちすぎる）。ただし隠さない -->
     <p class="note player-only" style="margin-top:4px;">
       代表になるときは、いまの代表に<b>［代表を増やす］で追加してもらってください。</b><br>
-      新しくチームを作った場合は、<b>作った人がそのまま代表になります。</b>
+      新しくチームを作った場合は、<b>作った人がそのまま代表になります。</b><br>
+      <button class="link-quiet" style="padding:2px 0;" data-go="shandover" type="button">いまの代表に連絡が取れないとき</button>
     </p>
-    <button class="set-row player-only" data-go="shandover" type="button">
-      <span>いまの代表に連絡が取れない</span>
-      <i>›</i>
-    </button>
 
     <button class="btn" data-act="toast" data-msg="保存しました" type="button" style="margin-top:14px;">保存する</button>
   </section>
@@ -2625,7 +2623,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <span class="hint">LINE →「ホーム」→ 右上の友だち追加 → QRコード →「マイQRコード」→ リンクをコピー</span></label>
       <input type="url" placeholder="https://line.me/ti/p/...">
       <p class="note" style="margin-top:6px;">
-        入れておくと、<b>急な中止の連絡が早く届きます。</b><br>
+        入れておくと、<b>急な中止のとき、相手の代表があなたに LINE で直接知らせることができます。</b><br>
         LINEでQRコードを「更新」すると、このリンクは使えなくなります。入れ直してください。
       </p>
     </div>
