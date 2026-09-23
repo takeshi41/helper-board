@@ -719,6 +719,15 @@ h2.sec:first-child { margin-top: 2px; }
   overflow: hidden;
 }
 .opt > .check { border: 0; border-radius: 0; }
+.opt > .opt-h { padding: 12px 12px 10px; }
+.opt > .opt-h > b { display: block; font-size: 14px; }
+.opt > .opt-h > span { display: block; color: var(--sub); font-size: 12.5px; line-height: 1.6; }
+.opt > .opt-h + .check { border-top: 1px solid var(--line); }
+.opt > .set-row + .check { border-top: 1px solid var(--line); }
+/* 条件の行は、直前のチェック（競技名）の文字の位置にそろえて一段下げる */
+.opt > .check + .set-row { padding-left: 40px; }
+/* 一覧の上の競技の切り替え。⭐ やる競技が2つ以上の人にだけ出る */
+.sport-sw { margin-bottom: 12px; }
 .opt > .set-row { border: 0; border-top: 1px solid var(--line); border-radius: 0; margin: 0; }
 
 /* --- この端末で通知が受け取れないときだけ出す1枚 ---
@@ -1298,10 +1307,15 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
   <!-- ==================================================== s2h 助っ人を探す -->
   <section data-screen="s2h" data-title="助っ人の募集を探す">
+    <!-- ⭐ やる競技が2つ以上の人にだけ出る。1競技の人には出ない。最後に選んだ競技を覚える -->
+    <div class="chips sport-sw" data-one>
+      <button class="chip" type="button" aria-pressed="true">野球</button>
+      <button class="chip" type="button" aria-pressed="false">バスケットボール</button>
+    </div>
     <div class="filter">
       <div class="filter-v">
         <b>安佐南区・西区・府中町</b>／さくらリーグ 2部<br>
-        野球・バスケットボール ／ 日にち 指定なし ／ ポジション 指定なし
+        日にち 指定なし ／ ポジション 指定なし
       </div>
       <button class="btn-sm" data-go="sfh" type="button">変える</button>
     </div>
@@ -1346,17 +1360,22 @@ body[data-mode="rep"] .player-only { display: none !important; }
     </div>
 
     <p class="note">
-      出るのは<b>「やる競技」に選んだ競技と、自分に合う男子・女子のものだけ</b>です。<br>
+      出るのは<b>上で選んだ競技の、自分に合う男子・女子のものだけ</b>です。競技の切り替えは、やる競技が2つ以上の人にだけ出ます。<br>
       男女混合のチームの募集は、<b>男子にも女子にも出ます。</b>
     </p>
   </section>
 
   <!-- ==================================================== s2n メンバーを探す -->
   <section data-screen="s2n" data-title="メンバーの募集を探す">
+    <!-- ⭐ やる競技が2つ以上の人にだけ出る。1競技の人には出ない。最後に選んだ競技を覚える -->
+    <div class="chips sport-sw" data-one>
+      <button class="chip" type="button" aria-pressed="true">野球</button>
+      <button class="chip" type="button" aria-pressed="false">バスケットボール</button>
+    </div>
     <div class="filter">
       <div class="filter-v">
         <b>安佐南区・西区・府中町</b>／さくらリーグ 2部<br>
-        野球・バスケットボール ／ ポジション 指定なし
+        ポジション 指定なし
       </div>
       <button class="btn-sm" data-go="sfn" type="button">変える</button>
     </div>
@@ -1387,7 +1406,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     </div>
 
     <p class="note">
-      出るのは<b>「やる競技」に選んだ競技と、自分に合う男子・女子のものだけ</b>です。
+      出るのは<b>上で選んだ競技の、自分に合う男子・女子のものだけ</b>です。競技の切り替えは、やる競技が2つ以上の人にだけ出ます。
     </p>
   </section>
 
@@ -1757,30 +1776,50 @@ body[data-mode="rep"] .player-only { display: none !important; }
         </button>
       </div>
 
+      <!-- ⭐ やる競技が2つ以上の人は、競技ごとにチェックと条件を持つ（「野球だけ受け取る」ができる）。
+           1競技の人は、上の「対戦相手の募集」と同じ形（種類のチェック＋条件の行）。 -->
       <div class="opt">
+        <div class="opt-h">
+          <b>助っ人の募集</b>
+          <span>「この日だけ手伝ってほしい」というチームが出したとき</span>
+        </div>
         <label class="check">
           <input type="checkbox" checked>
-          <div class="check-t">
-            <b>助っ人の募集</b>
-            <span>「この日だけ手伝ってほしい」というチームが出したとき</span>
-          </div>
+          <div class="check-t"><b>野球</b></div>
         </label>
         <button class="set-row" data-go="sfh" type="button">
           <span>条件<em>安佐南区ほか2つ ／ さくらリーグ 2部</em></span>
           <i>›</i>
         </button>
+        <label class="check">
+          <input type="checkbox">
+          <div class="check-t"><b>バスケットボール</b></div>
+        </label>
+        <button class="set-row" data-go="sfh" type="button">
+          <span>条件<em>安佐南区ほか2つ</em></span>
+          <i>›</i>
+        </button>
       </div>
 
       <div class="opt">
+        <div class="opt-h">
+          <b>メンバーの募集</b>
+          <span>「ずっと入ってくれる人を探している」チームが出したとき</span>
+        </div>
         <label class="check">
           <input type="checkbox" checked>
-          <div class="check-t">
-            <b>メンバーの募集</b>
-            <span>「ずっと入ってくれる人を探している」チームが出したとき</span>
-          </div>
+          <div class="check-t"><b>野球</b></div>
         </label>
         <button class="set-row" data-go="sfn" type="button">
           <span>条件<em>安佐南区ほか2つ ／ さくらリーグ 2部</em></span>
+          <i>›</i>
+        </button>
+        <label class="check">
+          <input type="checkbox" checked>
+          <div class="check-t"><b>バスケットボール</b></div>
+        </label>
+        <button class="set-row" data-go="sfn" type="button">
+          <span>条件<em>安佐南区ほか2つ</em></span>
           <i>›</i>
         </button>
       </div>
@@ -2804,16 +2843,22 @@ body[data-mode="rep"] .player-only { display: none !important; }
       </label>
     </div>
 
+    <div class="field">
+      <label class="f-label">募集を探す範囲<span class="hint">あとから絞り込みで足せます</span></label>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="true">広島市安佐南区</button>
+      </div>
+    </div>
+
+    <!-- ⭐ リーグは競技ごと。やる競技が2つ以上の人にだけ、競技ごとに1行ずつ出す（1競技なら「リーグ」1行） -->
     <div class="field field-row">
       <div>
-        <label class="f-label">募集を探す範囲<span class="hint">あとから私の設定で足せます</span></label>
-        <div class="chips">
-          <button class="chip" type="button" aria-pressed="true">広島市安佐南区</button>
-        </div>
+        <label class="f-label">野球のリーグ<span class="hint">このリーグのものだけ</span></label>
+        <select><option>さくらリーグ 2部</option><option>指定なし（ぜんぶ）</option></select>
       </div>
       <div>
-        <label class="f-label">リーグ<span class="hint">このリーグのものだけ</span></label>
-        <select><option>さくらリーグ 2部</option></select>
+        <label class="f-label">バスケットボールのリーグ</label>
+        <select><option>指定なし（ぜんぶ）</option></select>
       </div>
     </div>
 
@@ -2925,7 +2970,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
   <!-- ==================================================== sfh 助っ人の絞り込み -->
   <section data-screen="sfh" data-title="助っ人の募集の絞り込み">
-    <p class="lead">この条件に合うものだけ出します。</p>
+    <p class="lead"><b>野球</b>の募集の条件です。この条件に合うものだけ出します。</p>
 
     <div class="field">
       <label class="f-label">探す範囲<span class="hint">市区町村で選びます。⭐ 都道府県をまたいで選べます</span></label>
@@ -2951,8 +2996,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <div class="field">
       <label class="f-label">ポジション<span class="hint">いくつでも選べます。選ばなければ、ぜんぶ出ます</span></label>
 
-      <div class="sport-g" style="margin-top:0;">野球</div>
-      <div class="chips">
+            <div class="chips">
         <button class="chip" type="button" aria-pressed="false">投手</button>
         <button class="chip" type="button" aria-pressed="false">捕手</button>
         <button class="chip" type="button" aria-pressed="false">一塁手</button>
@@ -2964,20 +3008,12 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <button class="chip" type="button" aria-pressed="false">右翼手</button>
       </div>
 
-      <div class="sport-g">バスケットボール</div>
-      <div class="chips">
-        <button class="chip" type="button" aria-pressed="false">ポイントガード</button>
-        <button class="chip" type="button" aria-pressed="false">シューティングガード</button>
-        <button class="chip" type="button" aria-pressed="false">スモールフォワード</button>
-        <button class="chip" type="button" aria-pressed="false">パワーフォワード</button>
-        <button class="chip" type="button" aria-pressed="false">センター</button>
-      </div>
     </div>
 
     <button class="btn" data-back="1" type="button">この条件にする</button>
 
     <p class="note">
-      出ているのは<b>「やる競技」に選んだ競技だけ</b>です。<b>男子・女子も自動で合わせています</b>（私の設定で変えられます）。<br>
+      条件は<b>競技ごと</b>に持ちます。バスケットボールの条件は、一覧の上で切り替えてから［変える］で決めます。<b>男子・女子は自動で合わせています</b>（私の設定で変えられます）。<br>
       この条件は、<b>お知らせを受け取る条件としても保存されます。</b>
       絞ると、その条件に合う募集だけが届くようになります。
     </p>
@@ -3042,7 +3078,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
   <!-- ==================================================== sfn メンバーの絞り込み -->
   <section data-screen="sfn" data-title="メンバーの募集の絞り込み">
-    <p class="lead">この条件に合うものだけ出します。</p>
+    <p class="lead"><b>野球</b>の募集の条件です。この条件に合うものだけ出します。</p>
 
     <div class="field">
       <label class="f-label">探す範囲<span class="hint">市区町村で選びます。⭐ 都道府県をまたいで選べます</span></label>
@@ -3063,8 +3099,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <div class="field">
       <label class="f-label">ポジション<span class="hint">いくつでも選べます。選ばなければ、ぜんぶ出ます</span></label>
 
-      <div class="sport-g" style="margin-top:0;">野球</div>
-      <div class="chips">
+            <div class="chips">
         <button class="chip" type="button" aria-pressed="false">投手</button>
         <button class="chip" type="button" aria-pressed="false">捕手</button>
         <button class="chip" type="button" aria-pressed="false">一塁手</button>
@@ -3076,20 +3111,12 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <button class="chip" type="button" aria-pressed="false">右翼手</button>
       </div>
 
-      <div class="sport-g">バスケットボール</div>
-      <div class="chips">
-        <button class="chip" type="button" aria-pressed="false">ポイントガード</button>
-        <button class="chip" type="button" aria-pressed="false">シューティングガード</button>
-        <button class="chip" type="button" aria-pressed="false">スモールフォワード</button>
-        <button class="chip" type="button" aria-pressed="false">パワーフォワード</button>
-        <button class="chip" type="button" aria-pressed="false">センター</button>
-      </div>
     </div>
 
     <button class="btn" data-back="1" type="button">この条件にする</button>
 
     <p class="note">
-      出ているのは<b>「やる競技」に選んだ競技だけ</b>です。<b>男子・女子も自動で合わせています</b>（私の設定で変えられます）。<br>
+      条件は<b>競技ごと</b>に持ちます。バスケットボールの条件は、一覧の上で切り替えてから［変える］で決めます。<b>男子・女子は自動で合わせています</b>（私の設定で変えられます）。<br>
       <b>日にちの欄はありません。</b>メンバーの募集は、ずっと出しておくものなので日にちを持ちません。
     </p>
   </section>
@@ -3193,7 +3220,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
       <button type="button" data-go="steamjoin"><i>5</i><b>あるチームに入る</b><em>承認なし</em></button>
       <button type="button" data-go="sleague"><i>★</i><b>リーグを足す</b><em>選ぶのが基本。設定からも使う</em></button>
       <button type="button" data-go="sarea"><i>★</i><b>市区町村を足す</b><em>県→市区町村の2段。県をまたげる</em></button>
-      <button type="button" data-go="sw5"><i>6</i><b>お知らせの条件</b><em>既定値＋通知の許可</em></button>
+      <button type="button" data-go="sw5"><i>6</i><b>お知らせの条件</b><em>既定値＋通知の許可。リーグは競技ごと</em></button>
       <button type="button" data-go="sw6"><i>7</i><b>ホーム画面に追加</b><em>iPhoneだけ</em></button>
     </div>
 
@@ -3202,9 +3229,9 @@ body[data-mode="rep"] .player-only { display: none !important; }
       <button type="button" data-go="s3"><i>★</i><b>助っ人の募集</b><em>お知らせの着地点</em></button>
       <button type="button" data-go="s4"><i>2</i><b>送りました</b></button>
       <button type="button" data-go="sfind"><i>3</i><b>募集を探す</b><em>入口2つ</em></button>
-      <button type="button" data-go="s2h"><i>4</i><b>助っ人の募集を探す</b><em>一覧</em></button>
+      <button type="button" data-go="s2h"><i>4</i><b>助っ人の募集を探す</b><em>一覧。掛け持ちの人は上で競技を切り替え</em></button>
       <button type="button" data-go="s2n"><i>5</i><b>メンバーの募集を探す</b><em>一覧・日にちなし</em></button>
-      <button type="button" data-go="sfh"><i>6</i><b>助っ人の絞り込み</b><em>お知らせの条件にもなる</em></button>
+      <button type="button" data-go="sfh"><i>6</i><b>助っ人の絞り込み</b><em>競技1つぶん。お知らせの条件にもなる</em></button>
       <button type="button" data-go="sfn"><i>7</i><b>メンバーの絞り込み</b><em>日にちの欄がない</em></button>
       <button type="button" data-go="s3n"><i>6</i><b>メンバーの募集</b></button>
     </div>
