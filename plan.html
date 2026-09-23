@@ -74,8 +74,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 <div class="wrap">
 
   <p class="lead">
-    試作 → <a href="./app/?1">https://takeshi41.github.io/helper-board/app/</a><br>
-    全39画面あり、実際に押して進めます。上の黒い帯で「選手」と「代表」を切り替えると、
+    試作 → <a href="./app/?v=10">https://takeshi41.github.io/helper-board/app/</a><br>
+    全43画面あり、実際に押して進めます。上の黒い帯で「選手」と「代表」を切り替えると、
     見える画面が変わります。
   </p>
 
@@ -84,7 +84,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
   <div class="card">
     <dl>
       <div><dt>選手が入れるもの</dt>
-        <dd>呼ばれ方・所属チーム・地域・できるポジション・メールアドレス。<b>最初の1回だけ</b>です</dd></div>
+        <dd>呼ばれ方・所属チーム・地域・できるポジション。<b>最初の1回だけ</b>です</dd></div>
       <div><dt>代表が入れるもの</dt>
         <dd>チームの情報と、募集</dd></div>
       <div><dt>自動でやること</dt>
@@ -115,6 +115,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
   <div class="card warn">
     <ul style="margin:0">
       <li><b>選手の本名・住所・生年月日</b> ── 呼ばれ方だけで足ります</li>
+      <li><b>メールアドレス</b> ── アプリからメールを送らないため、持ちません</li>
       <li><b>電話番号</b> ── LINE がほぼ全員に行き渡っているため、持ちません</li>
       <li><b>勝敗・得点・順位</b> ── v1 では持ちません</li>
       <li><b>チーム内の出欠</b> ── いまお使いの仕組みを置き換えません</li>
@@ -147,13 +148,16 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 
   <div class="card">
     <dl>
-      <div><dt>土台はメール</dt>
-        <dd>全員に送れます。アドレスは登録のときに1回入れてもらいます</dd></div>
-      <div><dt>上乗せでスマホへの通知</dt>
+      <div><dt>スマホへの通知</dt>
         <dd>Android とパソコンは問題なく届きます</dd></div>
       <div><dt>iPhone だけ条件があります</dt>
         <dd><b>ホーム画面にアイコンを追加して、そこから開いた人にしか届きません。</b>
           これは iPhone 側の決まりで、こちらでは変えられません</dd></div>
+      <div><dt>アプリの中の「お知らせ」</dt>
+        <dd><b>通知が届かなかった分も、ここに全部残ります。</b>
+          右上のベルに、読んでいない件数が出ます</dd></div>
+      <div><dt>メールは送りません</dt>
+        <dd>アドレスもお預かりしません</dd></div>
     </dl>
   </div>
 
@@ -161,6 +165,17 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     そのため試作では、iPhone の方に<b>4つの手順を画面で案内</b>しています。
     <b>ここを通れるかどうかが、このアプリのいちばんの関門です。</b>
   </p>
+
+  <div class="card warn">
+    <p style="margin:0 0 8px"><b>メールを送らないことで、できなくなることがあります。</b></p>
+    <p style="margin:0" class="note">
+      通知が届かない方には、<b>アプリを開いていただくまで伝わりません。</b>
+      急ぎの助っ人募集が、間に合わないことがあります。<br>
+      そのぶん、<b>アプリを開けば必ず読める場所</b>（右上のベル）を用意しました。<br>
+      ⭐ 1,000人に配る前に <b>10〜20人で数日お試しいただき、ここが通じるかを実際に確かめます。</b>
+      通じないと分かれば、<b>そのときメールを足します。</b>作りは変えずに足せるようにしてあります。
+    </p>
+  </div>
 
   <div class="card warn">
     <p style="margin:0 0 8px"><b>通知の許可は、一度断られると二度とお願いできません。</b></p>
@@ -184,9 +199,9 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 
   <div class="card">
     <dl>
-      <div><dt>メールアドレス</dt><dd>必須。<b>お知らせの届け先で、相手には出しません</b></dd></div>
       <div><dt>LINEの友だち追加リンク</dt>
         <dd>任意。<b>試合や助っ人が決まったときだけ</b>、相手のチームの代表に出ます</dd></div>
+      <div><dt>メールアドレス・電話番号</dt><dd><b>お預かりしません</b></dd></div>
     </dl>
   </div>
 
@@ -225,7 +240,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div><dt>1. 申し出る</dt><dd>新しい代表になりたい方が、アプリから申し出ます</dd></div>
       <div><dt>2. お知らせが届く</dt>
         <dd>いまの代表と、<b>そのチームに登録している全員</b>に届きます</dd></div>
-      <div><dt>3. 3日で移ります</dt>
+      <div><dt>3. 7日で移ります</dt>
         <dd><b>返事がなければ、自動で代表が移ります。</b>
           前任の先生が反対されたときだけ止まります</dd></div>
     </dl>
@@ -233,7 +248,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 
   <p class="note">
     ⭐ <b>「返事が来ないこと」が引き継ぎの条件</b>なので、
-    前任の先生のアドレスが使えなくなっていても止まりません。
+    前任の先生と連絡が取れなくなっていても止まりません。
     部員の皆さんにもお知らせが届くので、<b>知らない人が名乗れば誰かが気づきます。</b>
   </p>
 
@@ -246,9 +261,9 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
   <div class="card">
     <dl>
       <div><dt>置き場所</dt><dd>Cloudflare（世界中にあるサーバーを借りる形）。<b>商用利用が認められています</b></dd></div>
-      <div><dt>メール送信</dt><dd>Amazon のメール配信</dd></div>
       <div><dt>登録・ログイン</dt><dd><b>パスワードは作らせません。</b>LINE または Google のボタン1つ</dd></div>
-      <div><dt>立ち上げ期の費用</dt><dd><b>月あたり数百円</b>（ドメイン代とメール代。金額は変わるので着手前に再確認します）</dd></div>
+      <div><dt>立ち上げ期の費用</dt><dd><b>月0円</b>です。無料で使える範囲の内側に収まります</dd></div>
+      <div><dt>増えていったら</dt><dd>10団体・1万人くらいで<b>月1,000円ほど</b>。人数に比例して跳ね上がる部分はありません</dd></div>
     </dl>
   </div>
 
@@ -286,7 +301,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 
   <h2>8. 作らないもの</h2>
 
-  <p>迷った末に「作らない」と決めたものです。<b>理由もあわせて書きます。</b></p>
+  <p>「作らない」と決めたものです。<b>理由もあわせて書きます。</b></p>
 
   <div class="card">
     <span class="tag no">作りません</span>
@@ -357,14 +372,17 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <dd>チームを作ると<b>「招待リンク」</b>が出ます。それをチームのグループに貼っていただければ、
           選手の皆さんは<b>所属チームを選ぶ手間なく</b>登録できます</dd></div>
       <div><dt>最初の告知は、アプリの外から</dt>
-        <dd>選手のメールアドレスは登録後にしか分からないため、
+        <dd><b>アプリから一斉にお送りする手段はありません。</b>
           <b>代表経由・ホームページ・公式LINE</b>でお願いすることになります</dd></div>
+      <div><dt>配る直前に、10〜20人でお試しを</dt>
+        <dd>数日で構いません。<b>通知が届くか、届かない方が気づけるか</b>を確かめます。
+          <b>最初の印象は1回きり</b>なので、ここだけは挟ませてください</dd></div>
     </dl>
   </div>
 
   <footer>
     試作の画面に出ている名前・チーム名・リーグ名・連絡先は、すべて架空のものです。<br>
-    試作 → <a href="./app/?1">https://takeshi41.github.io/helper-board/app/</a>
+    試作 → <a href="./app/?v=10">https://takeshi41.github.io/helper-board/app/</a>
   </footer>
 
 </div>

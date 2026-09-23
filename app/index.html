@@ -1070,7 +1070,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <li><b>いちばん上のバーで、選手と代表を切り替えられます</b>
           <small>代表には「募集を出す」タブが増えます</small></li>
         <li><b>右上のベルに、届いたお知らせがたまります</b>
-          <small>メールや端末への通知が届かなかったときも、ここに残ります</small></li>
+          <small>端末への通知が届かなかったときも、ここに残ります</small></li>
         <li><b>いちばん上の［画面一覧］から、どの画面へも直接開けます</b></li>
       </ol>
     </div>
@@ -1129,7 +1129,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     </button>
 
     <p class="note">
-      メールと端末への通知が届かなかったときも、<b>ここに残っています。</b><br>
+      端末への通知が届かなかったときも、<b>ここに残っています。</b><br>
       残るのは<b>30日ぶん</b>です。それより古いものは消えます。
     </p>
   </section>
@@ -1435,8 +1435,8 @@ body[data-mode="rep"] .player-only { display: none !important; }
     </div>
 
     <p class="note">
-      決まったときと、雨などで中止になったときは、<b>メールと通知の両方</b>でお知らせします。<br>
-      <b>通知が届かないとメールだけになる</b>ので、当日の朝はメールも見てください。
+      決まったときと、雨などで中止になったときは、<b>この端末への通知</b>でお知らせします。<br>
+      <b>通知が届かなかったときも、右上のベルに残ります。</b>当日の朝は開いて確かめてください。
     </p>
 
     <button class="btn sub" data-go="sfind" type="button" style="margin-top:14px;">ほかの募集を見る</button>
@@ -1553,14 +1553,9 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <h2 class="sec">連絡先</h2>
 
     <p class="note" style="margin:0 0 12px;">
-      メールはお知らせの届け先です。LINEは
-      <b>試合や助っ人が決まったときだけ、相手のチームの代表に出ます。</b>一覧や名簿には出ません。
+      LINEは<b>試合や助っ人が決まったときだけ、相手のチームの代表に出ます。</b>一覧や名簿には出ません。<br>
+      メールアドレスと電話番号は<b>お預かりしていません。</b>
     </p>
-
-    <div class="field">
-      <label class="f-label">メールアドレス</label>
-      <input type="email" value="dummy@example.com">
-    </div>
 
     <div class="field">
       <label class="f-label">LINEの友だち追加リンク（入れなくても使えます）
@@ -1624,7 +1619,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
       <div class="row">
         <div class="row-t">
           <b>このスマホには届きます</b>
-          <span>メールと、この端末への通知の両方で届きます</span>
+          <span>このスマホに通知が出ます</span>
         </div>
         <span class="pill ok">オン</span>
       </div>
@@ -1672,9 +1667,9 @@ body[data-mode="rep"] .player-only { display: none !important; }
       <ol>
         <li><b>上の全員に、お知らせが届きます</b>
           <small>「はるきさんが代表を引き継ぎたいと言っています」</small></li>
-        <li><b>3日のあいだ、いまの代表は止められます</b>
+        <li><b>7日のあいだ、いまの代表は止められます</b>
           <small>心当たりがなければ、その場で止められます</small></li>
-        <li><b>3日たって返事がなければ、代表が移ります</b>
+        <li><b>7日たって返事がなければ、代表が移ります</b>
           <small>前の代表に連絡が取れなくても、ここで止まりません</small></li>
       </ol>
     </div>
@@ -1694,7 +1689,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
       <dl class="dl" style="margin-top:0;">
         <div>
           <dt>代表が移る日</dt>
-          <dd><b>4月4日（土）18時</b><small>あと3日</small></dd>
+          <dd><b>4月4日（土）18時</b><small>あと7日</small></dd>
         </div>
         <div>
           <dt>お知らせの先</dt>
@@ -1717,7 +1712,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
   <section data-screen="shandoverask" data-title="代表の引き継ぎ">
     <div class="card">
       <div class="post-h">
-        <span class="pill warn">あと3日</span>
+        <span class="pill warn">あと7日</span>
       </div>
       <div style="font-size:17px;font-weight:700;margin:2px 0 4px;">
         はるき さんが、代表を引き継ぎたいと言っています
@@ -1936,10 +1931,9 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <div><dt>相手</dt><dd>川岸ファイターズ<small>さくらリーグ 2部</small></dd></div>
         <div><dt>場所</dt><dd>広島市安佐南区<small>かわぎしグラウンド</small></dd></div>
         <div>
-          <dt>連絡先</dt>
-          <dd>やまもと（代表）
-            <small>dummy@example.com</small>
-            <small style="color:var(--warn);">架空のアドレスです</small>
+          <dt>相手の代表</dt>
+          <dd>やまもと
+            <small>連絡は下の LINE から取ってください</small>
           </dd>
         </div>
         <div>
@@ -1968,10 +1962,11 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
     <div class="card" style="border-left:3px solid var(--warn);">
       <p style="margin:0;font-size:14.5px;">
-        <b>当日の朝は、メールも見てください。</b>
+        <b>当日の朝は、右上のベルも見てください。</b>
       </p>
       <p class="post-meta" style="margin:4px 0 0;">
-        雨などで中止になったときの連絡は、<b>通知が届かないとメールだけ</b>になります。
+        雨などで中止になったときの連絡は、<b>通知が届かないとベルにしか残りません。</b>
+        上で LINE の友だちになっておけば、LINE でも届きます。
       </p>
     </div>
 
@@ -2087,7 +2082,8 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <b>すぐに気づいてもらえないことがあります。</b>
       </p>
       <p class="post-meta" style="margin:4px 0 0;">
-        通知が届かない人には、メールだけが届きます。<b>LINEで友だちになっている人には、LINEでも追えます。</b>
+        通知が届かない人は、<b>アプリを開くまで気づきません。</b>
+        <b>LINEで友だちになっている人には、下のボタンから直接追えます。</b>
       </p>
     </div>
 
@@ -2120,7 +2116,8 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
     <p class="note">
       <b>所属チームの代表にも同じお知らせが届いています。</b>本人が気づかなくても、そちらから伝わることがあります。<br>
-      <b>しんじ</b>さんは、チームに入っておらずLINEも入れていないので、その道がありません。<br>
+      <b>しんじ</b>さんは、チームに入っておらずLINEも入れていないので、<b>こちらから急いで伝える手段がありません。</b>
+      お知らせは届いているので、<b>本人がアプリを開けば気づきます。</b>ただし開くまでは気づきません。<br>
       LINEは任意なので、<b>入れていない人もいます。</b>
     </p>
 
@@ -2264,12 +2261,6 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <div class="field">
       <label class="f-label">呼ばれ方<span class="hint">チームで呼ばれている名前で構いません</span></label>
       <input type="text" placeholder="はるき">
-    </div>
-
-    <div class="field">
-      <label class="f-label">メールアドレス<span class="hint">お知らせの届け先です</span></label>
-      <input type="email" placeholder="dummy@example.com">
-      <p class="note" style="margin-top:6px;">異動や転職でも変わらないアドレスをおすすめします。</p>
     </div>
 
     <h2 class="sec">決まったときの連絡先（入れなくても使えます）</h2>
@@ -2515,7 +2506,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     </div>
 
     <p style="text-align:center;margin:20px 0 0;">
-      <button class="link-quiet" data-go="sfind" type="button">あとにする（メールだけ受け取る）</button>
+      <button class="link-quiet" data-go="sfind" type="button">あとにする（アプリを開いたときに確かめる）</button>
     </p>
 
     <p class="note" style="margin-top:24px;">
@@ -2739,7 +2730,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <div class="proto-group">はじめの登録（下タブは出ません）</div>
     <div class="proto-list">
       <button type="button" data-go="sw1"><i>★</i><b>はじめまして</b><em>LINE／Google</em></button>
-      <button type="button" data-go="sw2"><i>2</i><b>あなたのこと</b><em>呼ばれ方・メール</em></button>
+      <button type="button" data-go="sw2"><i>2</i><b>あなたのこと</b><em>呼ばれ方・LINE</em></button>
       <button type="button" data-go="steamsel"><i>★</i><b>チームのこと</b><em>3択。設定からも使う</em></button>
       <button type="button" data-go="steamnew"><i>4</i><b>チームを作る</b><em>作った人が代表</em></button>
       <button type="button" data-go="steamjoin"><i>5</i><b>あるチームに入る</b><em>承認なし</em></button>
@@ -2768,7 +2759,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
       <button type="button" data-go="scanceled"><i>10</i><b>中止になりました</b><em>助っ人に届いたあと</em></button>
       <button type="button" data-go="s3waiting"><i>★</i><b>助っ人の募集（応募済み）</b><em>取り消せる</em></button>
       <button type="button" data-go="shandover"><i>★</i><b>代表を引き継ぐ</b><em>前の代表に連絡が取れないとき</em></button>
-      <button type="button" data-go="shandoverdone"><i>11</i><b>申し出ました</b><em>3日後に移る</em></button>
+      <button type="button" data-go="shandoverdone"><i>11</i><b>申し出ました</b><em>7日後に移る</em></button>
       <button type="button" data-go="shandoverask"><i>12</i><b>代表の引き継ぎ</b><em>いまの代表に届く。止められる</em></button>
       <button type="button" data-go="shmoved"><i>13</i><b>引き継ぎました</b></button>
     </div>
