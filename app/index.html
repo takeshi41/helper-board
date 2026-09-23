@@ -709,6 +709,18 @@ h2.sec:first-child { margin-top: 2px; }
   margin-top: 3px;
 }
 
+/* --- お知らせの設定：種類ごとに「チェック＋条件の行」を1枚にまとめる ---
+   ⚠️ 子セレクタで閉じる（.check / .set-row の素の見た目を外側から奪わない） */
+.opt {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.opt > .check { border: 0; border-radius: 0; }
+.opt > .set-row { border: 0; border-top: 1px solid var(--line); border-radius: 0; margin: 0; }
+
 /* --- 人の行（応募者・履歴） --- */
 
 .row {
@@ -1560,7 +1572,10 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
   </section>
 
-  <!-- ==================================================== s8 私の設定 -->
+  <!-- ==================================================== s8 私の設定
+       ⭐ 並びは「私のこと → 連絡先 → 所属チーム」。
+       所属チームは、いちばん重く、［外れる］［増やす］がその場で効く操作なので最後に置く。
+       ⚠️ 男子・女子／やる競技は本人の属性。説明を「届き方」の言葉で書かない（お知らせの設定に見えてしまう）。 -->
   <section data-screen="s8" data-title="私の設定">
     <h2 class="sec">私のこと</h2>
 
@@ -1570,7 +1585,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     </div>
 
     <div class="field">
-      <label class="f-label">男子・女子<span class="hint">合う募集だけを出すために使います。ほかの人には出しません</span></label>
+      <label class="f-label">男子・女子<span class="hint">ほかの人には出しません。女子チームの募集など、合うものを出すためだけに使います</span></label>
       <div class="chips" data-one>
         <button class="chip" type="button" aria-pressed="true">男子</button>
         <button class="chip" type="button" aria-pressed="false">女子</button>
@@ -1578,51 +1593,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     </div>
 
     <div class="field">
-      <label class="f-label">所属チーム<span class="hint">いくつでも入れます。掛け持ちもできます</span></label>
-
-      <div class="card" style="margin-bottom:10px;">
-        <div class="row">
-          <div class="row-t">
-            <b>あおぞらクラブ</b>
-            <span class="rep-only"><span class="pill">野球・男子</span> 代表 ／ さくらリーグ 2部 ／ 広島市安佐南区</span>
-            <span class="player-only"><span class="pill">野球・男子</span> さくらリーグ 2部 ／ 広島市安佐南区</span>
-          </div>
-          <button class="btn-sm quiet" data-act="remove" type="button">外れる</button>
-        </div>
-        <div class="row">
-          <div class="row-t">
-            <b>みどりヶ丘ベースボール</b>
-            <span><span class="pill">野球・男女混合</span> リーグに入っていないチーム ／ 広島市佐伯区</span>
-          </div>
-          <button class="btn-sm quiet" data-act="remove" type="button">外れる</button>
-        </div>
-        <div class="row">
-          <div class="row-t">
-            <b>安佐南ブレイカーズ</b>
-            <span class="rep-only"><span class="pill">バスケ・男女混合</span> 代表 ／ リーグに入っていないチーム ／ 広島市安佐南区</span>
-            <span class="player-only"><span class="pill">バスケ・男女混合</span> リーグに入っていないチーム ／ 広島市安佐南区</span>
-          </div>
-          <button class="btn-sm quiet" data-act="remove" type="button">外れる</button>
-        </div>
-      </div>
-
-      <button class="set-row" data-go="steamsel" type="button">
-        <span>チームを増やす</span>
-        <i>›</i>
-      </button>
-
-      <p class="note player-only" style="margin-top:4px;">
-        代表になるときは、いまの代表に<b>［代表を増やす］で追加してもらってください。</b><br>
-        新しくチームを作った場合は、<b>作った人がそのまま代表になります。</b>
-      </p>
-      <button class="set-row player-only" data-go="shandover" type="button">
-        <span>いまの代表に連絡が取れない</span>
-        <i>›</i>
-      </button>
-    </div>
-
-    <div class="field">
-      <label class="f-label">やる競技<span class="hint">選んだ競技の募集だけが届きます</span></label>
+      <label class="f-label">やる競技<span class="hint">ポジションは、選んだ競技ごとに出ます</span></label>
       <div class="chips">
         <button class="chip" type="button" aria-pressed="true">野球</button>
         <button class="chip" type="button" aria-pressed="true">バスケットボール</button>
@@ -1654,10 +1625,6 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <button class="chip" type="button" aria-pressed="false">パワーフォワード</button>
         <button class="chip" type="button" aria-pressed="false">センター</button>
       </div>
-
-      <p class="note" style="margin-top:10px;">
-        上で選んだ競技のぶんだけ出ます。
-      </p>
     </div>
 
     <h2 class="sec">連絡先</h2>
@@ -1676,64 +1643,64 @@ body[data-mode="rep"] .player-only { display: none !important; }
       </p>
     </div>
 
+    <h2 class="sec">所属チーム</h2>
+
+    <p class="note" style="margin:0 0 10px;">
+      いくつでも入れます。掛け持ちもできます。
+    </p>
+
+    <div class="card" style="margin-bottom:10px;">
+      <div class="row">
+        <div class="row-t">
+          <b>あおぞらクラブ</b>
+          <span class="rep-only"><span class="pill">野球・男子</span> 代表 ／ さくらリーグ 2部 ／ 広島市安佐南区</span>
+          <span class="player-only"><span class="pill">野球・男子</span> さくらリーグ 2部 ／ 広島市安佐南区</span>
+        </div>
+        <button class="btn-sm quiet" data-act="remove" type="button">外れる</button>
+      </div>
+      <div class="row">
+        <div class="row-t">
+          <b>みどりヶ丘ベースボール</b>
+          <span><span class="pill">野球・男女混合</span> リーグに入っていないチーム ／ 広島市佐伯区</span>
+        </div>
+        <button class="btn-sm quiet" data-act="remove" type="button">外れる</button>
+      </div>
+      <div class="row">
+        <div class="row-t">
+          <b>安佐南ブレイカーズ</b>
+          <span class="rep-only"><span class="pill">バスケ・男女混合</span> 代表 ／ リーグに入っていないチーム ／ 広島市安佐南区</span>
+          <span class="player-only"><span class="pill">バスケ・男女混合</span> リーグに入っていないチーム ／ 広島市安佐南区</span>
+        </div>
+        <button class="btn-sm quiet" data-act="remove" type="button">外れる</button>
+      </div>
+    </div>
+
+    <button class="set-row" data-go="steamsel" type="button">
+      <span>チームを増やす</span>
+      <i>›</i>
+    </button>
+
+    <p class="note player-only" style="margin-top:4px;">
+      代表になるときは、いまの代表に<b>［代表を増やす］で追加してもらってください。</b><br>
+      新しくチームを作った場合は、<b>作った人がそのまま代表になります。</b>
+    </p>
+    <button class="set-row player-only" data-go="shandover" type="button">
+      <span>いまの代表に連絡が取れない</span>
+      <i>›</i>
+    </button>
+
     <button class="btn" data-act="toast" data-msg="保存しました" type="button" style="margin-top:14px;">保存する</button>
   </section>
 
   <!-- ==================================================== s9 お知らせの設定（歯車から）
-       ⭐ 条件そのものは持たない。募集の種類ごとの絞り込みへ飛ばす。
-       ⚠️ 絞り込みは種類ごとに項目が違うので、ここに1組だけ置くと
+       ⭐ 「この端末への通知」を先頭に置く。届くかどうかの前提条件で、
+          ⚠️ 断られている の赤い状態は真っ先に見えなければならない。
+       ⭐ 募集の種類ごとに、チェックと条件の行を1枚（.opt）にまとめる。
+          上下の節で助っ人↔助っ人を突き合わせさせない。
+       ⚠️ 条件そのものは持たない。募集の種類ごとの絞り込み画面へ飛ばす。
+          絞り込みは種類ごとに項目が違うので、ここに1組だけ置くと
           どれを編集しているのか読めなくなる（設計方針 III-8「仕組みを2つ作らない」）。 -->
   <section data-screen="s9" data-title="お知らせの設定">
-    <h2 class="sec">受け取るもの</h2>
-
-    <div class="field">
-      <label class="f-label">どんな募集が出たときに知らせますか<span class="hint">いくつでも選べます</span></label>
-
-      <label class="check rep-only">
-        <input type="checkbox" checked>
-        <div class="check-t">
-          <b>対戦相手の募集</b>
-          <span>「この日に試合したい」というチームが出したとき</span>
-        </div>
-      </label>
-
-      <label class="check">
-        <input type="checkbox" checked>
-        <div class="check-t">
-          <b>助っ人の募集</b>
-          <span>「この日だけ手伝ってほしい」というチームが出したとき</span>
-        </div>
-      </label>
-
-      <label class="check">
-        <input type="checkbox" checked>
-        <div class="check-t">
-          <b>メンバーの募集</b>
-          <span>「ずっと入ってくれる人を探している」チームが出したとき</span>
-        </div>
-      </label>
-    </div>
-
-    <h2 class="sec">どんなものを受け取るか</h2>
-
-    <p class="note" style="margin:0 0 10px;">
-      <b>募集を探すときの絞り込みが、そのままお知らせの条件になります。</b>
-      一覧の［変える］から開くのと同じ画面です。
-    </p>
-
-    <button class="set-row" data-go="sfh" type="button">
-      <span>助っ人の募集の条件<em>安佐南区ほか2つ ／ さくらリーグ 2部</em></span>
-      <i>›</i>
-    </button>
-    <button class="set-row" data-go="sfn" type="button">
-      <span>メンバーの募集の条件<em>安佐南区ほか2つ ／ さくらリーグ 2部</em></span>
-      <i>›</i>
-    </button>
-    <button class="set-row rep-only" data-go="sfm" type="button">
-      <span>対戦相手の募集の条件<em>安佐南区ほか2つ ／ 会場 どちらでも</em></span>
-      <i>›</i>
-    </button>
-
     <h2 class="sec">この端末への通知</h2>
 
     <div class="card">
@@ -1750,6 +1717,58 @@ body[data-mode="rep"] .player-only { display: none !important; }
       通知が届くかは<b>端末ごと</b>に決まります。パソコンや別のスマホでは、それぞれで許可が必要です。<br>
       iPhone は<b>ホーム画面に置いたアイコンから開いたとき</b>だけ届きます。<br>
       ⭐ <b>通知が届かなかったお知らせも、右上のベルに残ります。</b>
+    </p>
+
+    <h2 class="sec">受け取るもの</h2>
+
+    <div class="field">
+      <label class="f-label">どんな募集が出たときに知らせますか<span class="hint">いくつでも選べます。募集を探すときの絞り込みが、そのままお知らせの条件になります</span></label>
+
+      <div class="opt rep-only">
+        <label class="check">
+          <input type="checkbox" checked>
+          <div class="check-t">
+            <b>対戦相手の募集</b>
+            <span>「この日に試合したい」というチームが出したとき</span>
+          </div>
+        </label>
+        <button class="set-row" data-go="sfm" type="button">
+          <span>条件<em>安佐南区ほか2つ ／ 会場 どちらでも</em></span>
+          <i>›</i>
+        </button>
+      </div>
+
+      <div class="opt">
+        <label class="check">
+          <input type="checkbox" checked>
+          <div class="check-t">
+            <b>助っ人の募集</b>
+            <span>「この日だけ手伝ってほしい」というチームが出したとき</span>
+          </div>
+        </label>
+        <button class="set-row" data-go="sfh" type="button">
+          <span>条件<em>安佐南区ほか2つ ／ さくらリーグ 2部</em></span>
+          <i>›</i>
+        </button>
+      </div>
+
+      <div class="opt">
+        <label class="check">
+          <input type="checkbox" checked>
+          <div class="check-t">
+            <b>メンバーの募集</b>
+            <span>「ずっと入ってくれる人を探している」チームが出したとき</span>
+          </div>
+        </label>
+        <button class="set-row" data-go="sfn" type="button">
+          <span>条件<em>安佐南区ほか2つ ／ さくらリーグ 2部</em></span>
+          <i>›</i>
+        </button>
+      </div>
+    </div>
+
+    <p class="note" style="margin-top:0;">
+      条件は、一覧の［変える］から開くのと同じ画面です。
     </p>
 
     <button class="btn" data-act="toast" data-msg="保存しました" type="button" style="margin-top:14px;">保存する</button>
@@ -3138,7 +3157,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <div class="proto-group">「私の予定」タブ（選手・代表 共通）</div>
     <div class="proto-list">
       <button type="button" data-go="sme"><i>7</i><b>私の予定</b><em>この先の予定・返事待ち</em></button>
-      <button type="button" data-go="s8"><i>8</i><b>私の設定</b><em>歯車から。所属チーム・お知らせの条件</em></button>
+      <button type="button" data-go="s8"><i>8</i><b>私の設定</b><em>歯車から。私のこと・LINE・所属チーム</em></button>
       <button type="button" data-go="s9"><i>★</i><b>お知らせの設定</b><em>条件は種類ごとの絞り込みへ</em></button>
       <button type="button" data-go="s7"><i>9</i><b>決まりました</b><em>選手が見る。相手の連絡先</em></button>
       <button type="button" data-go="scanceled"><i>10</i><b>中止になりました</b><em>助っ人に届いたあと</em></button>
