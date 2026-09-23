@@ -1733,7 +1733,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <p class="note player-only" style="margin-top:4px;">
       代表になるときは、いまの代表に<b>［代表を増やす］で追加してもらってください。</b><br>
       新しくチームを作った場合は、<b>作った人がそのまま代表になります。</b><br>
-      <button class="link-quiet" style="padding:2px 0;" data-go="shandover" type="button">いまの代表に連絡が取れないとき</button>
+      <button class="link-quiet" style="padding:2px 0;" data-go="shandoversel" type="button">いまの代表に連絡が取れないとき</button>
     </p>
 
     <button class="btn" data-act="toast" data-msg="保存しました" type="button" style="margin-top:14px;">保存する</button>
@@ -1828,6 +1828,48 @@ body[data-mode="rep"] .player-only { display: none !important; }
     </p>
 
     <button class="btn" data-act="toast" data-msg="保存しました" type="button" style="margin-top:14px;">保存する</button>
+  </section>
+
+  <!-- ==================================================== shandoversel どのチームの代表を引き継ぐか
+       ⭐ 所属が2チーム以上の人にだけ出す。1チームの人は、この画面を飛ばして直接「代表を引き継ぐ」へ。
+       並べるのは、自分が代表でないチームだけ（代表をしているチームは引き継ぐ対象にならない）。 -->
+  <section data-screen="shandoversel" data-title="どのチームですか">
+    <p class="lead">いまの代表に連絡が取れないチームを選んでください。</p>
+
+    <button class="card tap" data-go="shandover" type="button">
+      <div class="gate">
+        <div class="gate-t">
+          <b>あおぞらクラブ</b>
+          <span><span class="pill">野球・男子</span> さくらリーグ 2部 ／ 広島市安佐南区<br>いまの代表 ゆうと ／ 最後にアプリを開いたのは 3月28日</span>
+        </div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+
+    <button class="card tap" data-go="shandover" type="button">
+      <div class="gate">
+        <div class="gate-t">
+          <b>みどりヶ丘ベースボール</b>
+          <span><span class="pill">野球・男女混合</span> リーグに入っていないチーム ／ 広島市佐伯区<br>いまの代表 けんた ／ 最後にアプリを開いたのは 昨日</span>
+        </div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+
+    <button class="card tap" data-go="shandover" type="button">
+      <div class="gate">
+        <div class="gate-t">
+          <b>安佐南ブレイカーズ</b>
+          <span><span class="pill">バスケ・男女混合</span> リーグに入っていないチーム ／ 広島市安佐南区<br>いまの代表 みさき ／ 最後にアプリを開いたのは 3日前</span>
+        </div>
+        <div class="gate-arrow">›</div>
+      </div>
+    </button>
+
+    <p class="note">
+      この画面は、<b>所属が2チーム以上の人にだけ</b>出ます。1チームの人は、そのまま次の画面に進みます。<br>
+      自分が代表をしているチームは並びません。
+    </p>
   </section>
 
   <!-- ==================================================== shandover 代表を引き継ぐ -->
@@ -3243,6 +3285,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
       <button type="button" data-go="s7"><i>9</i><b>決まりました</b><em>選手が見る。相手の連絡先</em></button>
       <button type="button" data-go="scanceled"><i>10</i><b>中止になりました</b><em>助っ人に届いたあと</em></button>
       <button type="button" data-go="s3waiting"><i>★</i><b>助っ人の募集（応募済み）</b><em>取り消せる</em></button>
+      <button type="button" data-go="shandoversel"><i>★</i><b>どのチームですか</b><em>引き継ぐチームを選ぶ。2チーム以上の人だけ</em></button>
       <button type="button" data-go="shandover"><i>★</i><b>代表を引き継ぐ</b><em>前の代表に連絡が取れないとき</em></button>
       <button type="button" data-go="shandoverdone"><i>11</i><b>申し出ました</b><em>7日後に移る</em></button>
       <button type="button" data-go="shandoverask"><i>12</i><b>代表の引き継ぎ</b><em>いまの代表に届く。止められる</em></button>
