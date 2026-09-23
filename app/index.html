@@ -1214,8 +1214,8 @@ body[data-mode="rep"] .player-only { display: none !important; }
   <section data-screen="s2m" data-title="相手を探しているチーム">
     <div class="filter">
       <div class="filter-v">
-        <b>広島市安佐南区</b>／さくらリーグ 2部<br>
-        日にち 指定なし ／ 会場 どちらでも
+        <b>安佐南区・西区・府中町</b>／さくらリーグ 2部<br>
+        野球・男子 ／ 日にち 指定なし ／ 会場 どちらでも
       </div>
       <button class="btn-sm" data-go="sfm" type="button">変える</button>
     </div>
@@ -1238,6 +1238,15 @@ body[data-mode="rep"] .player-only { display: none !important; }
       <div class="post-meta">広島市佐伯区<br>さくらリーグ 2部</div>
     </button>
 
+    <div class="card" style="border-left:3px solid var(--key);">
+      <p style="margin:0;font-size:14.5px;"><b>この条件では 2件です。</b></p>
+      <p class="post-meta" style="margin:4px 0 0;">
+        <b>市区町村を足すと、もっと出てきます。</b>
+        ⭐ 県境にお住まいの方は、隣の県の市区町村も足せます。
+      </p>
+      <button class="btn sub" data-go="sfm" type="button" style="margin-top:10px;">探す範囲を広げる</button>
+    </div>
+
     <p class="note">12件のうち、上の条件に合う2件を出しています。</p>
   </section>
 
@@ -1245,7 +1254,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
   <section data-screen="s2h" data-title="助っ人の募集を探す">
     <div class="filter">
       <div class="filter-v">
-        <b>広島市安佐南区</b>／さくらリーグ 2部<br>
+        <b>安佐南区・西区・府中町</b>／さくらリーグ 2部<br>
         野球・バスケットボール ／ 日にち 指定なし ／ ポジション 指定なし
       </div>
       <button class="btn-sm" data-go="sfh" type="button">変える</button>
@@ -1281,6 +1290,15 @@ body[data-mode="rep"] .player-only { display: none !important; }
       <div class="post-meta">だれでも ／ 佐伯区<br>リーグに入っていないチーム</div>
     </button>
 
+    <div class="card" style="border-left:3px solid var(--key);">
+      <p style="margin:0;font-size:14.5px;"><b>この条件では 3件です。</b></p>
+      <p class="post-meta" style="margin:4px 0 0;">
+        <b>市区町村を足すと、もっと出てきます。</b>
+        ⭐ 県境にお住まいの方は、隣の県の市区町村も足せます。
+      </p>
+      <button class="btn sub" data-go="sfh" type="button" style="margin-top:10px;">探す範囲を広げる</button>
+    </div>
+
     <p class="note">
       出るのは<b>「やる競技」に選んだ競技と、自分に合う男子・女子のものだけ</b>です。<br>
       男女混合のチームの募集は、<b>男子にも女子にも出ます。</b>
@@ -1291,7 +1309,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
   <section data-screen="s2n" data-title="メンバーの募集を探す">
     <div class="filter">
       <div class="filter-v">
-        <b>広島市安佐南区</b>／さくらリーグ 2部<br>
+        <b>安佐南区・西区・府中町</b>／さくらリーグ 2部<br>
         野球・バスケットボール ／ ポジション 指定なし
       </div>
       <button class="btn-sm" data-go="sfn" type="button">変える</button>
@@ -1312,6 +1330,15 @@ body[data-mode="rep"] .player-only { display: none !important; }
       <div class="post-team">みどりヶ丘ベースボール</div>
       <div class="post-meta">だれでも ／ 広島市佐伯区<br>リーグに入っていないチーム ／ 土曜の午前</div>
     </button>
+
+    <div class="card" style="border-left:3px solid var(--key);">
+      <p style="margin:0;font-size:14.5px;"><b>この条件では 2件です。</b></p>
+      <p class="post-meta" style="margin:4px 0 0;">
+        <b>市区町村を足すと、もっと出てきます。</b>
+        ⭐ 県境にお住まいの方は、隣の県の市区町村も足せます。
+      </p>
+      <button class="btn sub" data-go="sfn" type="button" style="margin-top:10px;">探す範囲を広げる</button>
+    </div>
 
     <p class="note">
       出るのは<b>「やる競技」に選んだ競技と、自分に合う男子・女子のものだけ</b>です。
@@ -1681,8 +1708,13 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
     <div class="field field-row">
       <div>
-        <label class="f-label">場所<span class="hint">この市区町村のものだけ</span></label>
-        <select><option>広島市安佐南区</option></select>
+        <label class="f-label">場所<span class="hint">選んだ市区町村のものだけ</span></label>
+        <div class="chips" style="margin-bottom:8px;">
+          <button class="chip" type="button" aria-pressed="true">安佐南区</button>
+          <button class="chip" type="button" aria-pressed="true">西区</button>
+          <button class="chip" type="button" aria-pressed="true">府中町</button>
+        </div>
+        <button class="btn-sm" data-go="sarea" type="button">市区町村を足す</button>
       </div>
       <div>
         <label class="f-label">リーグ<span class="hint">このリーグのものだけ</span></label>
@@ -2706,8 +2738,12 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
     <div class="field field-row">
       <div>
-        <label class="f-label">場所<span class="hint">この市区町村のものだけ</span></label>
-        <select><option>広島市安佐南区</option></select>
+        <label class="f-label">場所<span class="hint">あとから私の設定で変えられます</span></label>
+        <div class="chips">
+          <button class="chip" type="button" aria-pressed="true">安佐南区</button>
+          <button class="chip" type="button" aria-pressed="true">西区</button>
+          <button class="chip" type="button" aria-pressed="true">府中町</button>
+        </div>
       </div>
       <div>
         <label class="f-label">リーグ<span class="hint">このリーグのものだけ</span></label>
@@ -2754,19 +2790,57 @@ body[data-mode="rep"] .player-only { display: none !important; }
     </p>
   </section>
 
-  <!-- ==================================================== sfh 助っ人の絞り込み -->
-  <section data-screen="sfh" data-title="助っ人の募集の絞り込み">
-    <p class="lead">この条件に合うものだけ出します。</p>
+  <!-- ==================================================== sarea 市区町村を足す（共用）
+       ⚠️ 全国で約1,900件。ひとつのプルダウンには入らない。
+       ⭐ 都道府県 → 市区町村 の2段に分ける。自分の地域の入力（私の設定・チームを作る）と同じ形。
+       ⛔ 名前で検索させない。知らない市区町村は名前で探せないうえ、表記ゆれの突き合わせが要る。 -->
+  <section data-screen="sarea" data-title="市区町村を足す">
+    <p class="lead"><b>都道府県をまたいで足せます。</b></p>
 
     <div class="field field-row">
       <div>
         <label class="f-label">都道府県</label>
-        <select><option>広島県</option></select>
+        <select>
+          <option>岡山県</option>
+          <option>広島県</option>
+          <option>山口県</option>
+          <option>島根県</option>
+        </select>
       </div>
       <div>
         <label class="f-label">市区町村</label>
-        <select><option>広島市安佐南区</option></select>
+        <select>
+          <option>笠岡市</option>
+          <option>井原市</option>
+          <option>倉敷市</option>
+          <option>総社市</option>
+          <option>岡山市北区</option>
+          <option>岡山市南区</option>
+        </select>
       </div>
+    </div>
+
+    <button class="btn" data-back="1" type="button">この市区町村を足す</button>
+
+    <p class="note" style="margin-top:14px;">
+      ⭐ <b>県境にお住まいの方は、隣の県も開いてみてください。</b><br>
+      <b>県ではなく、行ける市区町村で選んでください。</b>同じ県でも、遠いところは遠いです。
+    </p>
+  </section>
+
+  <!-- ==================================================== sfh 助っ人の絞り込み -->
+  <section data-screen="sfh" data-title="助っ人の募集の絞り込み">
+    <p class="lead">この条件に合うものだけ出します。</p>
+
+    <div class="field">
+      <label class="f-label">探す範囲<span class="hint">市区町村で選びます。⭐ 都道府県をまたいで選べます</span></label>
+      <div class="chips" style="margin-bottom:10px;">
+        <button class="chip" type="button" aria-pressed="true">広島市安佐南区</button>
+        <button class="chip" type="button" aria-pressed="true">広島市西区</button>
+        <button class="chip" type="button" aria-pressed="true">府中町</button>
+      </div>
+      <button class="btn sub" data-go="sarea" type="button">市区町村を足す</button>
+      <p class="note" style="margin-top:6px;">足した市区町村がここに並びます。<b>押すと外せます。</b></p>
     </div>
 
     <div class="field">
@@ -2833,15 +2907,15 @@ body[data-mode="rep"] .player-only { display: none !important; }
       </select>
     </div>
 
-    <div class="field field-row">
-      <div>
-        <label class="f-label">都道府県</label>
-        <select><option>広島県</option></select>
+    <div class="field">
+      <label class="f-label">探す範囲<span class="hint">市区町村で選びます。⭐ 都道府県をまたいで選べます</span></label>
+      <div class="chips" style="margin-bottom:10px;">
+        <button class="chip" type="button" aria-pressed="true">広島市安佐南区</button>
+        <button class="chip" type="button" aria-pressed="true">広島市西区</button>
+        <button class="chip" type="button" aria-pressed="true">府中町</button>
       </div>
-      <div>
-        <label class="f-label">市区町村</label>
-        <select><option>広島市安佐南区</option></select>
-      </div>
+      <button class="btn sub" data-go="sarea" type="button">市区町村を足す</button>
+      <p class="note" style="margin-top:6px;">足した市区町村がここに並びます。<b>押すと外せます。</b></p>
     </div>
 
     <div class="field">
@@ -2875,15 +2949,15 @@ body[data-mode="rep"] .player-only { display: none !important; }
   <section data-screen="sfn" data-title="メンバーの募集の絞り込み">
     <p class="lead">この条件に合うものだけ出します。</p>
 
-    <div class="field field-row">
-      <div>
-        <label class="f-label">都道府県</label>
-        <select><option>広島県</option></select>
+    <div class="field">
+      <label class="f-label">探す範囲<span class="hint">市区町村で選びます。⭐ 都道府県をまたいで選べます</span></label>
+      <div class="chips" style="margin-bottom:10px;">
+        <button class="chip" type="button" aria-pressed="true">広島市安佐南区</button>
+        <button class="chip" type="button" aria-pressed="true">広島市西区</button>
+        <button class="chip" type="button" aria-pressed="true">府中町</button>
       </div>
-      <div>
-        <label class="f-label">市区町村</label>
-        <select><option>広島市安佐南区</option></select>
-      </div>
+      <button class="btn sub" data-go="sarea" type="button">市区町村を足す</button>
+      <p class="note" style="margin-top:6px;">足した市区町村がここに並びます。<b>押すと外せます。</b></p>
     </div>
 
     <div class="field">
@@ -3023,6 +3097,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
       <button type="button" data-go="steamnew"><i>4</i><b>チームを作る</b><em>作った人が代表</em></button>
       <button type="button" data-go="steamjoin"><i>5</i><b>あるチームに入る</b><em>承認なし</em></button>
       <button type="button" data-go="sleague"><i>★</i><b>リーグを足す</b><em>選ぶのが基本。設定からも使う</em></button>
+      <button type="button" data-go="sarea"><i>★</i><b>市区町村を足す</b><em>県→市区町村の2段。県をまたげる</em></button>
       <button type="button" data-go="sw5"><i>6</i><b>お知らせの条件</b><em>既定値＋通知の許可</em></button>
       <button type="button" data-go="sw6"><i>7</i><b>ホーム画面に追加</b><em>iPhoneだけ</em></button>
     </div>
@@ -3112,7 +3187,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     s2h: 'find', s2n: 'find', s3: 'find', s3n: 'find', s4: 'find',
     s7: 'me', s8: 'me', scanceled: 'me',
     shandover: 'me', shandoverdone: 'me', shandoverask: 'me',
-    steamsel: 'me', steamnew: 'me', steamjoin: 'me', sleague: 'me',
+    steamsel: 'me', steamnew: 'me', steamjoin: 'me', sleague: 'me', sarea: 'find',
     spost: 'team', s5: 'team', s5m: 'team', s5n: 'team', s6: 'team', s10: 'team', s11: 'team',
     smatch: 'team', s2m: 'team', s3m: 'team', scancel: 'team', sdone: 'team',
     sfm: 'team', srep: 'team', shmoved: 'me', shstopped: 'team', smine: 'team', s7rep: 'team'

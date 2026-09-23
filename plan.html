@@ -75,7 +75,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 
   <p class="lead">
     試作 → <a href="./app/?v=10">https://takeshi41.github.io/helper-board/app/</a><br>
-    全45画面あり、実際に押して進めます。上の黒い帯で「選手」と「代表」を切り替えると、
+    全46画面あり、実際に押して進めます。上の黒い帯で「選手」と「代表」を切り替えると、
     見える画面が変わります。
   </p>
 
@@ -100,7 +100,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 
   <div class="card">
     <dl>
-      <div><dt>人</dt><dd>呼ばれ方・地域・男子か女子か・やる競技・<b>競技ごとの</b>できるポジション・連絡先・お知らせを受け取る条件</dd></div>
+      <div><dt>人</dt><dd>呼ばれ方・住んでいる市区町村・男子か女子か・やる競技・<b>競技ごとの</b>できるポジション・連絡先・お知らせを受け取る条件</dd></div>
       <div><dt>チーム</dt><dd>名前・競技・<b>男子／女子／男女混合</b>・地域・所属リーグ。<b>競技だけはあとから変えられません</b></dd></div>
       <div><dt>所属</dt><dd>誰がどのチームか。代表かどうか。<b>掛け持ちもできます</b></dd></div>
       <div><dt>リーグ</dt><dd>チームに付く<b>ただのタグ</b>です。特別扱いしません</dd></div>
@@ -120,6 +120,24 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <li><b>チーム内の出欠</b> ── いまお使いの仕組みを置き換えません</li>
     </ul>
   </div>
+
+  <h3>探す範囲は、県ではなく市区町村で選びます</h3>
+
+  <div class="flow">
+    福山市（広島県）<span class="arrow">──</span> 笠岡市（岡山県）<span class="arrow">→</span> 約15km<br>
+    福山市（広島県）<span class="arrow">──</span> 広島市（広島県）<span class="arrow">→</span> 約100km<br>
+    <span class="arrow">→</span> <b>同じ県のほうが遠いことがあります。</b>県で区切ると、近い相手が見つかりません
+  </div>
+
+  <p>
+    そこで<b>探す範囲は市区町村で、いくつでも選べる形</b>にしました。
+    <b>都道府県をまたいで選べます。</b>県境にお住まいの方も、隣の県の市を足せます。
+  </p>
+
+  <p class="note">
+    ⭐ 選び方は<b>「都道府県を選ぶ → その中の市区町村を選ぶ」</b>の2段です。
+    全国で約1,900市区町村あるので、一度に並べることはできません。
+  </p>
 
   <h3>リーグ名は「選ぶ」形にします</h3>
 
