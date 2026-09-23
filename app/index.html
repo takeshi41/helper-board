@@ -1878,7 +1878,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
   <section data-screen="spost" data-title="募集を出す">
     <p class="lead">何を募集しますか。</p>
 
-    <button class="card tap" data-go="s5" type="button">
+    <button class="card tap" data-go="s5m" type="button">
       <div class="gate">
         <div class="gate-t">
           <b><span class="tag match">対戦相手</span> を募集する</b>
@@ -1898,7 +1898,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
       </div>
     </button>
 
-    <button class="card tap" data-go="s5" type="button">
+    <button class="card tap" data-go="s5n" type="button">
       <div class="gate">
         <div class="gate-t">
           <b><span class="tag member">メンバー</span> を募集する</b>
@@ -1968,6 +1968,96 @@ body[data-mode="rep"] .player-only { display: none !important; }
     </div>
 
     <button class="btn" data-go="steam" type="button">この内容で募集を出す</button>
+  </section>
+
+  <!-- ==================================================== s5m 対戦相手を募集する -->
+  <section data-screen="s5m" data-title="対戦相手を募集する">
+    <p class="lead"><b>あおぞらクラブ</b>（野球・男子）として出します。</p>
+
+    <div class="field">
+      <label class="f-label">日にち</label>
+      <input type="date" value="2026-10-04">
+    </div>
+
+    <div class="field">
+      <label class="f-label">時間<span class="hint">いくつでも選べます。集合時刻は下の「ひとこと」に書いてください</span></label>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="false">午前</button>
+        <button class="chip" type="button" aria-pressed="true">午後</button>
+        <button class="chip" type="button" aria-pressed="false">夜</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="f-label">会場<span class="hint">1つだけ選べます</span></label>
+      <div class="chips" data-one>
+        <button class="chip" type="button" aria-pressed="true">用意してあります</button>
+        <button class="chip" type="button" aria-pressed="false">これから探します</button>
+      </div>
+      <p class="note" style="margin-top:6px;">
+        <b>どちらでも組めます。</b>片方が持っていれば足りるので、アプリはここで相手を絞りません。
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="f-label">場所</label>
+      <input type="text" value="広島市安佐南区 かわぎしグラウンド">
+    </div>
+
+    <div class="field">
+      <label class="f-label">ひとこと<span class="hint">使用料の分け方や審判のことがあれば、ここに書いてください</span></label>
+      <textarea>3時間とってあります。審判はお互いで出し合う形でお願いします。</textarea>
+    </div>
+
+    <button class="btn" data-go="smatch" type="button">この内容で募集を出す</button>
+
+    <p class="note">
+      出すとすぐ、<b>同じ日を探しているチームが出ます。</b>掲示板に貼って待つだけにはしません。<br>
+      ⛔ 対戦相手の募集は<b>すべてのチームの代表に見えます</b>（リーグの内外で絞りません）。
+    </p>
+  </section>
+
+  <!-- ==================================================== s5n メンバーを募集する -->
+  <section data-screen="s5n" data-title="メンバーを募集する">
+    <p class="lead"><b>あおぞらクラブ</b>（野球・男子）として出します。</p>
+
+    <div class="field">
+      <label class="f-label">ほしいポジション<span class="hint">あおぞらクラブ（野球・男子）のぶんが出ています。いくつでも選べます</span></label>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="true">投手</button>
+        <button class="chip" type="button" aria-pressed="true">捕手</button>
+        <button class="chip" type="button" aria-pressed="false">一塁手</button>
+        <button class="chip" type="button" aria-pressed="false">二塁手</button>
+        <button class="chip" type="button" aria-pressed="false">三塁手</button>
+        <button class="chip" type="button" aria-pressed="false">遊撃手</button>
+        <button class="chip" type="button" aria-pressed="false">左翼手</button>
+        <button class="chip" type="button" aria-pressed="false">中堅手</button>
+        <button class="chip" type="button" aria-pressed="false">右翼手</button>
+        <button class="chip" type="button" aria-pressed="false">だれでも</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="f-label">場所</label>
+      <input type="text" value="広島市安佐南区">
+    </div>
+
+    <div class="field">
+      <label class="f-label">活動<span class="hint">どれくらいの頻度で、いつ活動しているか</span></label>
+      <input type="text" value="月2回ほど 日曜の午前が中心">
+    </div>
+
+    <div class="field">
+      <label class="f-label">ひとこと<span class="hint">雰囲気が伝わることを書いてください</span></label>
+      <textarea>30代が中心です。経験は問いません。まず1回、見に来てもらえるとうれしいです。</textarea>
+    </div>
+
+    <button class="btn" data-go="steam" type="button">この内容で募集を出す</button>
+
+    <p class="note">
+      ⛔ <b>日にちの欄はありません。</b>メンバーの募集は、ずっと出しておくものです。<br>
+      取り下げるまで出たままになります。
+    </p>
   </section>
 
   <!-- ==================================================== s6 応募した人 -->
@@ -2966,7 +3056,9 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <div class="proto-list">
       <button type="button" data-go="steam"><i>10</i><b>募集を出す</b><em>代表の入口</em></button>
       <button type="button" data-go="spost"><i>11</i><b>何を募集するか</b></button>
-      <button type="button" data-go="s5"><i>12</i><b>助っ人を募集する</b></button>
+      <button type="button" data-go="s5m"><i>★</i><b>対戦相手を募集する</b><em>会場の2択。日にちあり</em></button>
+      <button type="button" data-go="s5"><i>12</i><b>助っ人を募集する</b><em>ポジション・人数</em></button>
+      <button type="button" data-go="s5n"><i>★</i><b>メンバーを募集する</b><em>日にちなし。ずっと出す</em></button>
       <button type="button" data-go="smatch"><i>★</i><b>同じ日を探しているチーム</b><em>日付の突き合わせ</em></button>
       <button type="button" data-go="s3m"><i>13</i><b>対戦相手の募集</b><em>会場の2択</em></button>
       <button type="button" data-go="s2m"><i>14</i><b>相手を探しているチーム</b><em>まだ出していない人向け</em></button>
@@ -3003,7 +3095,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
   // ⭐ 対戦相手まわりと中止の連絡は代表だけ。選手として見ているときは開かせない
   var repOnly = {
-    steam: 1, spost: 1, s5: 1, s6: 1, s10: 1, s11: 1,
+    steam: 1, spost: 1, s5: 1, s5m: 1, s5n: 1, s6: 1, s10: 1, s11: 1,
     smatch: 1, s2m: 1, s3m: 1,
     scancel: 1, sdone: 1,         // 中止を知らせるのは、募集を出した代表だけ
     sfm: 1, srep: 1, shmoved: 1, shstopped: 1, smine: 1, s7rep: 1,
@@ -3021,7 +3113,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     s7: 'me', s8: 'me', scanceled: 'me',
     shandover: 'me', shandoverdone: 'me', shandoverask: 'me',
     steamsel: 'me', steamnew: 'me', steamjoin: 'me', sleague: 'me',
-    spost: 'team', s5: 'team', s6: 'team', s10: 'team', s11: 'team',
+    spost: 'team', s5: 'team', s5m: 'team', s5n: 'team', s6: 'team', s10: 'team', s11: 'team',
     smatch: 'team', s2m: 'team', s3m: 'team', scancel: 'team', sdone: 'team',
     sfm: 'team', srep: 'team', shmoved: 'me', shstopped: 'team', smine: 'team', s7rep: 'team'
   };
