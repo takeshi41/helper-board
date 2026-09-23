@@ -641,6 +641,16 @@ h2.sec:first-child { margin-top: 2px; }
   font-weight: 700;
 }
 
+/* 競技ごとのまとまり（ポジションは競技ごとに語彙が違う）
+   ⚠️ 明示クラスだけで書く。子孫セレクタにしない */
+
+.sport-g {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 14px 0 6px;
+}
+
 /* チェック1つ */
 
 .check {
@@ -1056,7 +1066,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <b>「同じ日に探している者どうし」を突き合わせるアプリ</b>の、画面の試作です。
       </p>
       <p class="note" style="margin:0;">
-        対戦相手・助っ人・メンバーの3つの募集を、地域・リーグ・日付・ポジションで突き合わせます。
+        対戦相手・助っ人・メンバーの3つの募集を、競技・地域・リーグ・日付・ポジションで突き合わせます。
         応募が来たら、募集を出した代表が選びます。決まったら双方に連絡先が出ます。
       </p>
     </div>
@@ -1089,7 +1099,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <div class="news-dot"></div>
         <div class="gate-t">
           <b>9月27日（土）の助っ人に決まりました</b>
-          <span>川岸ファイターズ ／ 連絡先が出ています</span>
+          <span><span class="pill">野球</span> 川岸ファイターズ ／ 連絡先が出ています</span>
         </div>
         <div class="gate-time">1時間前</div>
       </div>
@@ -1100,7 +1110,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <div class="news-dot"></div>
         <div class="gate-t">
           <b>応募が3人来ています</b>
-          <span>10/11（土）午前の助っ人 ／ <b>選んでください</b></span>
+          <span><span class="pill">野球</span> あおぞらクラブ 10/11（土）午前の助っ人 ／ <b>選んでください</b></span>
         </div>
         <div class="gate-time">3時間前</div>
       </div>
@@ -1111,7 +1121,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <div class="news-dot read"></div>
         <div class="gate-t">
           <b>10月12日（日）の試合が中止になりました</b>
-          <span>みどりヶ丘ベースボール ／ 雨のため</span>
+          <span><span class="pill">野球</span> みどりヶ丘ベースボール ／ 雨のため</span>
         </div>
         <div class="gate-time">昨日</div>
       </div>
@@ -1122,7 +1132,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <div class="news-dot read"></div>
         <div class="gate-t">
           <b>9月27日（土）午前の助っ人を募集しています</b>
-          <span>川岸ファイターズ ／ 外野手・内野手 あと2人</span>
+          <span><span class="pill">野球</span> 川岸ファイターズ ／ 左翼手・遊撃手 あと2人</span>
         </div>
         <div class="gate-time">3日前</div>
       </div>
@@ -1236,7 +1246,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <div class="filter">
       <div class="filter-v">
         <b>広島市安佐南区</b>／さくらリーグ 2部<br>
-        日にち 指定なし ／ ポジション 指定なし
+        野球・バスケットボール ／ 日にち 指定なし ／ ポジション 指定なし
       </div>
       <button class="btn-sm" data-go="sfh" type="button">変える</button>
     </div>
@@ -1244,15 +1254,17 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <button class="card tap" data-go="s3" type="button">
       <div class="post-h">
         <span class="post-when">9/27（土）午前</span>
+        <span class="pill">野球</span>
         <span class="pill">あと2人</span>
       </div>
       <div class="post-team">川岸ファイターズ</div>
-      <div class="post-meta">外野手 ・ 内野手 ／ 安佐南区<br>さくらリーグ 2部</div>
+      <div class="post-meta">左翼手 ・ 遊撃手 ／ 安佐南区<br>さくらリーグ 2部</div>
     </button>
 
     <button class="card tap" data-go="s3" type="button">
       <div class="post-h">
         <span class="post-when">9/27（土）午後</span>
+        <span class="pill">野球</span>
         <span class="pill">あと1人</span>
       </div>
       <div class="post-team">東雲アスレチックス</div>
@@ -1262,11 +1274,17 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <button class="card tap" data-go="s3" type="button">
       <div class="post-h">
         <span class="post-when">10/4（日）午前・午後</span>
+        <span class="pill">野球</span>
         <span class="pill">あと3人</span>
       </div>
       <div class="post-team">みどりヶ丘ベースボール</div>
       <div class="post-meta">だれでも ／ 佐伯区<br>リーグに入っていないチーム</div>
     </button>
+
+    <p class="note">
+      出るのは<b>「やる競技」に選んだ競技だけ</b>です。
+      競技をまたいで活動している人は、<b>タグで見分けられます。</b>
+    </p>
   </section>
 
   <!-- ==================================================== s2n メンバーを探す -->
@@ -1274,20 +1292,30 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <div class="filter">
       <div class="filter-v">
         <b>広島市安佐南区</b>／さくらリーグ 2部<br>
-        ポジション 指定なし
+        野球・バスケットボール ／ ポジション 指定なし
       </div>
       <button class="btn-sm" data-go="sfn" type="button">変える</button>
     </div>
 
     <button class="card tap" data-go="s3n" type="button">
+      <div class="post-h">
+        <span class="pill">野球</span>
+      </div>
       <div class="post-team">港南クラブ</div>
       <div class="post-meta">投手 ・ 捕手 ／ 広島市南区<br>さくらリーグ 2部 ／ 月2回 日曜の午前</div>
     </button>
 
     <button class="card tap" data-go="s3n" type="button">
+      <div class="post-h">
+        <span class="pill">野球</span>
+      </div>
       <div class="post-team">みどりヶ丘ベースボール</div>
       <div class="post-meta">だれでも ／ 広島市佐伯区<br>リーグに入っていないチーム ／ 土曜の午前</div>
     </button>
+
+    <p class="note">
+      出るのは<b>「やる競技」に選んだ競技だけ</b>です。
+    </p>
   </section>
 
   <!-- ==================================================== s3 助っ人の募集 -->
@@ -1295,13 +1323,14 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <div class="card">
       <div class="post-h">
         <span class="tag helper">助っ人</span>
+        <span class="pill">野球</span>
         <span class="pill">募集中</span>
       </div>
       <div style="font-size:20px;font-weight:700;margin:2px 0;">9月27日（土）午前</div>
       <div class="post-team" style="font-size:16px;">川岸ファイターズ</div>
 
       <dl class="dl" style="margin-top:12px;">
-        <div><dt>ほしい人</dt><dd>外野手 ・ 内野手<small>あと2人</small></dd></div>
+        <div><dt>ほしい人</dt><dd>左翼手 ・ 遊撃手<small>あと2人</small></dd></div>
         <div><dt>場所</dt><dd>広島市安佐南区<small>かわぎしグラウンド</small></dd></div>
         <div><dt>リーグ</dt><dd>さくらリーグ 2部</dd></div>
         <div><dt>ひとこと</dt><dd>はじめての方も歓迎です。道具はこちらで用意します。集合は8時30分、9時試合開始の予定です。</dd></div>
@@ -1451,14 +1480,16 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <button class="card tap rep-only" data-go="s7rep" type="button">
       <div class="post-h">
         <span class="post-when">10月11日（土）午前</span>
+        <span class="pill">野球</span>
         <span class="pill ok">決定</span>
       </div>
-      <div class="post-meta">うちの募集 ／ 助っ人2人が決まりました ／ 安佐南区 かわぎしグラウンド</div>
+      <div class="post-meta">あおぞらクラブ（うちの募集）／ 助っ人2人が決まりました ／ 安佐南区 かわぎしグラウンド</div>
     </button>
 
     <button class="card tap" data-go="s7" type="button">
       <div class="post-h">
         <span class="post-when">9月27日（土）午前</span>
+        <span class="pill">野球</span>
         <span class="pill ok">決定</span>
       </div>
       <div class="post-meta">川岸ファイターズの助っ人 ／ 安佐南区 かわぎしグラウンド</div>
@@ -1467,6 +1498,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <button class="card tap" data-go="scanceled" type="button">
       <div class="post-h">
         <span class="post-when">10月12日（日）午前</span>
+        <span class="pill">野球</span>
         <span class="pill warn">中止</span>
       </div>
       <div class="post-meta">みどりヶ丘ベースボールの助っ人 ／ <b>雨で中止になりました</b></div>
@@ -1477,10 +1509,16 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <button class="card tap" data-go="s3waiting" type="button">
       <div class="post-h">
         <span class="post-when">10月4日（日）午前</span>
+        <span class="pill">野球</span>
         <span class="pill">選ばれるのを待っています</span>
       </div>
       <div class="post-meta">みどりヶ丘ベースボールの助っ人</div>
     </button>
+
+    <p class="note">
+      競技をまたいで活動している人は、ここに<b>両方の競技が並びます。</b>
+      日付順のまま、<b>競技とチーム名で見分けられます。</b>
+    </p>
 
   </section>
 
@@ -1500,15 +1538,23 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <div class="row">
           <div class="row-t">
             <b>あおぞらクラブ</b>
-            <span class="rep-only">代表 ／ さくらリーグ 2部 ／ 広島市安佐南区</span>
-            <span class="player-only">さくらリーグ 2部 ／ 広島市安佐南区</span>
+            <span class="rep-only"><span class="pill">野球</span> 代表 ／ さくらリーグ 2部 ／ 広島市安佐南区</span>
+            <span class="player-only"><span class="pill">野球</span> さくらリーグ 2部 ／ 広島市安佐南区</span>
           </div>
           <button class="btn-sm quiet" data-act="remove" type="button">外れる</button>
         </div>
         <div class="row">
           <div class="row-t">
             <b>みどりヶ丘ベースボール</b>
-            <span>リーグに入っていないチーム ／ 広島市佐伯区</span>
+            <span><span class="pill">野球</span> リーグに入っていないチーム ／ 広島市佐伯区</span>
+          </div>
+          <button class="btn-sm quiet" data-act="remove" type="button">外れる</button>
+        </div>
+        <div class="row">
+          <div class="row-t">
+            <b>安佐南ブレイカーズ</b>
+            <span class="rep-only"><span class="pill">バスケットボール</span> 代表 ／ リーグに入っていないチーム ／ 広島市安佐南区</span>
+            <span class="player-only"><span class="pill">バスケットボール</span> リーグに入っていないチーム ／ 広島市安佐南区</span>
           </div>
           <button class="btn-sm quiet" data-act="remove" type="button">外れる</button>
         </div>
@@ -1541,13 +1587,42 @@ body[data-mode="rep"] .player-only { display: none !important; }
     </div>
 
     <div class="field">
+      <label class="f-label">やる競技<span class="hint">選んだ競技の募集だけが届きます</span></label>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="true">野球</button>
+        <button class="chip" type="button" aria-pressed="true">バスケットボール</button>
+        <button class="chip" type="button" aria-pressed="false">サッカー</button>
+      </div>
+    </div>
+
+    <div class="field">
       <label class="f-label">できるポジション<span class="hint">いくつでも選べます</span></label>
+
+      <div class="sport-g" style="margin-top:0;">野球</div>
       <div class="chips">
         <button class="chip" type="button" aria-pressed="false">投手</button>
         <button class="chip" type="button" aria-pressed="true">捕手</button>
-        <button class="chip" type="button" aria-pressed="true">内野手</button>
-        <button class="chip" type="button" aria-pressed="false">外野手</button>
+        <button class="chip" type="button" aria-pressed="false">一塁手</button>
+        <button class="chip" type="button" aria-pressed="true">二塁手</button>
+        <button class="chip" type="button" aria-pressed="false">三塁手</button>
+        <button class="chip" type="button" aria-pressed="true">遊撃手</button>
+        <button class="chip" type="button" aria-pressed="false">左翼手</button>
+        <button class="chip" type="button" aria-pressed="false">中堅手</button>
+        <button class="chip" type="button" aria-pressed="false">右翼手</button>
       </div>
+
+      <div class="sport-g">バスケットボール</div>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="false">ポイントガード</button>
+        <button class="chip" type="button" aria-pressed="true">シューティングガード</button>
+        <button class="chip" type="button" aria-pressed="false">スモールフォワード</button>
+        <button class="chip" type="button" aria-pressed="false">パワーフォワード</button>
+        <button class="chip" type="button" aria-pressed="false">センター</button>
+      </div>
+
+      <p class="note" style="margin-top:10px;">
+        上で選んだ競技のぶんだけ出ます。
+      </p>
     </div>
 
     <h2 class="sec">連絡先</h2>
@@ -1738,7 +1813,12 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
   <!-- ==================================================== steam チーム -->
   <section data-screen="steam" data-title="募集を出す">
-    <p class="lead"><b>あおぞらクラブ</b> ／ さくらリーグ 2部 ／ 広島市安佐南区</p>
+    <p class="lead"><b>あおぞらクラブ</b>（野球）／ さくらリーグ 2部 ／ 広島市安佐南区</p>
+
+    <p class="note" style="margin:-6px 0 12px;">
+      代表をしているチームが複数あるときは、ここで<b>チームを選んでから</b>出します。
+      競技は<b>チームで決まります。</b>
+    </p>
 
     <button class="btn" data-go="spost" type="button">募集を出す</button>
 
@@ -1759,7 +1839,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <span class="tag helper">助っ人</span>
         <span class="pill warn">応募 3人</span>
       </div>
-      <div class="post-meta">外野手・内野手 ／ あと2人 ／ <b>選んでください</b></div>
+      <div class="post-meta">左翼手・遊撃手 ／ あと2人 ／ <b>選んでください</b></div>
     </button>
 
     <button class="card tap" data-go="smine" type="button">
@@ -1838,12 +1918,17 @@ body[data-mode="rep"] .player-only { display: none !important; }
     </div>
 
     <div class="field">
-      <label class="f-label">ほしいポジション<span class="hint">いくつでも選べます</span></label>
+      <label class="f-label">ほしいポジション<span class="hint">あおぞらクラブ（野球）のぶんが出ています。いくつでも選べます</span></label>
       <div class="chips">
         <button class="chip" type="button" aria-pressed="false">投手</button>
         <button class="chip" type="button" aria-pressed="false">捕手</button>
-        <button class="chip" type="button" aria-pressed="false">内野手</button>
-        <button class="chip" type="button" aria-pressed="true">外野手</button>
+        <button class="chip" type="button" aria-pressed="false">一塁手</button>
+        <button class="chip" type="button" aria-pressed="false">二塁手</button>
+        <button class="chip" type="button" aria-pressed="false">三塁手</button>
+        <button class="chip" type="button" aria-pressed="false">遊撃手</button>
+        <button class="chip" type="button" aria-pressed="true">左翼手</button>
+        <button class="chip" type="button" aria-pressed="false">中堅手</button>
+        <button class="chip" type="button" aria-pressed="false">右翼手</button>
         <button class="chip" type="button" aria-pressed="false">だれでも</button>
       </div>
     </div>
@@ -1884,7 +1969,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <span class="post-when">10/11（土）午前</span>
         <span class="tag helper">助っ人</span>
       </div>
-      <div class="post-meta">外野手・内野手 ／ あと2人 ／ 応募 3人</div>
+      <div class="post-meta">左翼手・遊撃手 ／ あと2人 ／ 応募 3人</div>
     </div>
 
     <h2 class="sec">この中から選びます</h2>
@@ -1892,17 +1977,17 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <div class="card">
       <div class="row">
         <div class="count"><b>7</b><span>回</span></div>
-        <div class="row-t"><b>ゆうき</b><span>東雲アスレチックス ／ 外野手・内野手</span></div>
+        <div class="row-t"><b>ゆうき</b><span>東雲アスレチックス ／ 左翼手・遊撃手</span></div>
         <button class="btn-sm" data-act="pick" type="button">この人に</button>
       </div>
       <div class="row">
         <div class="count"><b>2</b><span>回</span></div>
-        <div class="row-t"><b>かずま</b><span>城北クラブ ／ 内野手</span></div>
+        <div class="row-t"><b>かずま</b><span>城北クラブ ／ 遊撃手</span></div>
         <button class="btn-sm" data-act="pick" type="button">この人に</button>
       </div>
       <div class="row">
         <div class="count"><b>0</b><span>回</span></div>
-        <div class="row-t"><b>しんじ</b><span>チームに入っていない ／ 外野手</span></div>
+        <div class="row-t"><b>しんじ</b><span>チームに入っていない ／ 左翼手</span></div>
         <button class="btn-sm" data-act="pick" type="button">この人に</button>
       </div>
     </div>
@@ -1985,7 +2070,7 @@ body[data-mode="rep"] .player-only { display: none !important; }
         <span class="tag helper">助っ人</span>
         <span class="pill ok">決定</span>
       </div>
-      <div class="post-meta">外野手・内野手 ／ 安佐南区 かわぎしグラウンド</div>
+      <div class="post-meta">左翼手・遊撃手 ／ 安佐南区 かわぎしグラウンド</div>
     </div>
 
     <h2 class="sec">決まった助っ人</h2>
@@ -2193,6 +2278,11 @@ body[data-mode="rep"] .player-only { display: none !important; }
       <input type="text" value="あおぞらクラブ">
     </div>
 
+    <div class="field">
+      <label class="f-label">競技</label>
+      <p class="note" style="margin:0;"><b>野球</b>　あとから変えられません</p>
+    </div>
+
     <div class="field field-row">
       <div>
         <label class="f-label">都道府県</label>
@@ -2326,6 +2416,18 @@ body[data-mode="rep"] .player-only { display: none !important; }
     <div class="field">
       <label class="f-label">チーム名</label>
       <input type="text" placeholder="あおぞらクラブ">
+    </div>
+
+    <div class="field">
+      <label class="f-label">競技<span class="hint">あとから変えられません</span></label>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="true">野球</button>
+        <button class="chip" type="button" aria-pressed="false">バスケットボール</button>
+        <button class="chip" type="button" aria-pressed="false">サッカー</button>
+      </div>
+      <p class="note" style="margin-top:6px;">
+        ポジションの選択肢が競技ごとに変わります。<b>別の競技のチームは、もう1つ作ってください。</b>
+      </p>
     </div>
 
     <div class="field field-row">
@@ -2541,18 +2643,35 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
     <div class="field">
       <label class="f-label">ポジション<span class="hint">いくつでも選べます。選ばなければ、ぜんぶ出ます</span></label>
+
+      <div class="sport-g" style="margin-top:0;">野球</div>
       <div class="chips">
         <button class="chip" type="button" aria-pressed="false">投手</button>
         <button class="chip" type="button" aria-pressed="false">捕手</button>
-        <button class="chip" type="button" aria-pressed="false">内野手</button>
-        <button class="chip" type="button" aria-pressed="false">外野手</button>
+        <button class="chip" type="button" aria-pressed="false">一塁手</button>
+        <button class="chip" type="button" aria-pressed="false">二塁手</button>
+        <button class="chip" type="button" aria-pressed="false">三塁手</button>
+        <button class="chip" type="button" aria-pressed="false">遊撃手</button>
+        <button class="chip" type="button" aria-pressed="false">左翼手</button>
+        <button class="chip" type="button" aria-pressed="false">中堅手</button>
+        <button class="chip" type="button" aria-pressed="false">右翼手</button>
+      </div>
+
+      <div class="sport-g">バスケットボール</div>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="false">ポイントガード</button>
+        <button class="chip" type="button" aria-pressed="false">シューティングガード</button>
+        <button class="chip" type="button" aria-pressed="false">スモールフォワード</button>
+        <button class="chip" type="button" aria-pressed="false">パワーフォワード</button>
+        <button class="chip" type="button" aria-pressed="false">センター</button>
       </div>
     </div>
 
     <button class="btn" data-back="1" type="button">この条件にする</button>
 
     <p class="note">
-      この条件は、<b>お知らせを受け取る条件としても保存されます。</b><br>
+      出ているのは<b>「やる競技」に選んだ競技だけ</b>です（私の設定で変えられます）。<br>
+      この条件は、<b>お知らせを受け取る条件としても保存されます。</b>
       絞ると、その条件に合う募集だけが届くようになります。
     </p>
   </section>
@@ -2560,6 +2679,11 @@ body[data-mode="rep"] .player-only { display: none !important; }
   <!-- ==================================================== sfm 対戦相手の絞り込み -->
   <section data-screen="sfm" data-title="対戦相手の募集の絞り込み">
     <p class="lead">この条件に合うものだけ出します。</p>
+
+    <div class="field">
+      <label class="f-label">競技<span class="hint">代表をしているチームのぶんだけ出ます</span></label>
+      <select><option>野球</option><option>バスケットボール</option></select>
+    </div>
 
     <div class="field field-row">
       <div>
@@ -2621,17 +2745,34 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
     <div class="field">
       <label class="f-label">ポジション<span class="hint">いくつでも選べます。選ばなければ、ぜんぶ出ます</span></label>
+
+      <div class="sport-g" style="margin-top:0;">野球</div>
       <div class="chips">
         <button class="chip" type="button" aria-pressed="false">投手</button>
         <button class="chip" type="button" aria-pressed="false">捕手</button>
-        <button class="chip" type="button" aria-pressed="false">内野手</button>
-        <button class="chip" type="button" aria-pressed="false">外野手</button>
+        <button class="chip" type="button" aria-pressed="false">一塁手</button>
+        <button class="chip" type="button" aria-pressed="false">二塁手</button>
+        <button class="chip" type="button" aria-pressed="false">三塁手</button>
+        <button class="chip" type="button" aria-pressed="false">遊撃手</button>
+        <button class="chip" type="button" aria-pressed="false">左翼手</button>
+        <button class="chip" type="button" aria-pressed="false">中堅手</button>
+        <button class="chip" type="button" aria-pressed="false">右翼手</button>
+      </div>
+
+      <div class="sport-g">バスケットボール</div>
+      <div class="chips">
+        <button class="chip" type="button" aria-pressed="false">ポイントガード</button>
+        <button class="chip" type="button" aria-pressed="false">シューティングガード</button>
+        <button class="chip" type="button" aria-pressed="false">スモールフォワード</button>
+        <button class="chip" type="button" aria-pressed="false">パワーフォワード</button>
+        <button class="chip" type="button" aria-pressed="false">センター</button>
       </div>
     </div>
 
     <button class="btn" data-back="1" type="button">この条件にする</button>
 
     <p class="note">
+      出ているのは<b>「やる競技」に選んだ競技だけ</b>です（私の設定で変えられます）。<br>
       <b>日にちの欄はありません。</b>メンバーの募集は、ずっと出しておくものなので日にちを持ちません。
     </p>
   </section>
@@ -2649,15 +2790,15 @@ body[data-mode="rep"] .player-only { display: none !important; }
 
     <div class="card">
       <div class="row">
-        <div class="row-t"><b>ゆうと</b><span>内野手</span></div>
+        <div class="row-t"><b>ゆうと</b><span>遊撃手</span></div>
         <span class="pill ok">すでに代表</span>
       </div>
       <div class="row">
-        <div class="row-t"><b>かずま</b><span>内野手</span></div>
+        <div class="row-t"><b>かずま</b><span>遊撃手</span></div>
         <button class="btn-sm" data-back="1" type="button">代表にする</button>
       </div>
       <div class="row">
-        <div class="row-t"><b>ゆうき</b><span>外野手・内野手</span></div>
+        <div class="row-t"><b>ゆうき</b><span>左翼手・遊撃手</span></div>
         <button class="btn-sm" data-back="1" type="button">代表にする</button>
       </div>
       <div class="row">
